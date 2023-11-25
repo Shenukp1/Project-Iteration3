@@ -1,4 +1,4 @@
-package com.thelocalmarketplace.test;
+package com.thelocalmarketplace.hardware.test;
 
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
