@@ -117,6 +117,24 @@ public class CardController implements CardReaderListener{
 
 	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {}
 
-	public void aCardHasBeenSwiped() {};
+	public void aCardHasBeenSwiped() {}
+
+	@Override
+	public void aCardHasBeenInserted() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'aCardHasBeenInserted'");
+	}
+
+	@Override
+	public void theCardHasBeenRemoved() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'theCardHasBeenRemoved'");
+	}
+
+	@Override
+	public void aCardHasBeenTapped() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'aCardHasBeenTapped'");
+	};
 }
 
