@@ -13,7 +13,7 @@ import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
 import control.SessionController;
 import item.PrintController;
 
-public class CardController implements CardReaderListener{
+public class PaymentCardController implements CardReaderListener{
 
 	private BigDecimal cartTotal; 												// Total value of customer's cart
 	private SessionController session;											// The current session Payment Controller is linked to
@@ -23,7 +23,7 @@ public class CardController implements CardReaderListener{
 	private boolean successfulTransaction = false;				 		 		// Tracks if the transaction is successful
 
 	
-	public CardController(SessionController c_session, AbstractSelfCheckoutStation sco, CardIssuer bank) {
+	public PaymentCardController(SessionController c_session, AbstractSelfCheckoutStation sco, CardIssuer bank) {
 		this.station = sco;
 		this.session = c_session;
 		this.bank = bank;
@@ -119,22 +119,10 @@ public class CardController implements CardReaderListener{
 
 	public void aCardHasBeenSwiped() {}
 
-	@Override
-	public void aCardHasBeenInserted() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'aCardHasBeenInserted'");
-	}
+	public void aCardHasBeenInserted() {}
 
-	@Override
-	public void theCardHasBeenRemoved() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'theCardHasBeenRemoved'");
-	}
+	public void theCardHasBeenRemoved() {}
 
-	@Override
-	public void aCardHasBeenTapped() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'aCardHasBeenTapped'");
-	};
+	public void aCardHasBeenTapped() {}
 }
 
