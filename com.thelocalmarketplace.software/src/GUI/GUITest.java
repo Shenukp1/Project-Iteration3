@@ -3,11 +3,13 @@ package GUI;
 import static org.junit.Assert.*;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.junit.Before;
 import org.junit.Rule; 
@@ -113,15 +115,37 @@ SelfCheckoutLogic logicGold;
  * add item to scale
  */
 @Test
-	public void Starttest() {
+	public void Starttest() throws InterruptedException {
 	
 	JFrame start = logicGold.station.screen.getFrame();
+	//start.setVisible(true);
+	
+	//JFrame start2 = logicGold.station.screen.getFrame();
+	
+	//start2.setVisible(true); 
+	
+	
+    //JPanel converterPanel = new JPanel();
+    //converterPanel.setLayout(new GridLayout(1, 1));
+
+	
+	
+	
+	System.out.println(start);
+	
+	//JFrame start2 = new JFrame("Welcome");
+	
+    
+	
+	System.out.println(logicGold.station.screen.getFrame());
 	
 	logicGold.station.screen.setVisible(true);
 	start.getContentPane().removeAll();
 	start.setLayout(new BorderLayout());
 	
 	StartScreen checkoutPanel = new StartScreen(logicGold);
+	Thread.sleep(10000);
+	
 	
 	
 }

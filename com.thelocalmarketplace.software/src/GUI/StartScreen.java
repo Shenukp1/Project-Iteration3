@@ -18,29 +18,32 @@ import control.SelfCheckoutLogic;
 import control.SessionController;
 import powerutility.PowerGrid;
 
-public class StartScreen {
-    JFrame converterFrame;
-    JPanel converterPanel;
+public class StartScreen extends JPanel {
+    JFrame startFrame;
+    JPanel startPanel;
     JTextField tempCelsius;
     JLabel celsiusLabel, fahrenheitLabel;
     JButton startSessFrame;;
     SessionController startS;
-    SelfCheckoutLogic logicGold; 
+    SelfCheckoutLogic logicGold;
+    SelfCheckoutLogic logic;
 
-    public StartScreen(SelfCheckoutLogic logicGold) {
-    	logicGold.station.screen.getFrame();
-        converterFrame = new JFrame("Welcome");
-        converterPanel = new JPanel();
-        converterPanel.setLayout(new GridLayout(1, 1));
+    public StartScreen(SelfCheckoutLogic logicGold)  {
+    	this.logicGold = logic;
+    	this.setForeground(getBackground());
+    	
+        startFrame = new JFrame("Welcome");
+        startPanel = new JPanel();
+        startPanel.setLayout(new GridLayout(1, 1));
 
         addWidgets();
 
-        converterFrame.getContentPane().add(converterPanel, BorderLayout.CENTER);
+        startFrame.getContentPane().add(startPanel, BorderLayout.CENTER);
 
-        converterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        converterFrame.setPreferredSize(new Dimension(800, 600));
-        converterFrame.pack();
-        converterFrame.setVisible(true);
+        startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startFrame.setPreferredSize(new Dimension(800, 600));
+        startFrame.pack();
+        startFrame.setVisible(true);
     }
 
 
@@ -57,22 +60,24 @@ public class StartScreen {
         	System.out.println("Button pressed. Starting session...");
         	
             // logicGold calls session.Start()
-            SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
-            gold.plugIn(PowerGrid.instance());
-            gold.turnOn();
-            gold.resetConfigurationToDefaults();
-            logicGold = new SelfCheckoutLogic(gold);
-            logicGold = SelfCheckoutLogic.installOn(gold);
-            PowerGrid.engageUninterruptiblePowerSource();
-            PowerGrid.instance().forcePowerRestore();
+            //SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
+            //gold.plugIn(PowerGrid.instance());
+            //gold.turnOn();
+            //gold.resetConfigurationToDefaults();
+            //logicGold = new SelfCheckoutLogic(gold);
+            //logicGold = SelfCheckoutLogic.installOn(gold);
+            //PowerGrid.engageUninterruptiblePowerSource();
+            //PowerGrid.instance().forcePowerRestore();
 
             MainFrame mainFrame = new MainFrame();
+            startFrame.setVisible(false);
+            
             mainFrame.setVisible(true);
             
             
         });
 
-        converterPanel.add(startSessFrame);
+        startPanel.add(startSessFrame);
     }
 
 }
