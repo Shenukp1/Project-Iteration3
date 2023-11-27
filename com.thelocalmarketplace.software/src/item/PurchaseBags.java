@@ -29,14 +29,13 @@ import javax.swing.JOptionPane;
  */
 
 public class PurchaseBags {
-	private int numBags;
+	
 	
 	public PurchaseBags() {
-		this.numBags = 0;
 	}
 	
 	// prompts the user to enter how many bags to purchase
-	public void buyBags() {
+	public static void buyBags() {
 		//TODO Implement disable method here to prevent scanning/paying during buyBags().
 		String input = JOptionPane.showInputDialog("Enter number of bags to purchase.");
 		try {
@@ -50,8 +49,7 @@ public class PurchaseBags {
 					 *  
 					 */
 				}
-				numBags += bagsToBuy;
-				JOptionPane.showMessageDialog(null, bagsToBuy + "bags have been added to your order!");
+				JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
 				//TODO Implement enable method here.
 			} else {
 				JOptionPane.showMessageDialog(null, "Please enter a valid number (greater than 0).");
@@ -60,12 +58,5 @@ public class PurchaseBags {
 			JOptionPane.showMessageDialog(null, "Please enter a valid number.");
 		}
 	}
-		
-	//Optional: call to display how many bags have been purchased. Not required. If not, Numbags can be removed.
-	//TODO How to decrement numBags when removeItem() method is called
-	public int getNumberOfBags() {
-        return numBags;
-    }
-
 }
 
