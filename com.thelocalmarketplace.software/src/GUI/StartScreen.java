@@ -28,10 +28,8 @@ public class StartScreen extends JPanel {
     	this.logicGold = logicGold;
         this.setForeground(getBackground());
 
-        //System.out.print(logicGold);
         initial = logicGold.station.screen.getFrame();
 
-        //startFrame = new JFrame("Welcome");
         startPanel = new JPanel();
         startPanel.setLayout(new GridLayout(1, 1));
 
@@ -55,7 +53,6 @@ public class StartScreen extends JPanel {
         startSessButton.setBounds(0, 0, 800, 600);
 
         startSessButton.addActionListener(e -> {
-            //MainFrame mainFrame = new MainFrame();
 
             startPanel.setVisible(false);
             
