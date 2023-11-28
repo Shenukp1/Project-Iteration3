@@ -1,7 +1,6 @@
 package payment;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
 
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
