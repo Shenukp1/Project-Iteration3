@@ -73,6 +73,7 @@ public static Collection<AbstractSelfCheckoutStation[]> data() {
 	
 	//silver
 	silver.resetConfigurationToDefaults();
+	silver.configureBanknoteDenominations(bankNoteDenominations);
 	PowerGrid.engageUninterruptiblePowerSource();
 	PowerGrid.instance().forcePowerRestore();
 	SelfCheckoutStationSilver silver = new SelfCheckoutStationSilver();
@@ -81,6 +82,7 @@ public static Collection<AbstractSelfCheckoutStation[]> data() {
 	
 	//gold
 	gold.resetConfigurationToDefaults();
+	gold.configureBanknoteDenominations(bankNoteDenominations);
 	PowerGrid.engageUninterruptiblePowerSource();
 	PowerGrid.instance().forcePowerRestore();
 	SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
@@ -123,7 +125,7 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 		logic.session.enable();
 		
 		logic.station.printer.addInk(300);
-		logic.station.printer.addPaper(300);
+		logic.station.printer.addPaper(100);
 		
 		
 		
@@ -147,7 +149,7 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 		//logic.station.banknoteInput.attach();
 		logic.station.banknoteInput.activate();
 		logic.station.banknoteInput.enable();
-		
+		logic.station.banknoteInput.removeDanglingBanknote();
 		logic.station.banknoteInput.receive(twenty);
 		logic.station.banknoteStorage.receive(twenty);
 
