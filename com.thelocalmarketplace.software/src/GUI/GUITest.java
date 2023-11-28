@@ -134,16 +134,14 @@ SelfCheckoutLogic logicGold;
 	System.out.println(start);
 	
 	//JFrame start2 = new JFrame("Welcome");
-	
-    
-	
-	System.out.println(logicGold.station.screen.getFrame());
-	
+
 	logicGold.station.screen.setVisible(true);
 	start.getContentPane().removeAll();
 	start.setLayout(new BorderLayout());
 	
+	//System.out.print(logicGold);
 	StartScreen checkoutPanel = new StartScreen(logicGold);
+	System.out.println(logicGold.station.screen.getFrame());
 	Thread.sleep(10000);
 	
 	

@@ -7,77 +7,63 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 
 import control.SelfCheckoutLogic;
 import control.SessionController;
-import powerutility.PowerGrid;
 
 public class StartScreen extends JPanel {
     JFrame startFrame;
     JPanel startPanel;
-    JTextField tempCelsius;
-    JLabel celsiusLabel, fahrenheitLabel;
-    JButton startSessFrame;;
+    JButton startSessButton;
     SessionController startS;
     SelfCheckoutLogic logicGold;
-    SelfCheckoutLogic logic;
+    //SelfCheckoutLogic logic;
+    JFrame initial;
 
     public StartScreen(SelfCheckoutLogic logicGold)  {
-    	this.logicGold = logic;
-    	this.setForeground(getBackground());
-    	
-        startFrame = new JFrame("Welcome");
+    	this.logicGold = logicGold;
+        this.setForeground(getBackground());
+
+        //System.out.print(logicGold);
+        initial = logicGold.station.screen.getFrame();
+
+        //startFrame = new JFrame("Welcome");
         startPanel = new JPanel();
         startPanel.setLayout(new GridLayout(1, 1));
 
         addWidgets();
 
-        startFrame.getContentPane().add(startPanel, BorderLayout.CENTER);
+        initial.getContentPane().add(startPanel, BorderLayout.CENTER);
 
-        startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        startFrame.setPreferredSize(new Dimension(800, 600));
-        startFrame.pack();
-        startFrame.setVisible(true);
+        initial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initial.setPreferredSize(new Dimension(800, 600));
+        initial.pack();
+        startPanel.setVisible(true);
     }
 
+    private void addWidgets() {
+        startSessButton = new JButton("Press anywhere to start");
+        Font buttonFont = new Font(startSessButton.getFont().getName(), Font.PLAIN, 20);
 
-	private void addWidgets() {
-        startSessFrame = new JButton("Press anywhere to start");
-        Font buttonFont = new Font(startSessFrame.getFont().getName(), Font.PLAIN, 20);
+        startSessButton.setFont(buttonFont);
 
-        startSessFrame.setFont(buttonFont);
+        startSessButton.setLayout(null);
+        startSessButton.setBounds(0, 0, 800, 600);
 
-        startSessFrame.setLayout(null);
-        startSessFrame.setBounds(0, 0, 800, 600);
-        
-        startSessFrame.addActionListener(e -> {
-        	System.out.println("Button pressed. Starting session...");
-        	
-            // logicGold calls session.Start()
-            //SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
-            //gold.plugIn(PowerGrid.instance());
-            //gold.turnOn();
-            //gold.resetConfigurationToDefaults();
-            //logicGold = new SelfCheckoutLogic(gold);
-            //logicGold = SelfCheckoutLogic.installOn(gold);
-            //PowerGrid.engageUninterruptiblePowerSource();
-            //PowerGrid.instance().forcePowerRestore();
+        startSessButton.addActionListener(e -> {
+            //MainFrame mainFrame = new MainFrame();
 
-            MainFrame mainFrame = new MainFrame();
-            startFrame.setVisible(false);
+            startPanel.setVisible(false);
             
-            mainFrame.setVisible(true);
-            
-            
+            MainPanel mainPanel= new MainPanel(logicGold);
+
+            //mainFrame.setVisible(true);
         });
 
-        startPanel.add(startSessFrame);
+        startPanel.add(startSessButton);
     }
-
 }
