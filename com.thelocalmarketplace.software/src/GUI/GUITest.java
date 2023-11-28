@@ -117,7 +117,7 @@ SelfCheckoutLogic logicGold;
 @Test
 	public void Starttest() throws InterruptedException {
 	
-	JFrame start = logicGold.station.screen.getFrame();
+	//JFrame start = logicGold.station.screen.getFrame();
 	//start.setVisible(true);
 	
 	//JFrame start2 = logicGold.station.screen.getFrame();
@@ -131,18 +131,18 @@ SelfCheckoutLogic logicGold;
 	
 	
 	
-	System.out.println(start);
+	//System.out.println(start);
 	
 	//JFrame start2 = new JFrame("Welcome");
 
 	logicGold.station.screen.setVisible(true);
-	start.getContentPane().removeAll();
-	start.setLayout(new BorderLayout());
+	//start.getContentPane().removeAll();
+	//start.setLayout(new BorderLayout());
 	
 	//System.out.print(logicGold);
 	StartScreen checkoutPanel = new StartScreen(logicGold);
 	System.out.println(logicGold.station.screen.getFrame());
-	Thread.sleep(10000);
+	Thread.sleep(60000);
 	
 	
 	

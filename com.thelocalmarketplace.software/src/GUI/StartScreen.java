@@ -26,7 +26,7 @@ public class StartScreen extends JPanel {
 
     public StartScreen(SelfCheckoutLogic logicGold)  {
     	this.logicGold = logicGold;
-        this.setForeground(getBackground());
+        //this.setForeground(getBackground());
 
         initial = logicGold.station.screen.getFrame();
 
@@ -35,11 +35,14 @@ public class StartScreen extends JPanel {
 
         addWidgets();
 
-        initial.getContentPane().add(startPanel, BorderLayout.CENTER);
+        initial.add(startPanel, BorderLayout.CENTER);
 
-        initial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initial.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        initial.setTitle("Welcome");
+
         initial.setPreferredSize(new Dimension(800, 600));
         initial.pack();
+        initial.setVisible(true);
         startPanel.setVisible(true);
     }
 
