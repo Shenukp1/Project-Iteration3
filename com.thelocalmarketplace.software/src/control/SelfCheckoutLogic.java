@@ -41,6 +41,9 @@ public class SelfCheckoutLogic {
 	// Controller to manage printing
 	public PrintController printController;
 	
+	// Controller to manage predicting issues
+	public PredictIssueController predictController;
+	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
 	/**
@@ -71,7 +74,7 @@ public class SelfCheckoutLogic {
 		coinController = new CoinController(session, scs);
 	//	creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
-		
+		predictController = new PredictIssueController(session, scs);
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
 		scs.banknoteInput.disable();
