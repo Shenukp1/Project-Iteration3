@@ -59,7 +59,7 @@ public class StartScreen extends JPanel {
 
             startPanel.setVisible(false);
             
-            MainPanel mainPanel= new MainPanel(logicGold);
+            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
 
             //mainFrame.setVisible(true);
         });
