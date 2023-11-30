@@ -68,7 +68,8 @@ public class PaymentPromptWindow {
 		
 		cardButton.addActionListener(e -> {
 			
-			// Start card window
+			promptPanel.setVisible(false);
+			CardPaymentWindow cardPaymentWindow = new CardPaymentWindow(logic);
 			
 		});
 		
