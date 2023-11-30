@@ -1,7 +1,13 @@
 package control;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import com.tdc.banknote.IBanknoteDispenser;
+import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 
 import gui.AttendantGUIMockup;
@@ -48,11 +54,14 @@ public class PredictIssueController {
 			predictFullBanknote();
 
 			/**
-			 * This updates the Attendant Station's GUI for new issues within the self checkout station
+			 * This updates the Attendant Station's GUI for new issues within the self
+			 * checkout station
 			 */
-			for (int i = 0; i <= listOfIssues.size(); i++) {
-				attendantGUI.update(listOfIssues.get(i));
+			String text = "";
+			for (int i = 0; i < listOfIssues.size(); i++ ) {
+				text += "<html>" + listOfIssues.get(i) + "<br/>";
 			}
+			attendantGUI.update(text);
 		}
 	}
 
@@ -80,9 +89,16 @@ public class PredictIssueController {
 	 * This method predicts low coin within the station's coin dispenser
 	 */
 	public void predictLowCoin() {
-		if (scs.getCoinDispensers().size() <= 5) {
-			listOfIssues.add("Coin Dispenser is almost empty");
-			lowCoinIssueExists = false;
+		Iterator<Map.Entry<BigDecimal, ICoinDispenser>> itr = scs.getCoinDispensers().entrySet().iterator();
+		while (itr.hasNext()) {
+			Map.Entry<BigDecimal, ICoinDispenser> banknote = itr.next();
+			if (banknote.getValue().getCapacity() <= 5) {
+				lowCoinIssueExists = true;
+			}
+		}
+		if (lowCoinIssueExists == true) {
+			listOfIssues.add("One or More of the Coin Dispensers is Almost Empty");
+
 		}
 	}
 
@@ -90,9 +106,15 @@ public class PredictIssueController {
 	 * This method predicts low banknote within the station's banknote dispenser
 	 */
 	public void predictLowBanknote() {
-		if (scs.getBanknoteDispensers().size() <= 5) {
-			listOfIssues.add("Banknote Dispenser is almost empty");
-			lowBanknoteIssueExists = true;
+		Iterator<Map.Entry<BigDecimal, IBanknoteDispenser>> itr = scs.getBanknoteDispensers().entrySet().iterator();
+		while (itr.hasNext()) {
+			Map.Entry<BigDecimal, IBanknoteDispenser> banknote = itr.next();
+			if (banknote.getValue().getCapacity() <= 5) {
+				lowBanknoteIssueExists = true;
+			}
+		}
+		if (lowBanknoteIssueExists == true) {
+			listOfIssues.add("One or More of the Banknote Dispensers is Almost Empty");
 		}
 	}
 
@@ -119,6 +141,7 @@ public class PredictIssueController {
 
 	/**
 	 * This method returns whether the ink is almost empty or not
+	 * 
 	 * @return the boolean lowInkIssueExists
 	 */
 	public boolean inkAlmostEmpty() {
@@ -127,6 +150,7 @@ public class PredictIssueController {
 
 	/**
 	 * This method returns whether the paper is almost empty or not
+	 * 
 	 * @return the boolean lowPaperIssueExists
 	 */
 	public boolean paperAlmostEmpty() {
@@ -135,6 +159,7 @@ public class PredictIssueController {
 
 	/**
 	 * This method returns whether the coin is almost empty or not
+	 * 
 	 * @return the boolean lowCoinIssueExists
 	 */
 	public boolean coinAlmostEmpty() {
@@ -143,6 +168,7 @@ public class PredictIssueController {
 
 	/**
 	 * This method returns whether the banknote is almost empty or not
+	 * 
 	 * @return the boolean lowBanknoteIssueExists
 	 */
 	public boolean banknoteAlmostEmpty() {
@@ -151,6 +177,7 @@ public class PredictIssueController {
 
 	/**
 	 * This method returns whether the coin is almost full or not
+	 * 
 	 * @return the boolean fullCoinIssueExists
 	 */
 	public boolean coinAlmostFull() {
@@ -159,15 +186,16 @@ public class PredictIssueController {
 
 	/**
 	 * This method returns whether the banknote is almost full or not
+	 * 
 	 * @return fullBanknoteIssueExists
 	 */
 	public boolean banknoteAlmostFull() {
 		return fullBanknoteIssueExists;
 	}
-	
+
 	public int numberOfIssues() {
 		return listOfIssues.size();
-		
+
 	}
 
 }
