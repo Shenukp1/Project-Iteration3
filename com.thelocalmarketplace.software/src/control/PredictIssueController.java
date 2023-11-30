@@ -92,7 +92,7 @@ public class PredictIssueController {
 		Iterator<Map.Entry<BigDecimal, ICoinDispenser>> itr = scs.getCoinDispensers().entrySet().iterator();
 		while (itr.hasNext()) {
 			Map.Entry<BigDecimal, ICoinDispenser> banknote = itr.next();
-			if (banknote.getValue().getCapacity() <= 5) {
+			if (banknote.getValue().size() <= 5) {
 				lowCoinIssueExists = true;
 			}
 		}
@@ -109,7 +109,7 @@ public class PredictIssueController {
 		Iterator<Map.Entry<BigDecimal, IBanknoteDispenser>> itr = scs.getBanknoteDispensers().entrySet().iterator();
 		while (itr.hasNext()) {
 			Map.Entry<BigDecimal, IBanknoteDispenser> banknote = itr.next();
-			if (banknote.getValue().getCapacity() <= 5) {
+			if (banknote.getValue().size() <= 5) {
 				lowBanknoteIssueExists = true;
 			}
 		}
