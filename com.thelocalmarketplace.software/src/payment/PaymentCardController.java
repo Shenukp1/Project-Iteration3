@@ -74,21 +74,22 @@ public class PaymentCardController implements CardReaderListener{
 		cartTotal = session.getCartTotal();						// Get customer total
 
 		if(cardType == null) {
-			new NullPointerSimulationException("cardType");
+			throw new NullPointerSimulationException("cardType");
 		}
 		else if(cardType != "credit" && cardType != "debit") {
 			System.err.println("credit/debit card expected, type used is: " + cardType);
 		}
 		if(cardHolder == null) {
-			new NullPointerSimulationException("cardHolder");
+			throw new NullPointerSimulationException("cardHolder");
 		}
 		if(cardNumber == null) {
-			new NullPointerSimulationException("cardNumber");
+			throw new NullPointerSimulationException("cardNumber");
 		}
 		session.disable();
 		holdNumber = signalHoldToBank(bank, cardNumber, cartTotal);
 
 		if(holdNumber != -1) {
+			//System.out.println(holdNumber);
 			successfulTransaction = bank.postTransaction(cardNumber, holdNumber, cartTotal.doubleValue());
 		}
 		else
