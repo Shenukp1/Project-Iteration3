@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.tdc.banknote.IBanknoteDispenser;
 import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 
 import gui.AttendantGUIMockup;
 
@@ -66,19 +66,27 @@ public class PredictIssueController {
 	}
 
 	/**
-	 * This method predicts low ink within the station's printer
+	 * This method predicts low ink within the station's printer. It will not check this for the bronze printer
 	 */
 	public void predictLowInk() {
+		if (scs instanceof SelfCheckoutStationBronze) {
+			return;
+		}
+		
 		if (scs.getPrinter().inkRemaining() <= 20) {
 			listOfIssues.add("Printer is almost out of ink");
 			lowInkIssueExists = true;
-		}
+		} 
 	}
 
 	/**
-	 * This method predicts low paper within the station's printer
+	 * This method predicts low paper within the station's printer. It will not check this for the bronze printer
 	 */
 	public void predictLowPaper() {
+		if (scs instanceof SelfCheckoutStationBronze) {
+			return;
+		}
+		
 		if (scs.getPrinter().paperRemaining() >= 20) {
 			listOfIssues.add("Printer is almost out of printer");
 			lowPaperIssueExists = true;
