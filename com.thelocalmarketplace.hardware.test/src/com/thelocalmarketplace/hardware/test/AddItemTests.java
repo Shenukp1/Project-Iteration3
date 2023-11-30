@@ -148,14 +148,14 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 
 		logic.session.enable();
 	 
-		logic.station.printer.addInk(300);
-		logic.station.printer.addPaper(20);
+		logic.station.getPrinter().addInk(300);
+		logic.station.getPrinter().addPaper(20);
 		
 		//I use custom bank notes from interface
-		station.mainScanner.register(scanWatch);
-		station.handheldScanner.register(scanWatch);
-		station.scanningArea.register(scaleWatch);
-		station.baggingArea.register(scaleWatch);
+		station.getMainScanner().register(scanWatch);
+		station.getHandheldScanner().register(scanWatch);
+		station.getScanningArea().register(scaleWatch);
+		station.getBaggingArea().register(scaleWatch);
 		
 		
 	}
@@ -167,23 +167,23 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 	@Test
 	public void scanItem() {
 		for (int i =0;scanWatch.notify!="barcode has been scanned"; i++) {
-		logic.station.handheldScanner.scan(products.beanBarcodeItem);}
+		logic.station.getHandheldScanner().scan(products.beanBarcodeItem);}
 		Assert.assertTrue (scanWatch.notify=="barcode has been scanned");
 		scanWatch.notify="";
 		for (int i =0;scanWatch.notify!="barcode has been scanned"; i++) {
-		logic.station.mainScanner.scan(products.beanBarcodeItem);}
+		logic.station.getMainScanner().scan(products.beanBarcodeItem);}
 		Assert.assertTrue (scanWatch.notify=="barcode has been scanned");
 	}
-	
+
 	@Test
 	public void addItemToScaleTest() {
 	
 		
-		logic.station.scanningArea.addAnItem(products.beanBarcodeItem);
+		logic.station.getScanningArea().addAnItem(products.beanBarcodeItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.scanningArea.removeAnItem(products.beanBarcodeItem);
+		logic.station.getScanningArea().removeAnItem(products.beanBarcodeItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logic.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 		//logic.weightController.
 	}
@@ -193,16 +193,16 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 @Test
 public void addHugeItemToScaleAndRemoveTest() {
 	scaleWatch.notify = "";
-	logic.station.scanningArea.addAnItem(products.bigItem);
+	logic.station.getScanningArea().addAnItem(products.bigItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 	scaleWatch.notify = "";
-	logic.station.scanningArea.removeAnItem(products.bigItem);
+	logic.station.getScanningArea().removeAnItem(products.bigItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
 	scaleWatch.notify = "";
-	logic.station.baggingArea.addAnItem(products.bigItem);
+	logic.station.getBaggingArea().addAnItem(products.bigItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 	scaleWatch.notify = "";
-	logic.station.baggingArea.removeAnItem(products.bigItem);
+	logic.station.getBaggingArea().removeAnItem(products.bigItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
 	//logic.weightController.
 }

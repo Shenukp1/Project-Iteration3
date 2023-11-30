@@ -74,11 +74,11 @@ public class SelfCheckoutLogic {
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
-		scs.banknoteInput.disable();
+		scs.getBanknoteInput().disable();
 		// Same for coin insertion slot
-		scs.coinSlot.disable();
+		scs.getCoinSlot().disable();
 		// Same for debit/credit card reader
-		scs.cardReader.disable();
+		scs.getCardReader().disable();
 		
 	}
 }
