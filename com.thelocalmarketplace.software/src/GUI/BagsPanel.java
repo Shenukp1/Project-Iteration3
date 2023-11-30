@@ -25,7 +25,7 @@ import javax.swing.SwingConstants;
 
 import control.SelfCheckoutLogic;
 
-public class BagsPanel extends JFrame {
+public class BagsPanel {
 	JFrame mainFrame;
 	
 	JPanel bagsPanel;
@@ -43,8 +43,6 @@ public class BagsPanel extends JFrame {
 	public BagsPanel(SelfCheckoutLogic logic, boolean endingSession) {
 		mainFrame = logic.station.screen.getFrame();
 		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
 		bagsPanel = new JPanel();
 		
 		bagsPanel.setLayout(new GridLayout(3, 3, 80, 80));
@@ -52,16 +50,16 @@ public class BagsPanel extends JFrame {
 		bagsText = new JLabel("Choose an amount of bags to purchase");
 		bagsText.setHorizontalAlignment(SwingConstants.CENTER);
 		bagsText.setVerticalAlignment(SwingConstants.BOTTOM);
-		bagsText.setFont(bagsText.getFont().deriveFont(30f));
+		bagsText.setFont(bagsText.getFont().deriveFont(35f));
 		
 		numberOfBags = new JLabel("0");
-		numberOfBags.setFont(numberOfBags.getFont().deriveFont(25f));
+		numberOfBags.setFont(numberOfBags.getFont().deriveFont(45f));
 		numberOfBags.setHorizontalAlignment(SwingConstants.CENTER);
 		numberOfBags.setVerticalAlignment(SwingConstants.BOTTOM);
 		
 		
 		addBag = new JButton("+1");
-		addBag.setFont(addBag.getFont().deriveFont(20f));
+		addBag.setFont(addBag.getFont().deriveFont(30f));
 		
 		addBag.addActionListener(e -> {
 			bagsBought++;
@@ -70,7 +68,7 @@ public class BagsPanel extends JFrame {
 		});
 		
 		removeBag = new JButton("-1");
-		removeBag.setFont(removeBag.getFont().deriveFont(20f));
+		removeBag.setFont(removeBag.getFont().deriveFont(30f));
 		removeBag.setBackground(Color.LIGHT_GRAY);
 		
 		removeBag.addActionListener(e -> {
@@ -83,12 +81,15 @@ public class BagsPanel extends JFrame {
 		
 		
 		continueSession = new JButton("Finished");
-		continueSession.setFont(continueSession.getFont().deriveFont(20f));
+		continueSession.setFont(continueSession.getFont().deriveFont(25f));
 		
 		continueSession.addActionListener(e -> {
 			if (endingSession) {
 				
-				// Begin payment process here, while also adding the bags
+				// Remember to actually add the bags!
+				
+				bagsPanel.setVisible(false);
+				PaymentPromptWindow paymentPrompt = new PaymentPromptWindow(logic);
 				
 			} else {
 				bagsPanel.setVisible(false);

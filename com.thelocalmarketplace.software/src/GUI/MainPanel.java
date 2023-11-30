@@ -84,6 +84,10 @@ public class MainPanel extends JFrame {
         mainLeft.add(button2);
         JButton button3 = new JButton("Pay");
         button3.setFont(button3.getFont().deriveFont(19f));
+        button3.addActionListener(e -> {
+        	mainPanel.setVisible(false);
+        	BagsPanel bagsPanel = new BagsPanel(logicGold, true);
+        });
         mainLeft.add(button3);
         JLabel total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
         total.setFont(button3.getFont().deriveFont(25f));
