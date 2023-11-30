@@ -100,7 +100,7 @@ public class PayViaCoinTest implements DollarsAndCurrency{
 		 logicGold = SelfCheckoutLogic.installOn(gold);
 	
 		 try {
-			logicBronze.station.coinStorage.load(dollars, penny, nickle, dime, quarter);
+			logicBronze.station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);
 		} catch (SimulationException | CashOverloadException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,16 +118,16 @@ public class PayViaCoinTest implements DollarsAndCurrency{
 	public void testSuccessfulPayment() throws Exception {
 		
 	
-		logicBronze.station.coinSlot.enable();
+		logicBronze.station.getCoinSlot().enable();
 		logicBronze.coinController.onPayViaCoin();
-		logicBronze.station.coinSlot.receive(dollars);
+		logicBronze.station.getCoinSlot().receive(dollars);
 		
 	}
 	
 	@Test(expected = DisabledException.class)
 	public void testInvalidState() throws Exception {
 		
-		logicBronze.station.coinSlot.receive(dollars);
+		logicBronze.station.getCoinSlot().receive(dollars);
 		}
 	
 	//tests bad coin listener
@@ -135,20 +135,20 @@ public class PayViaCoinTest implements DollarsAndCurrency{
 	public void invalidCoinTest() throws Exception {
 		
 		
-		logicBronze.station.coinSlot.enable();
-		logicBronze.station.coinSlot.receive(euros);
+		logicBronze.station.getCoinSlot().enable();
+		logicBronze.station.getCoinSlot().receive(euros);
 		expectedMessage.expect(SimulationException.class);
 	    	expectedMessage.expectMessage("The coin(s) you entered is invalid. Please try again.");
-	    	logicBronze.coinController.invalidCoinDetected(logicBronze.station.coinValidator);
+	    	logicBronze.coinController.invalidCoinDetected(logicBronze.station.getCoinValidator());
 
 	}
 
 
 	@Test
 	public void testPaymentWithChange() throws Exception {
-		logicBronze.station.coinSlot.enable();
+		logicBronze.station.getCoinSlot().enable();
 		logicBronze.coinController.onPayViaCoin();
-		logicBronze.station.coinSlot.receive(dollars);
+		logicBronze.station.getCoinSlot().receive(dollars);
 		
 	}
 	

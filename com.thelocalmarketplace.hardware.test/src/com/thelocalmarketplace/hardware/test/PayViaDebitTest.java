@@ -83,10 +83,10 @@ public class PayViaDebitTest implements CardPayment {
 	
 	@Test
 	public void testSwipeDebit() throws IOException {
-		logicBronze.station.cardReader.enable();
+		logicBronze.station.getCardReader().enable();
 		for (int i = 0; i < 100; i++) {
 			try{
-				logicBronze.station.cardReader.swipe(otherDebitCard);
+				logicBronze.station.getCardReader().swipe(otherDebitCard);
 			} catch(MagneticStripeFailureException e) {
 			}
 		}
@@ -95,11 +95,11 @@ public class PayViaDebitTest implements CardPayment {
 	@Test
 	public void testScanningAddingAndDebitCardPayment() throws IOException {
 		// Simulate scanning and adding items to the cart
-	    	logicBronze.station.mainScanner.enable();
-	    	logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-	    	logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
-	    	logicBronze.station.scanningArea.enable();
-	    	logicBronze.station.scanningArea.addAnItem(products.beanBarcodeItem);
+	    	logicBronze.station.getMainScanner().enable();
+	    	logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
+	    	logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+	    	logicBronze.station.getScanningArea().enable();
+	    	logicBronze.station.getScanningArea().addAnItem(products.beanBarcodeItem);
 
 	    	// Simulate the debit card payment process
 	    	CardIssuer debitCardIssuer = PayViaDebitTest.debitcard;
@@ -116,12 +116,12 @@ public class PayViaDebitTest implements CardPayment {
 		logicBronze.creditController =tempCardClass;
 		logicBronze.creditController.onPayWithCard();
 		
-	    	logicBronze.station.cardReader.enable();
+	    	logicBronze.station.getCardReader().enable();
 	    	otherDebitCard.swipe();
 		
 	    	for (int i = 0; i < 100; i++) {
 	        	try {
-	            	logicBronze.station.cardReader.swipe(otherDebitCard);
+	            	logicBronze.station.getCardReader().swipe(otherDebitCard);
 	        	} catch (MagneticStripeFailureException e) {
 	            	// Handle the exception if needed
 	        	}
@@ -131,11 +131,11 @@ public class PayViaDebitTest implements CardPayment {
 	@Test
     	public void testInsufficientFundsDebitCardPayment() throws IOException {
 		// Simulate scanning and adding items to the cart
-	    	logicBronze.station.mainScanner.enable();
-	    	logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-	    	logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
-	    	logicBronze.station.scanningArea.enable();
-	    	logicBronze.station.scanningArea.addAnItem(products.beanBarcodeItem);
+	    	logicBronze.station.getMainScanner().enable();
+	    	logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
+	    	logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+	    	logicBronze.station.getScanningArea().enable();
+	    	logicBronze.station.getScanningArea().addAnItem(products.beanBarcodeItem);
 	    
 	    	// Simulate the debit card payment process
 	    	CardIssuer debitCardIssuer = PayViaDebitTest.debitcard;
@@ -151,12 +151,12 @@ public class PayViaDebitTest implements CardPayment {
 		logicBronze.creditController =tempCardClass;
 		logicBronze.creditController.onPayWithCard();
 		
-	    	logicBronze.station.cardReader.enable();
+	    	logicBronze.station.getCardReader().enable();
 	    	otherDebitCard.swipe();
 		
 	    	for (int i = 0; i < 100; i++) {
 	        	try {
-	            	logicBronze.station.cardReader.swipe(otherDebitCard);
+	            	logicBronze.station.getCardReader().swipe(otherDebitCard);
 	        	} catch (MagneticStripeFailureException e) {
 	            	// Handle the exception if needed
 	        	}
@@ -166,7 +166,7 @@ public class PayViaDebitTest implements CardPayment {
 	@Test(expected = NullPointerException.class)
 	public void testIOExceptionDuringCardSwipe() throws IOException {
 	    	// Simulate an IOException during the card swipe process
-	    	logicBronze.station.cardReader.enable();
-	    	logicBronze.station.cardReader.swipe(null); // Assuming a null card causes an IOException
+	    	logicBronze.station.getCardReader().enable();
+	    	logicBronze.station.getCardReader().swipe(null); // Assuming a null card causes an IOException
     }
 }

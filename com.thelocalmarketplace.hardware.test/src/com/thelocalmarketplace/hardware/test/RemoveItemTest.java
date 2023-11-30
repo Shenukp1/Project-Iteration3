@@ -100,8 +100,8 @@ Products products = new Products();
 	 logicSilver = SelfCheckoutLogic.installOn(silver);
 	 logicGold = SelfCheckoutLogic.installOn(gold);
 		
-		logicBronze.station.printer.addInk(300);
-		logicBronze.station.printer.addPaper(300);
+		logicBronze.station.getPrinter().addInk(300);
+		logicBronze.station.getPrinter().addPaper(300);
 		//I use custom bank notes from interface
 		logicBronze.station.configureBanknoteDenominations(bankNoteDenominations);
 
@@ -114,23 +114,23 @@ Products products = new Products();
 	public void removeEmptyItem() throws DisabledException, CashOverloadException, EmptyDevice, OverloadedDevice {
 	
 	
-		logicBronze.station.scanningArea.enable();
+		logicBronze.station.getScanningArea().enable();
 		
 		
-		logicBronze.station.scanningArea.removeAnItem(products.beanBarcodeItem);
+		logicBronze.station.getScanningArea().removeAnItem(products.beanBarcodeItem);
 	
 	}
 
 	@Test
 	public void removeItemAfterAddingSaidItem() throws DisabledException, CashOverloadException, EmptyDevice, OverloadedDevice {
-		logicBronze.station.mainScanner.enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().enable();
+		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicBronze.station.scanningArea.enable();
-		logicBronze.station.scanningArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getScanningArea().enable();
+		logicBronze.station.getScanningArea().addAnItem(products.beanBarcodeItem);
 		
-		logicBronze.station.scanningArea.removeAnItem(products.beanBarcodeItem);
+		logicBronze.station.getScanningArea().removeAnItem(products.beanBarcodeItem);
 		
 	
 	}

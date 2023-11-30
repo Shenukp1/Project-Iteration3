@@ -20,7 +20,7 @@ public class WeightController implements ElectronicScaleListener{
 	public WeightController(SessionController c_session, AbstractSelfCheckoutStation sco) {
 		session = c_session;
 		station = sco;
-		sco.baggingArea.register(this);
+		sco.getBaggingArea().register(this);
 	}
 	
 	/**

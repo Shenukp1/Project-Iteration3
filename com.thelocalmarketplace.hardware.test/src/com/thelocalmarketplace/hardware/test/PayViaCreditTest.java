@@ -124,12 +124,12 @@ public class PayViaCreditTest implements CardPayment {
 	@Test
 	public void testSwipe() throws IOException {
 		
-		logicBronze.station.cardReader.enable();
-		logicBronze.station.cardReader.enable();
+		logicBronze.station.getCardReader().enable();
+		logicBronze.station.getCardReader().enable();
 	
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.swipe(otherCreditCard);
+		logicBronze.station.getCardReader().swipe(otherCreditCard);
 			}
 		catch(MagneticStripeFailureException e) {
 		}
@@ -139,36 +139,36 @@ public class PayViaCreditTest implements CardPayment {
 	@Test(expected = Exception.class)
 	public void testIOExceptionDuringCardSwipe() throws IOException {
 	    	// Simulate an IOException during the card swipe process
-	    	logicBronze.station.cardReader.enable();
+	    	logicBronze.station.getCardReader().enable();
 	    	
-	    	logicBronze.station.cardReader.swipe(null); // Assuming a null card causes an IOException
+	    	logicBronze.station.getCardReader().swipe(null); // Assuming a null card causes an IOException
 	}
 	
 	@Test
 	public void scanAndPay() throws IOException {
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
-		logicBronze.station.mainScanner.enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().enable();
+		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
 		try {
-			logicBronze.station.printer.addPaper(500);
-			logicBronze.station.printer.addInk(1000);
+			logicBronze.station.getPrinter().addPaper(500);
+			logicBronze.station.getPrinter().addInk(1000);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}
 		logicBronze.creditController.onPayWithCard();
-		logicBronze.station.cardReader.enable();
+		logicBronze.station.getCardReader().enable();
 		otherCreditCard.swipe();
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.swipe(otherCreditCard);
+		logicBronze.station.getCardReader().swipe(otherCreditCard);
 		
 			}
 		catch(MagneticStripeFailureException e) {

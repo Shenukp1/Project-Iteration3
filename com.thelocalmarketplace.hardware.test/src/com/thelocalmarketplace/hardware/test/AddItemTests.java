@@ -110,8 +110,8 @@ Products products = new Products();
 
 		logicBronze.session.enable();
 	 
-		logicBronze.station.printer.addInk(300);
-		logicBronze.station.printer.addPaper(300);
+		logicBronze.station.getPrinter().addInk(300);
+		logicBronze.station.getPrinter().addPaper(300);
 		
 		//I use custom bank notes from interface
 		
@@ -123,10 +123,10 @@ Products products = new Products();
  */
 @Test
 	public void addItemToScaleTest() {
-		logicBronze.station.handheldScanner.scan(products.beanBarcodeItem);
-		logicBronze.station.scanningArea.addAnItem(products.beanBarcodeItem);
-		logicBronze.station.scanningArea.removeAnItem(products.beanBarcodeItem);
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getHandheldScanner().scan(products.beanBarcodeItem);
+		logicBronze.station.getScanningArea().addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getScanningArea().removeAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		//logicBronze.weightController.
 	}
 /*
@@ -134,11 +134,11 @@ Products products = new Products();
  */
 @Test
 public void addHugeItemToScaleAndRemoveTest() {
-	logicBronze.station.handheldScanner.scan(products.bigItem);
-	logicBronze.station.scanningArea.addAnItem(products.bigItem);
-	logicBronze.station.scanningArea.removeAnItem(products.bigItem);
-	logicBronze.station.baggingArea.addAnItem(products.bigItem);
-	logicBronze.station.baggingArea.removeAnItem(products.bigItem);
+	logicBronze.station.getHandheldScanner().scan(products.bigItem);
+	logicBronze.station.getScanningArea().addAnItem(products.bigItem);
+	logicBronze.station.getScanningArea().removeAnItem(products.bigItem);
+	logicBronze.station.getBaggingArea().addAnItem(products.bigItem);
+	logicBronze.station.getBaggingArea().removeAnItem(products.bigItem);
 	//logicBronze.weightController.
 }
 /*

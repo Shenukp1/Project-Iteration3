@@ -59,7 +59,7 @@ public class PredictIssueController {
 	/**
 	 * This method predicts low ink within the station's printer
 	 */
-	private void predictLowInk() {
+	public void predictLowInk() {
 		if (scs.getPrinter().inkRemaining() <= 20) {
 			listOfIssues.add("Printer is almost out of ink");
 			lowInkIssueExists = true;
@@ -69,7 +69,7 @@ public class PredictIssueController {
 	/**
 	 * This method predicts low paper within the station's printer
 	 */
-	private void predictLowPaper() {
+	public void predictLowPaper() {
 		if (scs.getPrinter().paperRemaining() >= 20) {
 			listOfIssues.add("Printer is almost out of printer");
 			lowPaperIssueExists = true;
@@ -79,7 +79,7 @@ public class PredictIssueController {
 	/**
 	 * This method predicts low coin within the station's coin dispenser
 	 */
-	private void predictLowCoin() {
+	public void predictLowCoin() {
 		if (scs.getCoinDispensers().size() <= 5) {
 			listOfIssues.add("Coin Dispenser is almost empty");
 			lowCoinIssueExists = false;
@@ -89,7 +89,7 @@ public class PredictIssueController {
 	/**
 	 * This method predicts low banknote within the station's banknote dispenser
 	 */
-	private void predictLowBanknote() {
+	public void predictLowBanknote() {
 		if (scs.getBanknoteDispensers().size() <= 5) {
 			listOfIssues.add("Banknote Dispenser is almost empty");
 			lowBanknoteIssueExists = true;
@@ -99,7 +99,7 @@ public class PredictIssueController {
 	/**
 	 * This method predicts full coin within the station's coin storage unit
 	 */
-	private void predictFullCoin() {
+	public void predictFullCoin() {
 		if (scs.getCoinStorage().getCoinCount() >= scs.getCoinStorage().getCapacity() - 5) {
 			listOfIssues.add("Coin Storage Unit is almost full");
 			fullCoinIssueExists = true;
@@ -109,7 +109,7 @@ public class PredictIssueController {
 	/**
 	 * This method predicts full banknote within the station's banknote storage unit
 	 */
-	private void predictFullBanknote() {
+	public void predictFullBanknote() {
 		if (scs.getBanknoteStorage().hasSpace() == true
 				&& scs.getBanknoteStorage().getBanknoteCount() >= scs.getBanknoteStorage().getCapacity() - 5) {
 			listOfIssues.add("Banknote Storage Unit is almost full");
@@ -163,6 +163,11 @@ public class PredictIssueController {
 	 */
 	public boolean banknoteAlmostFull() {
 		return fullBanknoteIssueExists;
+	}
+	
+	public int numberOfIssues() {
+		return listOfIssues.size();
+		
 	}
 
 }

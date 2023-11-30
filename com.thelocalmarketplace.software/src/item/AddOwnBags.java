@@ -42,7 +42,7 @@ public class AddOwnBags {
 		
         System.out.println("Please place your bags in the bagging area.");
         waitForBags();
-        AbstractElectronicScale temp = (AbstractElectronicScale) station.baggingArea;
+        AbstractElectronicScale temp = (AbstractElectronicScale) station.getBaggingArea();
         //scale should be polymorphic and accept any version of ElectronicScale. 
 		//i.e AbstractElectronicScale scale = new ElectronicScaleBronze(); etc.
         Mass scaleMassWithBags = temp.getCurrentMassOnTheScale();

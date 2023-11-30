@@ -27,7 +27,7 @@ public class BarcodeController implements BarcodeScannerListener{
 	public BarcodeController(SessionController c_session, AbstractSelfCheckoutStation sco) {
 		station = sco;
 		session = c_session;
-		station.handheldScanner.register(this);
+		station.getHandheldScanner().register(this);
 	}
 	
 	/**

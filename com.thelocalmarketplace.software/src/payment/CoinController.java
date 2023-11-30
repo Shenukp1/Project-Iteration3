@@ -26,7 +26,7 @@ public class CoinController implements CoinValidatorObserver{
     public CoinController(SessionController c_session, AbstractSelfCheckoutStation sco) {
     	session = c_session;
     	station = sco;
-		sco.coinValidator.attach(this);
+		sco.getCoinValidator().attach(this);
     }
 
     /**
@@ -44,7 +44,7 @@ public class CoinController implements CoinValidatorObserver{
     		System.err.println("Please add items to pay for");
 			return;
     	}
-    	station.coinSlot.enable();
+    	station.getCoinSlot().enable();
     }
     
     /**

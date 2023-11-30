@@ -105,8 +105,8 @@ Products products = new Products();
 	 
 	 logicBronze.session.enable();
 		
-		logicBronze.station.printer.addInk(300);
-		logicBronze.station.printer.addPaper(300);
+		logicBronze.station.getPrinter().addInk(300);
+		logicBronze.station.getPrinter().addPaper(300);
 		
 		
 		
@@ -130,7 +130,7 @@ Products products = new Products();
 		logicBronze.station.banknoteInput.enable();
 		
 		logicBronze.station.banknoteInput.receive(twenty);
-		logicBronze.station.banknoteStorage.receive(twenty);
+		logicBronze.station.getBanknoteStorage().receive(twenty);
 
 
 	}
@@ -160,28 +160,28 @@ Products products = new Products();
 	
 	@Test
 	public void onePaymentStepValidCurrency() throws DisabledException, CashOverloadException, EmptyDevice, OverloadedDevice {
-		logicBronze.station.mainScanner.enable();
+		logicBronze.station.getMainScanner().enable();
 		logicBronze.session.Cart.add(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(products.beanBarcode));
 	
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.turnOn();
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().turnOn();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		logicBronze.banknoteController.onPayViaBanknote();
 		logicBronze.station.banknoteInput.enable();
 	
 		
 		logicBronze.station.banknoteInput.receive(five);
-		logicBronze.station.banknoteStorage.receive(five);
+		logicBronze.station.getBanknoteStorage().receive(five);
 
 		
-		logicBronze.station.printer.enable();
-		logicBronze.station.printer.print('$');
-		logicBronze.station.printer.cutPaper();
+		logicBronze.station.getPrinter().enable();
+		logicBronze.station.getPrinter().print('$');
+		logicBronze.station.getPrinter().cutPaper();
 		
-		logicBronze.station.printer.removeReceipt();
+		logicBronze.station.getPrinter().removeReceipt();
 	}
 	
 	
