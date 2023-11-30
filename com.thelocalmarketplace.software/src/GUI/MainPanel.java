@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.math.BigInteger;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -21,9 +23,19 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Numeral;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.Product;
 
 import control.SelfCheckoutLogic;
+
 
 public class MainPanel extends JFrame {
     SelfCheckoutLogic logicGold;
@@ -36,6 +48,8 @@ public class MainPanel extends JFrame {
     JPanel mainBottom;
     String message;
     JPanel containerPanel;
+    DefaultListModel<JPanel> listModel;
+    
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
     	this.message = message;			//Console message to be printed 
@@ -60,6 +74,10 @@ public class MainPanel extends JFrame {
         mainLeft.add(button0);
         JButton button1 = new JButton("Add Bags");
         button1.setFont(button1.getFont().deriveFont(19f));
+        button1.addActionListener(e -> {
+        	mainPanel.setVisible(false);
+        	BagsPanel bagsPanel = new BagsPanel(logicGold, false);
+        });
         mainLeft.add(button1);
         JButton button2 = new JButton("Enter Membership");
         button2.setFont(button2.getFont().deriveFont(19f));
@@ -97,17 +115,13 @@ public class MainPanel extends JFrame {
         JLabel itemsLabel = new JLabel("Items Scanned:");
         itemsLabel.setFont(itemsLabel.getFont().deriveFont(20f));
         
-        DefaultListModel<JPanel> listModel = new DefaultListModel<>();
-        listModel.addElement(createItemPanel("Item 1 - $10"));
-        listModel.addElement(createItemPanel("Item 2 - $20"));
-
+        listModel = new DefaultListModel<>();
+        
         containerPanel = new JPanel();
         containerPanel.setLayout(new GridLayout(20, 0));
 
-        //Adds item elements to containerPanel
-        for (int i = 0; i < listModel.getSize(); i++) {
-            containerPanel.add(listModel.getElementAt(i));
-        }
+        //Updated current list
+        updateListModel();
 
         
         JScrollPane scrollPane = new JScrollPane(containerPanel);
@@ -121,7 +135,7 @@ public class MainPanel extends JFrame {
         GridBagConstraints gbcTopPanel = new GridBagConstraints();
         gbcTopPanel.gridx = 0;
         gbcTopPanel.gridy = 0;
-        gbcTopPanel.weighty = 0.9;
+        gbcTopPanel.weighty = 0.8;
         gbcTopPanel.fill = GridBagConstraints.BOTH;
         mainPanel.add(topPanel, gbcTopPanel);
         
@@ -144,6 +158,77 @@ public class MainPanel extends JFrame {
         gbcBottomPanel.weightx = 1;
         gbcBottomPanel.fill = GridBagConstraints.BOTH;
         mainPanel.add(bottomPanel, gbcBottomPanel);
+        
+        
+        JPanel testPanel = new JPanel();
+        testPanel.setBackground(Color.LIGHT_GRAY);
+
+        testPanel.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.GRAY));
+
+        JLabel barcodeLabel = new JLabel("Barcode Testing");
+        barcodeLabel.setForeground(Color.BLACK);
+        barcodeLabel.setFont(new Font(barcodeLabel.getFont().getName(), Font.BOLD, 16));
+
+        testPanel.add(barcodeLabel);
+        
+        
+        JTextField barcodeInput = new JTextField();
+        barcodeInput.setPreferredSize(new Dimension(200, 30));
+        barcodeInput.addActionListener(e -> {
+            String enteredCode = barcodeInput.getText();
+            //System.out.println("Entered code: " + enteredCode);
+            
+            try {
+                Numeral[] barcodeNumeral = new Numeral[enteredCode.length()];
+
+                for (int i = 0; i < enteredCode.length(); i++) {
+                    char numeralChar = enteredCode.charAt(i);
+                    int numeralIndex = Character.getNumericValue(numeralChar) - 1;
+                    barcodeNumeral[i] = Numeral.values()[numeralIndex];
+                }
+
+                Barcode enteredBarcode = new Barcode(barcodeNumeral);
+                System.out.println(enteredBarcode.toString());
+                BarcodedItem item;
+                if ("1234".equals(enteredBarcode.toString())) {
+                	item = new BarcodedItem(enteredBarcode,new Mass(new BigInteger("500")));
+                	logicGold.station.handheldScanner.scan(item);
+                	 SwingUtilities.invokeLater(() -> {
+                         total.setText("Total: $" + logicGold.session.getCartTotal());                 
+                         topPanel.revalidate();
+                         topPanel.repaint();
+                     });
+                	 
+                	 updateListModel();
+                     System.out.println("Helloooo");
+                	 
+               }
+                else {
+                	System.err.println("Invalid Barcode");
+                }
+                
+             
+                
+                
+            } catch (Exception ex) {
+                System.err.println("Invalid input");
+            } finally {
+                barcodeInput.setText("");
+            }
+        });
+
+        testPanel.add(barcodeInput);
+        
+
+        GridBagConstraints gbcTestPanel = new GridBagConstraints();
+        gbcTestPanel.gridx = 0;
+        gbcTestPanel.gridy = 2;
+        gbcTestPanel.weighty = 0.4;
+        gbcTestPanel.weightx = 1;
+        gbcTestPanel.fill = GridBagConstraints.BOTH;
+
+        mainPanel.add(testPanel, gbcTestPanel);
+        
         
        
         mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -171,5 +256,27 @@ public class MainPanel extends JFrame {
 
         return itemPanel;
     }
+    
+    private void updateListModel() {
+        listModel.clear();
+
+        for (Product product : logicGold.session.Cart) {
+            if (product instanceof BarcodedProduct) {
+                String desc = ((BarcodedProduct) product).getDescription();
+                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
+            } else {
+                listModel.addElement(createItemPanel("Unknown Product - $ " + product.getPrice()));
+            }
+        }
+        containerPanel.removeAll();
+        for (int i = 0; i < listModel.getSize(); i++) {
+            containerPanel.add(listModel.getElementAt(i));
+        }
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+    
+   
     
 }

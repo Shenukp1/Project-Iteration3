@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -17,10 +18,16 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.jjjwelectronics.EmptyDevice;
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.OverloadedDevice;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
 import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
 import com.tdc.banknote.Banknote;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -50,6 +57,17 @@ SelfCheckoutStationGold gold;
 SelfCheckoutLogic logicBronze;
 SelfCheckoutLogic logicSilver;
 SelfCheckoutLogic logicGold;
+public Numeral[] beansNumeral = new Numeral [4];
+public Barcode beanBarcode;
+public BarcodedItem beanBarcodeItem;
+public BarcodedItem bigItem; //to overload scale
+public BarcodedProduct beanBarcodedProduct;
+public BarcodedProduct bigProduct;
+public Mass beansMass;
+public Mass bigItemMass;
+public Item Beans;
+public BigInteger bigIBeanMass = new BigInteger("500");
+public BigInteger excessiveMass= new BigInteger("5000000000000");
 
 /*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
  *  
@@ -99,15 +117,22 @@ SelfCheckoutLogic logicGold;
 		logicBronze = SelfCheckoutLogic.installOn(bronze);
 		logicSilver = SelfCheckoutLogic.installOn(silver);
 		logicGold = SelfCheckoutLogic.installOn(gold);
-		
-
 		logicBronze.session.enable();
-	 
 		logicBronze.station.printer.addInk(300);
 		logicBronze.station.printer.addPaper(300);
 		
-		//I use custom bank notes from interface
 		
+		
+		beansNumeral [0]=Numeral.one;
+		beansNumeral [1]=Numeral.two;
+		beansNumeral [2]=Numeral.three;
+		beansNumeral [3]=Numeral.four;
+		
+		beansMass= new Mass(bigIBeanMass);
+		beanBarcode=new Barcode (beansNumeral);
+		beanBarcodeItem= new BarcodedItem (beanBarcode, beansMass);
+		beanBarcodedProduct=new BarcodedProduct(beanBarcode, "beans", 5,bigIBeanMass.intValue());
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);
 		
 	}
 	
