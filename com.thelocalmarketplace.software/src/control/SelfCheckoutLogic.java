@@ -6,7 +6,7 @@ import com.thelocalmarketplace.hardware.external.CardIssuer;
 import payment.CoinController;
 import payment.CardController;
 import payment.BanknoteController;
-import item.BarcodeController;
+import item.AddItemBarcode;
 import item.PrintController;
 
 /**
@@ -30,7 +30,7 @@ public class SelfCheckoutLogic {
 	public CardController creditController;
 	
 	// Controller to manage handheld barcode scans
-	public BarcodeController barcodeController;
+	public AddItemBarcode barcodeController;
 		
 	// Controller to manage session
 	public SessionController session;
@@ -65,7 +65,7 @@ public class SelfCheckoutLogic {
 		session = new SessionController(this);
 		session.start();
 		
-		barcodeController = new BarcodeController(session, scs);
+		barcodeController = new AddItemBarcode(session, scs);
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
@@ -74,11 +74,11 @@ public class SelfCheckoutLogic {
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
-		scs.banknoteInput.disable();
+		scs.getBanknoteInput().disable();
 		// Same for coin insertion slot
-		scs.coinSlot.disable();
+		scs.getCoinSlot().disable();
 		// Same for debit/credit card reader
-		scs.cardReader.disable();
+		scs.getCardReader().disable();
 		
 	}
 }

@@ -60,6 +60,8 @@ public class CashPaymentWindow {
 		cancelButton.addActionListener(e -> {
 			
 			mainPanel.setVisible(false);
+			// PINEntryWindow paymentPromptWindow = new PINEntryWindow(logic);
+			
 			PaymentPromptWindow paymentPromptWindow = new PaymentPromptWindow(logic);
 			
 		});
