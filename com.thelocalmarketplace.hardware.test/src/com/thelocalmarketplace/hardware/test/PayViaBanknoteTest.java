@@ -158,7 +158,7 @@ public PayViaBanknoteTest(AbstractSelfCheckoutStation station) {
 		//logic.station.banknoteInput.attach();
 		logic.station.getBanknoteInput().activate();
 		logic.station.getBanknoteInput().enable();
-		
+		logic.station.getBanknoteInput().removeDanglingBanknote();
 		logic.station.getBanknoteInput().receive(twenty);
 		logic.station.getBanknoteStorage().receive(twenty);
 
