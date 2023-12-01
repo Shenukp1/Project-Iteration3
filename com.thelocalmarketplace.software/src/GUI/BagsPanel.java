@@ -88,11 +88,9 @@ public class BagsPanel {
 				
 				// Remember to actually add the bags!
 				
-				bagsPanel.setVisible(false);
-				SessionEndedWindow sessionEndedWindow = new SessionEndedWindow(logic);
 				
-				//bagsPanel.setVisible(false);
-				//PaymentPromptWindow paymentPrompt = new PaymentPromptWindow(logic);
+				bagsPanel.setVisible(false);
+				PaymentPromptWindow paymentPrompt = new PaymentPromptWindow(logic);
 				
 			} else {
 				bagsPanel.setVisible(false);
