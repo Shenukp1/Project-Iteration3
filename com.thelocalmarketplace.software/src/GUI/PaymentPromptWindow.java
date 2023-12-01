@@ -36,7 +36,7 @@ public class PaymentPromptWindow {
 	JPanel promptBottom;
 	
 	public PaymentPromptWindow(SelfCheckoutLogic logic) {
-		mainFrame = logic.station.screen.getFrame();
+		mainFrame = logic.station.getScreen().getFrame();
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		promptPanel = new JPanel();

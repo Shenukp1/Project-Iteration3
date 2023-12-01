@@ -51,7 +51,7 @@ public class PINEntryWindow extends JFrame {
 	JButton backButton;
 	
 	public PINEntryWindow(SelfCheckoutLogic logic) {
-		mainFrame = logic.station.screen.getFrame();
+		mainFrame = logic.station.getScreen().getFrame();
 		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3,1));

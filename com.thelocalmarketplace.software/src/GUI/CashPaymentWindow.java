@@ -38,7 +38,7 @@ public class CashPaymentWindow {
 	JButton cancelButton;
 	
 	public CashPaymentWindow(SelfCheckoutLogic logic) {
-		mainFrame = logic.station.screen.getFrame();
+		mainFrame = logic.station.getScreen().getFrame();
 		
 		remainingTotal = logic.session.getCartTotal();
 		

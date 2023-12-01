@@ -54,7 +54,7 @@ public class MainPanel extends JFrame {
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
     	this.message = message;			//Console message to be printed 
         this.logicGold = logicGold;
-        mainFrame = logicGold.station.screen.getFrame();
+        mainFrame = logicGold.station.getScreen().getFrame();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         //mainPanel =  topPanel + bottomPanel

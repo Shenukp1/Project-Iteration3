@@ -118,8 +118,8 @@ public BigInteger excessiveMass= new BigInteger("5000000000000");
 		logicSilver = SelfCheckoutLogic.installOn(silver);
 		logicGold = SelfCheckoutLogic.installOn(gold);
 		logicBronze.session.enable();
-		logicBronze.station.printer.addInk(300);
-		logicBronze.station.printer.addPaper(300);
+		logicBronze.station.getPrinter().addInk(300);
+		logicBronze.station.getPrinter().addPaper(300);
 		
 		
 		
@@ -160,13 +160,13 @@ public BigInteger excessiveMass= new BigInteger("5000000000000");
 	
 	//JFrame start2 = new JFrame("Welcome");
 
-	logicGold.station.screen.setVisible(true);
+	logicGold.station.getScreen().setVisible(true);
 	//start.getContentPane().removeAll();
 	//start.setLayout(new BorderLayout());
 	
 	//System.out.print(logicGold);
 	StartScreen checkoutPanel = new StartScreen(logicGold);
-	System.out.println(logicGold.station.screen.getFrame());
+	System.out.println(logicGold.station.getScreen().getFrame());
 	Thread.sleep(60000);
 	
 	

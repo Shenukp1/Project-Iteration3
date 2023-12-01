@@ -41,7 +41,7 @@ public class BagsPanel {
 	
 	
 	public BagsPanel(SelfCheckoutLogic logic, boolean endingSession) {
-		mainFrame = logic.station.screen.getFrame();
+		mainFrame = logic.station.getScreen().getFrame();
 		
 		bagsPanel = new JPanel();
 		
