@@ -2,7 +2,14 @@
 package testingUtilities;
 import com.thelocalmarketplace.hardware.test.*;
 
-
+/*
+ * An interface to load arbitrary products into for tests and demonstration.
+ * @Param String for product name
+ * @Param String for product barcode and (plu code)+1.
+ * @Param int for mass
+ * @Param int for cost
+ * @Param int for inventory/stock
+ */
 	public interface LoadProductDatabases {
 		
 		public InventoryProductGenerator milk = new InventoryProductGenerator("milk", "1234", 3000000, 4, 100);
