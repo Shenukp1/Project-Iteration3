@@ -42,6 +42,7 @@ import powerutility.NoPowerException;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
 import testingUtilities.DollarsAndCurrency;
+import testingUtilities.LoadProductDatabases;
 import testingUtilities.Products;
 import testingUtilities.Wallet;
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
@@ -73,7 +74,7 @@ public scaleListener scaleWatch = new scaleListener();
  * Products? where are usharabs products?
  */
 Products products = new Products();
-
+LoadProductDatabases productsNew= new LoadProductDatabases();
 
 
 @Rule
@@ -179,11 +180,11 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 	public void addItemToScaleTest() {
 	
 		
-		logic.station.getScanningArea().addAnItem(products.beanBarcodeItem);
+		logic.station.getScanningArea().addAnItem(productsNew.bacon.barcodedItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.getScanningArea().removeAnItem(products.beanBarcodeItem);
+		logic.station.getScanningArea().removeAnItem(productsNew.bacon.barcodedItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logic.station.getBaggingArea().addAnItem(productsNew.bacon.barcodedItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 		//logic.weightController.
 	}

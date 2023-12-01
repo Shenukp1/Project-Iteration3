@@ -1,6 +1,8 @@
 package testingUtilities;
 
 import java.math.BigInteger;
+import java.sql.Time;
+import java.time.Instant;
 
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
@@ -22,7 +24,7 @@ public class Products   {
 		public Mass beansMass;
 		public Mass bigItemMass;
 		public Item Beans;
-		public BigInteger bigIBeanMass = new BigInteger("500000000");
+		public BigInteger bigIBeanMass = new BigInteger("5000000");
 		public BigInteger excessiveMass= new BigInteger("5000000000000");
 		public BarcodedItem bag;
 		public Item bags;
@@ -56,6 +58,13 @@ public class Products   {
 		bags= bag;
 		//one field implementation for a product database. might need the others written below
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);}
+		
+		
+			
+			
+			
+		}
+		
 		/**
 		 * The known PLU-coded products, indexed by PLU code.
 		 */
@@ -72,5 +81,4 @@ public class Products   {
 		 * not correctly recorded, but it helps management to track inventory.
 		 */
 		//public static final Map<Product, Integer> INVENTORY = new HashMap<>();
-	}
 		
