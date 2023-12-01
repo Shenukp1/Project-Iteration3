@@ -32,6 +32,7 @@ public class PaymentPromptWindow {
 	JLabel promptLabel;
 	JButton cashButton;
 	JButton cardButton;
+	JButton backButton;
 	
 	JPanel promptBottom;
 	
@@ -40,7 +41,7 @@ public class PaymentPromptWindow {
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		promptPanel = new JPanel();
-		promptPanel.setLayout(new GridLayout(2,1,50,50));
+		promptPanel.setLayout(new GridLayout(3,1,100,100));
 		
 		promptLabel = new JLabel("Select payment type");
 		promptLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -77,6 +78,22 @@ public class PaymentPromptWindow {
 		promptBottom.add(cardButton);
 		
 		promptPanel.add(promptBottom);
+		
+		backButton = new JButton("Cancel");
+		backButton.setVerticalAlignment(SwingConstants.CENTER);
+		backButton.setHorizontalAlignment(SwingConstants.CENTER);
+		backButton.setFont(backButton.getFont().deriveFont(35f));
+		
+		backButton.addActionListener(e -> {
+			
+			promptPanel.setVisible(false);
+			BagsPanel bagsPanel = new BagsPanel(logic, true);
+			
+			// Remove the bags that were just added?
+			
+		});
+		
+		promptPanel.add(backButton);
 		
 		mainFrame.getContentPane().add(promptPanel);
 	}

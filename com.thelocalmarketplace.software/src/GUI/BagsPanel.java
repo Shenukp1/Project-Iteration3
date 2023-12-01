@@ -33,6 +33,9 @@ public class BagsPanel {
 	JButton addBag;
 	JButton removeBag;
 	JButton continueSession;
+	
+	JButton backButton;
+	
 	JLabel numberOfBags;
 	int bagsBought = 0;
 	
@@ -45,7 +48,7 @@ public class BagsPanel {
 		
 		bagsPanel = new JPanel();
 		
-		bagsPanel.setLayout(new GridLayout(3, 3, 80, 80));
+		bagsPanel.setLayout(new GridLayout(4, 3, 20, 20));
 		
 		bagsText = new JLabel("Choose an amount of bags to purchase");
 		bagsText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -114,6 +117,20 @@ public class BagsPanel {
 		bagsBottom.add(addBag);
 		
 		bagsPanel.add(bagsBottom);
+		
+		backButton = new JButton("Cancel");
+		backButton.setFont(numberOfBags.getFont().deriveFont(20f));
+		backButton.setHorizontalAlignment(SwingConstants.CENTER);
+		backButton.setVerticalAlignment(SwingConstants.CENTER);
+		
+		backButton.addActionListener(e -> {
+			
+			bagsPanel.setVisible(false);
+			MainPanel mainPanel = new MainPanel(logic, "Cancelled operation");
+			
+		});
+		
+		bagsPanel.add(backButton);
 		
 		mainFrame.getContentPane().add(bagsPanel);
 		
