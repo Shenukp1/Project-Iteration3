@@ -25,6 +25,7 @@ public class Products   {
 		public BigInteger bigIBeanMass = new BigInteger("500000000");
 		public BigInteger excessiveMass= new BigInteger("5000000000000");
 		public BarcodedItem bag;
+		public BarcodedItem membershipCard;
 		public Item bags;
 		//big integer is needed to declare item mass. can use string but not integers
 		
@@ -55,7 +56,9 @@ public class Products   {
 		bag= new BarcodedItem (beanBarcode, beansMass);
 		bags= bag;
 		//one field implementation for a product database. might need the others written below
-		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);}
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);
+		membershipCard = new BarcodedItem(beanBarcode, beansMass);}
+		}
 		/**
 		 * The known PLU-coded products, indexed by PLU code.
 		 */
@@ -72,5 +75,4 @@ public class Products   {
 		 * not correctly recorded, but it helps management to track inventory.
 		 */
 		//public static final Map<Product, Integer> INVENTORY = new HashMap<>();
-	}
 		
