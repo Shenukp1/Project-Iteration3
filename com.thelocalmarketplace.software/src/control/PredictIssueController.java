@@ -8,7 +8,6 @@ import java.util.Map;
 import com.tdc.banknote.IBanknoteDispenser;
 import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
-import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 
 import gui.AttendantGUIMockup;
 
@@ -27,6 +26,7 @@ public class PredictIssueController {
 	private AbstractSelfCheckoutStation scs;
 	private ArrayList<String> listOfIssues = new ArrayList<>();
 	private AttendantGUIMockup attendantGUI = new AttendantGUIMockup();
+	private CheckForPrinterIssues checkPrinter;
 	private boolean lowInkIssueExists = false;
 	private boolean lowPaperIssueExists = false;;
 	private boolean lowCoinIssueExists = false;
@@ -40,6 +40,7 @@ public class PredictIssueController {
 		 * This initializes the self checkout station
 		 */
 		this.scs = scs;
+		checkPrinter = new CheckForPrinterIssues(scs);
 
 		/**
 		 * This if statement is important to ensure that the software is only checking
@@ -58,7 +59,7 @@ public class PredictIssueController {
 			 * checkout station
 			 */
 			String text = "";
-			for (int i = 0; i < listOfIssues.size(); i++ ) {
+			for (int i = 0; i < listOfIssues.size(); i++) {
 				text += "<html>" + listOfIssues.get(i) + "<br/>";
 			}
 			attendantGUI.update(text);
@@ -66,30 +67,28 @@ public class PredictIssueController {
 	}
 
 	/**
-	 * This method predicts low ink within the station's printer. It will not check this for the bronze printer
+	 * This method predicts low ink within the station's printer. It will not check
+	 * this for the bronze printer.
+	 * 
+	 * This also assumes that ink is always refilled to the maximum every refill
+	 * session
 	 */
 	public void predictLowInk() {
-		if (scs instanceof SelfCheckoutStationBronze) {
-			return;
-		}
-		
-		if (scs.getPrinter().inkRemaining() <= 20) {
-			listOfIssues.add("Printer is almost out of ink");
+		if (checkPrinter.inkRemaining() <= 500) {
 			lowInkIssueExists = true;
-		} 
+			listOfIssues.add("Printer is almost out of ink");
+		}
 	}
 
 	/**
-	 * This method predicts low paper within the station's printer. It will not check this for the bronze printer
+	 * This method predicts low paper within the station's printer. It will not
+	 * check this for the bronze printer
 	 */
 	public void predictLowPaper() {
-		if (scs instanceof SelfCheckoutStationBronze) {
-			return;
-		}
-		
-		if (scs.getPrinter().paperRemaining() >= 20) {
-			listOfIssues.add("Printer is almost out of printer");
+
+		if (checkPrinter.paperRemaining() <= 20) {
 			lowPaperIssueExists = true;
+			listOfIssues.add("Printer is almost out of paper");
 		}
 	}
 
@@ -205,5 +204,4 @@ public class PredictIssueController {
 		return listOfIssues.size();
 
 	}
-
 }
