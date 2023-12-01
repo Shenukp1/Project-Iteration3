@@ -196,7 +196,7 @@ public class MainPanel extends JFrame {
                 BarcodedItem item;
                 if ("1234".equals(enteredBarcode.toString())) {
                 	item = new BarcodedItem(enteredBarcode,new Mass(new BigInteger("500")));
-                	logicGold.station.handheldScanner.scan(item);
+                	logicGold.station.getHandheldScanner().scan(item);
                 	 SwingUtilities.invokeLater(() -> {
                          total.setText("Total: $" + logicGold.session.getCartTotal());                 
                          topPanel.revalidate();
