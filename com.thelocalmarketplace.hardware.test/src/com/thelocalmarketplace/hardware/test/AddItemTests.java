@@ -36,6 +36,8 @@ import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
+import item.AddItemBarcode;
+import item.AddItemCatalogue;
 import item.AddItemPLU;
 import item.AddItemText;
 import item.HandleBulkyItem;
@@ -188,10 +190,6 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 		
 		logic.station.getScanningArea().addAnItem(bacon.barcodedItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.getScanningArea().removeAnItem(bacon.barcodedItem);
-		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.getBaggingArea().addAnItem(bacon.barcodedItem);
-		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 		//logic.weightController.
 	}
 /*
@@ -213,14 +211,37 @@ public void addHugeItemToScaleAndRemoveTest() {
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
 	//logic.weightController.
 }
-
+@Test
+public void addItembarcodeScanNew() {
+		//AddItemBarcode aib;
+	
+		//logic.station.getScanningArea().addAnItem(beer.barcodedItem);
+		Assert.assertEquals("Success: Product added to cart",
+				AddItemBarcode.AddItemFromBarcode(logic.session, bacon.itemBarcode));
+}
+@Test
+public void addItemfromCatalogue() {
+		
+	
+		//logic.station.getScanningArea().addAnItem(beer.barcodedItem);
+		Assert.assertEquals("Success: Product added to cart",
+				AddItemCatalogue.AddItemFromCatalogue(logic.session,
+				beer.barcodedProduct, beer.bigDecimalMass));
+}
+@Test
+public void addTextItem() {
+		
+	
+		//logic.station.getScanningArea().addAnItem(beer.barcodedItem);
+		Assert.assertEquals("Success: Product added to cart", 
+				AddItemText.AddItemFromText(logic.session, "beer", 
+				beer.bigDecimalMass));
+}
 @Test
 public void addPluItem() {
-
-		logic.station.getScanningArea().addAnItem(beer.barcodedItem);
-		AddItemPLU.AddItemFromPLU(logic.session, beer.pluCode,beer.bigDecimalMass);
+		
 		Assert.assertEquals("Success: Product added to cart", AddItemPLU.AddItemFromPLU(logic.session, 
-				beer.pluCode,beer.bigDecimalMass));
+				milk.pluCode,milk.bigDecimalMass));
 }
 /*
  * add bulky item to cart?

@@ -59,7 +59,7 @@ public class InventoryProductGenerator {
 		}
 		//initialize plu fields
 		pluCode= new PriceLookUpCode(temp);
-		pluCodedProduct=new PLUCodedProduct(this.pluCode, productName, price);
+		pluCodedProduct=new PLUCodedProduct(pluCode, productName, price);
 		pluCodeditem= new PLUCodedItem(pluCode, itemMass);
 		//initialize barcoded fields
 		itemBarcode= new Barcode(numeral);
