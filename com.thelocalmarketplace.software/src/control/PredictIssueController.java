@@ -139,8 +139,7 @@ public class PredictIssueController {
 	 * This method predicts full banknote within the station's banknote storage unit
 	 */
 	public void predictFullBanknote() {
-		if (scs.getBanknoteStorage().hasSpace() == true
-				&& scs.getBanknoteStorage().getBanknoteCount() >= scs.getBanknoteStorage().getCapacity() - 5) {
+		if (scs.getBanknoteStorage().getBanknoteCount() >= scs.getBanknoteStorage().getCapacity() - 5) {
 			listOfIssues.add("Banknote Storage Unit is almost full");
 			fullBanknoteIssueExists = true;
 		}
