@@ -98,8 +98,8 @@ public class PredictIssueController {
 	public void predictLowCoin() {
 		Iterator<Map.Entry<BigDecimal, ICoinDispenser>> itr = scs.getCoinDispensers().entrySet().iterator();
 		while (itr.hasNext()) {
-			Map.Entry<BigDecimal, ICoinDispenser> banknote = itr.next();
-			if (banknote.getValue().size() <= 5) {
+			Map.Entry<BigDecimal, ICoinDispenser> coin = itr.next();
+			if (coin.getValue().size() <= 5) {
 				lowCoinIssueExists = true;
 			}
 		}
