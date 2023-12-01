@@ -44,7 +44,7 @@ Customer and the station should be suspended so that maintenance can be conducte
 	public BanknoteController(SessionController c_session, AbstractSelfCheckoutStation sco) {
 		station = sco;
 		session = c_session;
-		sco.banknoteValidator.attach(this);
+		sco.getBanknoteValidator().attach(this);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ Customer and the station should be suspended so that maintenance can be conducte
     		System.err.println("Please add items to pay for");
 			return;
     	}
-    	station.banknoteInput.enable();
+    	station.getBanknoteInput().enable();
     }
     
 	/**

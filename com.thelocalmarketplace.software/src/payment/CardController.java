@@ -27,7 +27,7 @@ public class CardController implements CardReaderListener{
 		this.station = sco;
 		this.session = c_session;
 		this.bank = bank;
-		sco.cardReader.register(this);
+		sco.getCardReader().register(this);
 		
 	}
 	
@@ -46,7 +46,7 @@ public class CardController implements CardReaderListener{
 			System.err.println("Please add items to pay for");
 			return;
 		}
-		station.cardReader.enable();
+		station.getCardReader().enable();
 	}
     
 

@@ -49,11 +49,11 @@ public class ChangeController {
 	public static void dispenseChange(AbstractSelfCheckoutStation sco, BigDecimal changeAmount, String changeType) {
 		BigDecimal[] denominations;
 		if (changeType == "banknote") {
-			denominations = sco.banknoteDenominations;									// Get banknote denominations
+			denominations = sco.getBanknoteDenominations();									// Get banknote denominations
 		}
 		else {	
-			denominations = new BigDecimal[(sco.coinDenominations).size()];
-        	(sco.coinDenominations).toArray(denominations);								// Get coin denominations
+			denominations = new BigDecimal[(sco.getCoinDenominations()).size()];
+        	(sco.getCoinDenominations()).toArray(denominations);								// Get coin denominations
 		}
 		
         for (BigDecimal denomination : denominations) {									// For every denomination
@@ -62,10 +62,10 @@ public class ChangeController {
                 while (count > 0) {														// Emit that many number of banknotes/coins
 	                try {																// for that denomination
 	                	if (changeType == "banknote") {
-	                		sco.banknoteDispensers.get(denomination).emit();
+	                		sco.getBanknoteDispensers().get(denomination).emit();
 	                	}
 	                	else
-	                		sco.coinDispensers.get(denomination).emit();
+	                		sco.getCoinDispensers().get(denomination).emit();
 					} catch (NoCashAvailableException | DisabledException | CashOverloadException e) {
 						e.printStackTrace();
 					};
@@ -75,7 +75,7 @@ public class ChangeController {
             }
         }
         if (changeType == "banknote")													// Dispense accumulated banknotes in the end
-        	sco.banknoteOutput.dispense();
+        	sco.getBanknoteOutput().dispense();
     }
 }
 

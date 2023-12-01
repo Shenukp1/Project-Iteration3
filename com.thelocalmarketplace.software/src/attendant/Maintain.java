@@ -17,9 +17,9 @@ public class Maintain {
 	
 	
 	public Maintain(AbstractSelfCheckoutStation station) {
-		this.printer = station.printer;
-		this.banknoteStorage = station.banknoteStorage;
-		this.coinStorage = station.coinStorage;
+		this.printer = station.getPrinter();
+		this.banknoteStorage = station.getBanknoteStorage();
+		this.coinStorage = station.getCoinStorage();
 	}
 	
 	// Attendant adds ink
