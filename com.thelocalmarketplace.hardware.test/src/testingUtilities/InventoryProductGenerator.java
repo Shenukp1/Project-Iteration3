@@ -36,7 +36,7 @@ public class InventoryProductGenerator {
 			
 			
 			String temp ="";
-		
+
 			char parsedString;
 			// Get the current time in milliseconds
 	        long currentTimeMillis = System.currentTimeMillis();

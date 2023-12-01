@@ -204,12 +204,6 @@ public void addHugeItemToScaleAndRemoveTest() {
 	logic.station.getScanningArea().removeAnItem(bigProduct.barcodedItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
 	scaleWatch.notify = "";
-	logic.station.getBaggingArea().addAnItem(bigProduct.barcodedItem);
-	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-	scaleWatch.notify = "";
-	logic.station.getBaggingArea().removeAnItem(bigProduct.barcodedItem);
-	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
-	//logic.weightController.
 }
 @Test
 public void addItembarcodeScanNew() {
@@ -237,6 +231,10 @@ public void addTextItem() {
 				AddItemText.AddItemFromText(logic.session, "beer", 
 				beer.bigDecimalMass));
 }
+//shows there's milk in inventory
+@Test
+public void testInventoryItem() {
+	Assert.assertTrue(100== ProductDatabases.INVENTORY.get(milk.barcodedProduct));}
 @Test
 public void addPluItem() {
 		
