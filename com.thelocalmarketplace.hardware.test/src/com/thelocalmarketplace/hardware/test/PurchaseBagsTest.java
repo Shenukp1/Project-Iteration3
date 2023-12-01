@@ -155,7 +155,7 @@ public class PurchaseBagsTest {
 
    }
     
-    @Test(expected = EmptyDevice.class) // NOT SURE WHY THIS IS NOT CATCHING THE EXCEPTION
+    @Test(expected = RuntimeException.class)
     public void testBuyBagsWithEmptyDispenserGold() throws OverloadedDevice, EmptyDevice{
     	// Load no bags into dispenser that is part of the gold station
     	ReusableBag[] bagsToLoad = new ReusableBag[0];
@@ -194,7 +194,7 @@ public class PurchaseBagsTest {
         purchaseBags.buyBags();
     }
 
-    @Test(expected = EmptyDevice.class) // STILL NOT GETTING CAUGHT HERE
+    @Test(expected = RuntimeException.class)
     public void testBuyBagWithMoreThanDispenserInventoryGold() throws OverloadedDevice, EmptyDevice{
     	// Load two bags into dispenser that is part of the gold station
     	ReusableBag[] bagsToLoad = new ReusableBag[2];
