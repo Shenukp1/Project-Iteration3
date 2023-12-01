@@ -66,7 +66,17 @@ public class MainPanel extends JFrame {
         topPanel.setLayout(new GridLayout(1, 2));
         		//mainLeft
         mainLeft = new JPanel();
-        mainLeft.setLayout(new GridLayout(6, 1, 40,40));
+        mainLeft.setLayout(new GridLayout(7, 1, 40,40));
+        JPanel stationLabelPanel = new JPanel();
+        stationLabelPanel.setLayout(new BorderLayout());
+        stationLabelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+        JLabel stationLabel = new JLabel("Station #3");
+        stationLabel.setFont(stationLabel.getFont().deriveFont(16f));
+        stationLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        stationLabelPanel.add(stationLabel, BorderLayout.CENTER);
+        mainLeft.add(stationLabelPanel);
         JLabel empty = new JLabel("");
         mainLeft.add(empty);
         JButton button0 = new JButton("Call Attendant");
@@ -170,10 +180,12 @@ public class MainPanel extends JFrame {
         testPanel.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.GRAY));
 
         JLabel barcodeLabel = new JLabel("Barcode Testing");
+        
         barcodeLabel.setForeground(Color.BLACK);
-        barcodeLabel.setFont(new Font(barcodeLabel.getFont().getName(), Font.BOLD, 16));
-
+        barcodeLabel.setFont(new Font(barcodeLabel.getFont().getName(), Font.BOLD, 16)); 
         testPanel.add(barcodeLabel);
+        
+        
         
         
         JTextField barcodeInput = new JTextField();
@@ -201,10 +213,11 @@ public class MainPanel extends JFrame {
                          total.setText("Total: $" + logicGold.session.getCartTotal());                 
                          topPanel.revalidate();
                          topPanel.repaint();
+                         System.out.println("Helloooo");
                      });
                 	 
                 	 updateListModel();
-                     System.out.println("Helloooo");
+                    
                 	 
                }
                 else {
@@ -223,6 +236,12 @@ public class MainPanel extends JFrame {
 
         testPanel.add(barcodeInput);
         
+        JButton switchToAttendantButton = new JButton("Switch to Attendant Screen");
+        switchToAttendantButton.addActionListener(e -> {
+        	 mainPanel.setVisible(false);
+             MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold); 
+        });
+        testPanel.add(switchToAttendantButton); 
 
         GridBagConstraints gbcTestPanel = new GridBagConstraints();
         gbcTestPanel.gridx = 0;
