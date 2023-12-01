@@ -8,6 +8,8 @@ import java.util.Currency;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.jjjwelectronics.OverloadedDevice;
 import com.tdc.CashOverloadException;
 import com.tdc.banknote.Banknote;
 import com.tdc.banknote.IBanknoteDispenser;
@@ -21,12 +23,14 @@ import control.SelfCheckoutLogic;
 import powerutility.PowerGrid;
 
 public class PredictIssueTest {
+
 	SelfCheckoutStationBronze bronze;
 	SelfCheckoutStationSilver silver;
 	SelfCheckoutStationGold gold;
+
 	SelfCheckoutLogic logicBronze;
 	SelfCheckoutLogic logicSilver;
-	SelfCheckoutLogic logicgold;
+	SelfCheckoutLogic logicGold;
 
 	@Before
 	public void setup() {
@@ -37,9 +41,26 @@ public class PredictIssueTest {
 		bronze.plugIn(PowerGrid.instance());
 		bronze.turnOn();
 		logicBronze = SelfCheckoutLogic.installOn(bronze);
+
+		silver.resetConfigurationToDefaults();
+		PowerGrid.engageUninterruptiblePowerSource();
+		PowerGrid.instance().forcePowerRestore();
+		silver = new SelfCheckoutStationSilver();
+		silver.plugIn(PowerGrid.instance());
+		silver.turnOn();
+		logicSilver = SelfCheckoutLogic.installOn(silver);
+
+		gold.resetConfigurationToDefaults();
+		PowerGrid.engageUninterruptiblePowerSource();
+		PowerGrid.instance().forcePowerRestore();
+		gold = new SelfCheckoutStationGold();
+		gold.plugIn(PowerGrid.instance());
+		gold.turnOn();
+		logicGold = SelfCheckoutLogic.installOn(gold);
 	}
 
 	// Fill both dispensers and storage units almost to max capacity
+	// Bronze machine
 	public void fillMachine() throws SimulationException, CashOverloadException {
 		BigDecimal denoms = this.bronze.getCoinDenominations().get(0);
 		Banknote banknote = new Banknote(Currency.getInstance(Locale.CANADA), new BigDecimal(10.00));
@@ -60,6 +81,18 @@ public class PredictIssueTest {
 		}
 	}
 
+	@Test
+	public void fillPrinterSilver() throws OverloadedDevice {
+		silver.getPrinter().addInk(100);
+		silver.getPrinter().addPaper(200);
+	}
+
+	@Test
+	public void fillPrinterGold() throws OverloadedDevice {
+		gold.getPrinter().addInk(100);
+		gold.getPrinter().addPaper(200);
+	}
+
 	// Testing to see if banknotes are almost full in storage
 	// empty machine
 	@Test
@@ -67,6 +100,7 @@ public class PredictIssueTest {
 		logicBronze.predictController.predictFullBanknote();
 		// Storage is empty so expected = false
 		assertFalse(logicBronze.predictController.banknoteAlmostFull());
+		assertEquals(logicBronze.predictController.numberOfIssues(), 0);
 	}
 
 	// Test to see if banknotes are almost full in storage
@@ -111,6 +145,7 @@ public class PredictIssueTest {
 		logicBronze.predictController.predictFullCoin();
 		// Storage is empty so expected = false
 		assertFalse(logicBronze.predictController.coinAlmostFull());
+		assertEquals(logicBronze.predictController.numberOfIssues(), 0);
 	}
 
 	// Test to see if coins are almost full in storage
@@ -147,4 +182,81 @@ public class PredictIssueTest {
 		assertFalse(logicBronze.predictController.coinAlmostEmpty());
 		assertEquals(logicBronze.predictController.numberOfIssues(), 0);
 	}
+
+	// Testing to see if any errors are thrown
+	// when printer has both ink and paper
+	// Expected = false
+	@Test
+	public void testFullprinterSilver() throws OverloadedDevice {
+		fillPrinterSilver();
+		logicSilver.predictController.predictLowInk();
+		logicSilver.predictController.predictLowPaper();
+		// Both paper and ink are filled up
+		// expected = fasle. No issues sent to attendant
+		assertFalse(logicSilver.predictController.paperAlmostEmpty());
+		assertFalse(logicSilver.predictController.inkAlmostEmpty());
+		assertEquals(logicBronze.predictController.numberOfIssues(), 0);
+	}
+
+	// Testing to see if any errors are thrown
+	// when printer does not have enough ink or paper
+	// Expected = True
+	@Test
+	public void testAlmostEmptyprinterSilver() throws OverloadedDevice {
+		silver.getPrinter().addInk(3);
+		silver.getPrinter().addPaper(3);
+		logicSilver.predictController.predictLowInk();
+		logicSilver.predictController.predictLowPaper();
+		// Both paper and ink are filled up
+		// Two issues sent to attendant
+		assertTrue(logicSilver.predictController.paperAlmostEmpty());
+		assertTrue(logicSilver.predictController.inkAlmostEmpty());
+		assertEquals(logicSilver.predictController.numberOfIssues(), 2);
+	}
+
+	// Testing to see if any errors are thrown
+	// when printer has both ink and paper
+	// Expected = false
+	@Test
+	public void testFullprinterGold() throws OverloadedDevice {
+		fillPrinterGold();
+		logicGold.predictController.predictLowInk();
+		logicGold.predictController.predictLowPaper();
+		// Both paper and ink are filled up
+		// No issues sent to attendant
+		assertFalse(logicGold.predictController.paperAlmostEmpty());
+		assertFalse(logicGold.predictController.inkAlmostEmpty());
+		assertEquals(logicGold.predictController.numberOfIssues(), 0);
+	}
+
+	// Testing to see if any errors are thrown
+	// when printer does not have enough ink or paper
+	// Expected = True
+	@Test
+	public void testAlmostEmptyprinterGold() throws OverloadedDevice {
+		gold.getPrinter().addInk(3);
+		gold.getPrinter().addPaper(3);
+		logicGold.predictController.predictLowInk();
+		logicGold.predictController.predictLowPaper();
+		// Both paper and ink are filled up
+		// two issues sent to attendant
+		assertTrue(logicGold.predictController.paperAlmostEmpty());
+		assertTrue(logicGold.predictController.inkAlmostEmpty());
+		assertEquals(logicGold.predictController.numberOfIssues(), 2);
+	}
+
+	// Tests to check if the bronze printer
+	// Issues get ignored since no support
+	// Expected = false
+	@Test
+	public void testBronzePrinterIgnored() {
+		logicBronze.predictController.predictLowInk();
+		logicBronze.predictController.predictLowPaper();
+		// Errors should be silently ignored
+		assertFalse(logicBronze.predictController.paperAlmostEmpty());
+		assertFalse(logicGold.predictController.inkAlmostEmpty());
+		assertEquals(logicBronze.predictController.numberOfIssues(), 0);
+
+	}
+
 }
