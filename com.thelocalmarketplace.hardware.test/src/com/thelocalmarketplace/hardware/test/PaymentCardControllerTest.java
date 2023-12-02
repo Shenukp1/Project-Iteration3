@@ -121,7 +121,7 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 	 temp = new CardIssuer("TD trust", 12321);
 		
 		logicBronze.cardIssuer= temp;
-	  logicBronze.cardIssuer = new CardIssuer("TD trust", 12321);
+		logicBronze.cardIssuer = new CardIssuer("TD trust", 12321);
 	 
 		logicBronze.cardIssuer.addCardData(otherCreditCard.number, otherCreditCard.cardholder,
 				calendar,otherCreditCard.cvv , 1000);
@@ -190,11 +190,12 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
         System.setErr(new PrintStream(errContent));
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
-		logicBronze.station.getMainScanner().enable();
-		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().scan( milk.barcodedItem);
+		AddItemBarcode.AddItemFromBarcode(logicBronze.session, milk.itemBarcode);
+		
 	
 		logicBronze.station.getBaggingArea().enable();
-		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().addAnItem( milk.item);
 		
 		
 		
@@ -220,7 +221,6 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
         System.setErr(new PrintStream(errContent));
 		
 		logicGold.station.getMainScanner().enable();
-		logicGold.station.getMainScanner().scan(products.beanBarcodeItem);
 	
 		logicGold.station.getBaggingArea().enable();
 		
@@ -244,15 +244,16 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 	@Test
 	public void scanAndPaywithSwipe() throws IOException {
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
-		
+
 		logicBronze.station.getMainScanner().enable();
+		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
 		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
-	
+
 		logicBronze.station.getBaggingArea().enable();
 		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
-		
-		
-		
+
+
+
 		try {
 			logicBronze.station.getPrinter().addPaper(500);
 			logicBronze.station.getPrinter().addInk(1000);
@@ -264,20 +265,19 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 		for (int i =0; i<100; i++) {
 			try {
 		logicBronze.station.getCardReader().swipe(otherCreditCard);
-		
+
 			}
 		catch(MagneticStripeFailureException e) {
 		}
 			}
-		
+
 	}
 	@Test
 	public void scanAndPaywithTap() throws IOException {
-		logicBronze.session.Cart.add(products.beanBarcodedProduct);
-		
 		logicBronze.station.getMainScanner().enable();
+		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
 		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
-	
+
 		logicBronze.station.getBaggingArea().enable();
 		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
@@ -290,7 +290,7 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 			e.printStackTrace();
 		}
 		logicBronze.creditController.onPayWithCard();
-		otherCreditCard.swipe();
+		otherCreditCard.tap();
 		for (int i =0; i<100; i++) {
 			try {
 		logicBronze.station.getCardReader().tap(otherCreditCard);
@@ -307,11 +307,11 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
 		logicBronze.station.getMainScanner().enable();
-		logicBronze.station.getScanningArea().addAnItem(beans.barcodedItem);
-		logicBronze.station.getMainScanner().scan(beans.barcodedItem);
-	
+		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+
 		logicBronze.station.getBaggingArea().enable();
-		logicBronze.station.getBaggingArea().addAnItem(beans.barcodedItem);
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
@@ -322,7 +322,7 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 			e.printStackTrace();
 		}
 		logicBronze.creditController.onPayWithCard();
-		otherCreditCard.swipe();
+		otherCreditCard.insert("911");
 		for (int i =0; i<100; i++) {
 			try {
 		logicBronze.station.getCardReader().insert(otherCreditCard, "911");
@@ -395,7 +395,7 @@ public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrenc
 		}}
 	@After
 	public void tearDown() throws Exception {
-		logicBronze.station.getScanningArea().removeAnItem(beans.barcodedItem);
+		//logicBronze.station.getScanningArea().removeAnItem(beans.barcodedItem);
 		try {
 			logicBronze.station.getCardReader().remove();
 			
