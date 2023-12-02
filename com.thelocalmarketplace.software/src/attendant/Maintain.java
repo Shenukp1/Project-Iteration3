@@ -30,16 +30,17 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private Boolean outOfPaperMessage = false;
 	private Boolean paperAddedMessage = false;
 	
-	
 	//banknotes
-	private Boolean lowBanknotesMessage = false;
-	private Boolean outOfBanknotesMessage = false;
-	private Boolean banknotesAddedMessage = false;
+	private Boolean banknotesFullMessage = false;
+	private Boolean banknoteAddedMessage = false;
+	private Boolean banknotesLoadedMessage = false;
+	private Boolean banknotesUnloadedMessage = false;
 	
 	//coins
-	private Boolean lowCoinsMessage = false;
-	private Boolean outOfCoinsMessage = false;
-	private Boolean coinsAddedMessage = false;
+	private Boolean coinsFullMessage = false;
+	private Boolean coinAddedMessage = false;
+	private Boolean coinsLoadedMessage = false;
+	private Boolean coinsUnloadedMessage = false;
 	
 	public Maintain(AbstractSelfCheckoutStation station)  {
 		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
@@ -220,29 +221,72 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that the banknote storage is full
+	 */
 	public void banknotesFull(BanknoteStorageUnit unit) {
-		// TODO Auto-generated method stub
+		banknotesFullMessage = true;
 		
+	}
+	
+	/*
+	 * Gets the banknotesFullMessage Value
+	 */
+	public boolean getBanknotesFullMessage() {
+		return banknotesFullMessage;
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that a banknote has been added to storage
+	 */
 	public void banknoteAdded(BanknoteStorageUnit unit) {
-		// TODO Auto-generated method stub
+		banknoteAddedMessage = true;
 		
+	}
+	
+	/*
+	 * Gets the banknoteAddedMessage Value
+	 */
+	public boolean getBanknoteAddedMessage() {
+		return banknoteAddedMessage;
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that banknotes have been loaded into storage
+	 */
 	public void banknotesLoaded(BanknoteStorageUnit unit) {
-		// TODO Auto-generated method stub
+		banknotesLoadedMessage = true;
 		
+	}
+	
+	/*
+	 * Gets the banknotesLoadedMessage Value
+	 */
+	public boolean getBanknotesLoadedMessage() {
+		return banknotesLoadedMessage;
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that banknotes have been unloaded from storage
+	 */
 	public void banknotesUnloaded(BanknoteStorageUnit unit) {
-		// TODO Auto-generated method stub
+		banknotesUnloadedMessage = true;
 		
 	}
+	
+	/*
+	 * Gets the banknotesUnloadedMessage Value
+	 */
+	public boolean getBanknotesUnloadedMessage() {
+		return banknotesUnloadedMessage;
+	}
+	
 	//===Banknotes stuff ends here===
+	
+	
 
 	@Override
 	public void coinsFull(CoinStorageUnit unit) {
