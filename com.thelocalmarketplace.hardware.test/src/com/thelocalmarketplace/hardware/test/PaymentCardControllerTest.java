@@ -4,30 +4,44 @@ import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.sql.Date;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import com.jjjwelectronics.OverloadedDevice;
-import com.jjjwelectronics.card.Card;
 import com.jjjwelectronics.card.ChipFailureException;
 import com.jjjwelectronics.card.MagneticStripeFailureException;
+import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
 import control.SelfCheckoutLogic;
+import item.AddItemBarcode;
 import payment.PaymentCardController;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
+import testingUtilities.DollarsAndCurrency;
+import testingUtilities.LoadProductDatabases;
 import testingUtilities.Products;
+import testingUtilities.Wallet;
 
-public class PaymentCardControllerTest implements CardPayment{
+public class PaymentCardControllerTest implements CardPayment, DollarsAndCurrency, LoadProductDatabases{
 	/*
 	 * make three types of station to test, we'll have to test all three types for each kind of test.
 	 * Maybe there's a fast way to plug in these objects than repeating a test method?
@@ -117,19 +131,21 @@ public class PaymentCardControllerTest implements CardPayment{
 		tempCardClass= new PaymentCardController(logicBronze.session, logicBronze.station, temp );
 		logicBronze.creditController =tempCardClass;
 		logicGold.creditController = tempCardClass;
-	 logicBronze.session.enable();
+		logicBronze.session.enable();
+		
+
 
 	}
 
 	@Test
 	public void testSwipe() throws IOException {
 		
-		logicBronze.station.cardReader.enable();
-		logicBronze.station.cardReader.enable();
+		logicBronze.station.getCardReader().enable();
+		logicBronze.station.getCardReader().enable();
 	
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.swipe(otherCreditCard);
+		logicBronze.station.getCardReader().swipe(otherCreditCard);
 			}
 		catch(MagneticStripeFailureException e) {
 		}
@@ -139,12 +155,11 @@ public class PaymentCardControllerTest implements CardPayment{
 	@Test
 	public void testTap() throws IOException {
 		
-		logicBronze.station.cardReader.enable();
-		logicBronze.station.cardReader.enable();
+		logicBronze.station.getCardReader().enable();
 	
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.tap(otherCreditCard);
+		logicBronze.station.getCardReader().tap(otherCreditCard);
 			}
 		catch(ChipFailureException e) {
 		}
@@ -154,15 +169,15 @@ public class PaymentCardControllerTest implements CardPayment{
 	@Test
 	public void testInsert() throws IOException {
 		
-		logicBronze.station.cardReader.enable();
+		logicBronze.station.getCardReader().enable();
 	
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.insert(otherCreditCard, "911");
-		logicBronze.station.cardReader.remove();
+		logicBronze.station.getCardReader().insert(otherCreditCard, "911");
+		logicBronze.station.getCardReader().remove();
 			}
 		catch(ChipFailureException e) {
-			logicBronze.station.cardReader.remove();// remove card even after chip failure
+			logicBronze.station.getCardReader().remove();// remove card even after chip failure
 		}
 			}
 	}
@@ -175,18 +190,17 @@ public class PaymentCardControllerTest implements CardPayment{
         System.setErr(new PrintStream(errContent));
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
-		logicBronze.station.mainScanner.enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().enable();
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
 		try {
-			logicBronze.station.printer.addPaper(500);
-			logicBronze.station.printer.addInk(1000);
+			logicBronze.station.getPrinter().addPaper(500);
+			logicBronze.station.getPrinter().addInk(1000);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}
@@ -205,17 +219,16 @@ public class PaymentCardControllerTest implements CardPayment{
 		
         System.setErr(new PrintStream(errContent));
 		
-		logicGold.station.mainScanner.enable();
-		logicGold.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicGold.station.mainScanner.scan(products.beanBarcodeItem);
+		logicGold.station.getMainScanner().enable();
+		logicGold.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicGold.station.baggingArea.enable();
+		logicGold.station.getBaggingArea().enable();
 		
 		
 		
 		try {
-			logicGold.station.printer.addPaper(500);
-			logicGold.station.printer.addInk(1000);
+			logicGold.station.getPrinter().addPaper(500);
+			logicGold.station.getPrinter().addInk(1000);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}
@@ -232,18 +245,17 @@ public class PaymentCardControllerTest implements CardPayment{
 	public void scanAndPaywithSwipe() throws IOException {
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
-		logicBronze.station.mainScanner.enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().enable();
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
 		try {
-			logicBronze.station.printer.addPaper(500);
-			logicBronze.station.printer.addInk(1000);
+			logicBronze.station.getPrinter().addPaper(500);
+			logicBronze.station.getPrinter().addInk(1000);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}
@@ -251,7 +263,7 @@ public class PaymentCardControllerTest implements CardPayment{
 		otherCreditCard.swipe();
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.swipe(otherCreditCard);
+		logicBronze.station.getCardReader().swipe(otherCreditCard);
 		
 			}
 		catch(MagneticStripeFailureException e) {
@@ -263,18 +275,17 @@ public class PaymentCardControllerTest implements CardPayment{
 	public void scanAndPaywithTap() throws IOException {
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
-		logicBronze.station.mainScanner.enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().enable();
+		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
 		try {
-			logicBronze.station.printer.addPaper(500);
-			logicBronze.station.printer.addInk(1000);
+			logicBronze.station.getPrinter().addPaper(500);
+			logicBronze.station.getPrinter().addInk(1000);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}
@@ -282,7 +293,7 @@ public class PaymentCardControllerTest implements CardPayment{
 		otherCreditCard.swipe();
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.tap(otherCreditCard);
+		logicBronze.station.getCardReader().tap(otherCreditCard);
 		
 			}
 		catch(ChipFailureException e) {
@@ -295,18 +306,18 @@ public class PaymentCardControllerTest implements CardPayment{
 	public void scanAndPaywithInsert() throws IOException {
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
 		
-		logicBronze.station.mainScanner.enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.mainScanner, products.beanBarcode);
-		logicBronze.station.mainScanner.scan(products.beanBarcodeItem);
+		logicBronze.station.getMainScanner().enable();
+		logicBronze.station.getScanningArea().addAnItem(beans.barcodedItem);
+		logicBronze.station.getMainScanner().scan(beans.barcodedItem);
 	
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(beans.barcodedItem);
 		
 		
 		
 		try {
-			logicBronze.station.printer.addPaper(500);
-			logicBronze.station.printer.addInk(1000);
+			logicBronze.station.getPrinter().addPaper(500);
+			logicBronze.station.getPrinter().addInk(1000);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}
@@ -314,12 +325,12 @@ public class PaymentCardControllerTest implements CardPayment{
 		otherCreditCard.swipe();
 		for (int i =0; i<100; i++) {
 			try {
-		logicBronze.station.cardReader.insert(otherCreditCard, "911");
-		logicBronze.station.cardReader.remove();
+		logicBronze.station.getCardReader().insert(otherCreditCard, "911");
+		logicBronze.station.getCardReader().remove();
 		
 			}
 		catch(ChipFailureException e) {
-			logicBronze.station.cardReader.remove();
+			logicBronze.station.getCardReader().remove();
 
 		}
 			}
@@ -350,7 +361,7 @@ public class PaymentCardControllerTest implements CardPayment{
 		CardDataStub cardDataStub = new CardDataStub("test", "122222", "JJ");
 		
 		logicBronze.creditController.theDataFromACardHasBeenRead(cardDataStub);
-		assertTrue(errContent.toString().contains("credit/debit card expected, type used is:"));		
+		assertTrue(errContent.toString().contains("credit/debit card expected, type used is: "+ typeString));		
       System.setErr(originalErr);
 		
 	}
@@ -384,6 +395,13 @@ public class PaymentCardControllerTest implements CardPayment{
 		}}
 	@After
 	public void tearDown() throws Exception {
+		logicBronze.station.getScanningArea().removeAnItem(beans.barcodedItem);
+		try {
+			logicBronze.station.getCardReader().remove();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	
