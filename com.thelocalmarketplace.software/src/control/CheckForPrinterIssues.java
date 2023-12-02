@@ -26,6 +26,7 @@ public class CheckForPrinterIssues implements ReceiptPrinterListener {
 	}
 	
 	public CheckForPrinterIssues(AbstractSelfCheckoutStation scs) {
+		this.scs = scs;
 		scs.getPrinter().register(this);
 		if (inkAdded == true) {
 			inkRemaining = maxInk;
@@ -33,10 +34,10 @@ public class CheckForPrinterIssues implements ReceiptPrinterListener {
 		if (paperAdded == true) {
 			paperRemaining = maxPaper;
 		}
-		checkForPaperAndInk();
+		//checkForPaperAndInk();
 	} 
 	
-	private void checkForPaperAndInk() {
+	public void checkForPaperAndInk() {
 		if (scs.getPrinter().removeReceipt().length() >= 500) {
 			inkRemaining = maxInk - 100000;
 			paperRemaining = maxPaper - 30;

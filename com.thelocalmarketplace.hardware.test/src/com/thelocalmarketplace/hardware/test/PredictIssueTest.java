@@ -45,7 +45,7 @@ public class PredictIssueTest {
 	 * universal we are only testing bronze station
 	 */
 	@Before
-	public void setup() {
+	public void setup() throws OverloadedDevice {
 		bronze.resetConfigurationToDefaults();
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
@@ -137,8 +137,8 @@ public class PredictIssueTest {
 		assertEquals(logicBronze.predictController.numberOfIssues(), 0);
 	}
 
-	// Test to see if coins are almost full in storage
-	// filled up machine
+	 // Test to see if coins are almost full in storage
+	 // filled up machine
 	@Test
 	public void testAlmostFullCoin() throws SimulationException, CashOverloadException {
 		fillMachine();
@@ -188,7 +188,7 @@ public class PredictIssueTest {
 	public void testLowPaper() throws OverloadedDevice, EmptyDevice {
 		bronze.getPrinter().addPaper(1024);
 		bronze.getPrinter().addInk(2000);
-		for (int i = 0; i < 1023; i++) {
+		for (int i = 0; i < 1020; i++) {
 			bronze.getPrinter().print('c');
 			bronze.getPrinter().print('\n');
 		}
@@ -210,7 +210,19 @@ public class PredictIssueTest {
 	// Testing to see if issues are sent to attendant
 	// When printer is low on paper
 	@Test
-	public void testLowInk() throws OverloadedDevice {
+	public void testLowInk() throws OverloadedDevice, EmptyDevice {
+		// Would have to print over a million characters to test if ink is low?
+		// Maybe have ink low based off how many receipts are printed 
+		bronze.getPrinter().addPaper(1024);
+		bronze.getPrinter().addInk(1048576);
+
+		for (int i = 0; i < 1020; i++) {
+			for (int j = 0; j < 60; j++) {
+				bronze.getPrinter().print('c');
+			}
+			bronze.getPrinter().print('\n');
+		}
+
 		logicBronze.predictController.predictLowInk();
 		assertTrue(logicBronze.predictController.inkAlmostEmpty());
 		assertEquals(logicBronze.predictController.numberOfIssues(), 1);
@@ -219,25 +231,22 @@ public class PredictIssueTest {
 	 * Now Testing methods when session has not started Collectively
 	 */
 
-//	@Test
-//	public void testAllPredictionsNoErrors()
-//			throws SimulationException, CashOverloadException, OverloadedDevice, EmptyDevice {
-//		bronzeStub.resetConfigurationToDefaults();
-//		PowerGrid.engageUninterruptiblePowerSource();
-//		PowerGrid.instance().forcePowerRestore();
-//		bronzeStub = new SelfCheckoutStationBronze();
-//		bronzeStub.plugIn(PowerGrid.instance());
-//		bronzeStub.turnOn();
-//
-//		logicBronzeStub = SelfCheckoutLogicStub.installOn(bronzeStub);
-//
-//		bronzeStub.getPrinter().addPaper(1024);
-//		bronzeStub.getPrinter().addInk(2000);
-//		for (int i = 0; i < 1023; i++) {
-//			bronzeStub.getPrinter().print('c');
-//			bronzeStub.getPrinter().print('\n');
-//		}
-//		bronzeStub.getPrinter().cutPaper();
-//		bronzeStub.getPrinter().removeReceipt();
-//
+	@Test
+	public void testAllPredictionsMultipleErrors()
+			throws SimulationException, CashOverloadException, OverloadedDevice, EmptyDevice {
+		bronzeStub.resetConfigurationToDefaults();
+		PowerGrid.engageUninterruptiblePowerSource();
+		PowerGrid.instance().forcePowerRestore();
+		bronzeStub = new SelfCheckoutStationBronze();
+		bronzeStub.plugIn(PowerGrid.instance());
+		bronzeStub.turnOn();
+		
+		logicBronzeStub = SelfCheckoutLogicStub.installOn(bronzeStub);
+		// Calling all methods with empty dispensers
+		// Expected = 2 issues sent to attendant 
+		assertEquals(logicBronzeStub.predictController.numberOfIssues(), 2);
+		
+
+	}
+
 }
