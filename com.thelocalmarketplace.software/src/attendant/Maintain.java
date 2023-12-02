@@ -21,8 +21,25 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private IReceiptPrinter printer;
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
-	private Boolean lowInkMessage = false;
 	
+	//printer
+	private Boolean lowInkMessage = false;
+	private Boolean outOfInkMessage= false;
+	private Boolean inkAddedMessage = false;
+	private Boolean lowPaperMessage = false;
+	private Boolean outOfPaperMessage = false;
+	private Boolean paperAddedMessage = false;
+	
+	
+	//banknotes
+	private Boolean lowBanknotesMessage = false;
+	private Boolean outOfBanknotesMessage = false;
+	private Boolean banknotesAddedMessage = false;
+	
+	//coins
+	private Boolean lowCoinsMessage = false;
+	private Boolean outOfCoinsMessage = false;
+	private Boolean coinsAddedMessage = false;
 	
 	public Maintain(AbstractSelfCheckoutStation station)  {
 		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
@@ -85,52 +102,97 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that the printer is out of paper
+	 */
 	public void thePrinterIsOutOfPaper() {
-		// TODO Auto-generated method stub
-		
+		outOfPaperMessage = true;
 	}
-
-	@Override
-	public void thePrinterIsOutOfInk() {
-		// TODO Auto-generated method stub
-		
+	
+	/*
+	 * Gets the outOfPaperMessage value
+	 */
+	public boolean getOutOfPaperMessage() {
+		return outOfPaperMessage;
 	}
 
 	@Override
 	/*
-	 * Method Used to announce that the printer is low on Ink
+	 * Method Used to announce that the printer is out of ink
 	 */
-	public void thePrinterHasLowInk() {
-		lowInkMessage = true;
+	public void thePrinterIsOutOfInk() {
+		outOfInkMessage = true;
 		
 	}
 	
+	/*
+	 * Gets the outOfInkMessage value
+	 */
+	public boolean getOutOfInkMessage() {
+		return outOfInkMessage;
+	}
+
+	@Override
+	/*
+	 * Method Used to announce that the printer is low on ink
+	 */
+	public void thePrinterHasLowInk() {
+		lowInkMessage = true;
+	}
 	
 	/*
 	 * Gets the lowInkMessage Value
 	 */
-	
 	public boolean getLowInkMessage() {
 		return lowInkMessage;
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that the printer is low on paper
+	 */
 	public void thePrinterHasLowPaper() {
-		// TODO Auto-generated method stub
-		
+		lowPaperMessage = true;
+	}
+	
+	/*
+	 * Gets the lowPaperMessage Value
+	 */
+	public boolean getLowPaperMessage() {
+		return lowPaperMessage;
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that paper has been added to the printer
+	 */
 	public void paperHasBeenAddedToThePrinter() {
-		// TODO Auto-generated method stub
+		paperAddedMessage = true;
 		
 	}
 
-	@Override
-	public void inkHasBeenAddedToThePrinter() {
-		// TODO Auto-generated method stub
-		
+	/*
+	 * Gets the paperAddedMessage Value
+	 */
+	public boolean getPaperAddedMessage() {
+		return paperAddedMessage;
 	}
+	
+	@Override
+	/*
+	 * Method Used to announce that ink has been added to the printer
+	 */
+	public void inkHasBeenAddedToThePrinter() {
+		inkAddedMessage = true;
+	}
+	
+	/*
+	 * Gets the inkAddedMessage Value
+	 */
+	public boolean getInkAddedMessage() {
+		return inkAddedMessage;
+	}
+	
 	//=== paper ink ends here==
 
 	@Override
