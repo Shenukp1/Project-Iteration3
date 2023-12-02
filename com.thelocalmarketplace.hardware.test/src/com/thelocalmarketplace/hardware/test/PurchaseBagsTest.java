@@ -9,12 +9,11 @@ import org.junit.Test;
 import item.PurchaseBags;
 import powerutility.PowerGrid;
 
-import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.jjjwelectronics.bag.ReusableBagDispenserBronze;
-import com.jjjwelectronics.bag.ReusableBagDispenserSilver;
 import com.jjjwelectronics.bag.ReusableBagDispenserGold;
 import com.jjjwelectronics.OverloadedDevice;
 import control.SelfCheckoutLogic;
@@ -28,7 +27,7 @@ public class PurchaseBagsTest {
 	SelfCheckoutStationGold gold;
 	SelfCheckoutLogic logicBronze;
 	SelfCheckoutLogic logicSilver;
-	SelfCheckoutLogic logicGold;
+	SelfCheckoutLogic logicGold; 
 	
 	
 	private SessionController sessionBronze;
@@ -94,7 +93,7 @@ public class PurchaseBagsTest {
        
     }
     
-    /*
+    
     @Test
     public void testBuyBagsSuccessSilver() throws OverloadedDevice, EmptyDevice {
         // Load bags into the dispenser that's part of the silver station
@@ -104,7 +103,7 @@ public class PurchaseBagsTest {
         // Retrieve the correct dispenser type from the silver station
       
         // bug here when trying to get silver dispenser, gets a gold one instead
-        ReusableBagDispenserSilver dispenserSilver = (ReusableBagDispenserSilver) silver.getReusableBagDispenser();
+        ReusableBagDispenserGold dispenserSilver = (ReusableBagDispenserGold) silver.getReusableBagDispenser();
         dispenserSilver.load(bagsToLoad);
         
         purchaseBags = new PurchaseBags(silver, sessionSilver); 
@@ -113,7 +112,7 @@ public class PurchaseBagsTest {
         purchaseBags.buyBags();
         assertTrue("Bags bought successfully", true);
     }
-*/
+
 
     @Test
     public void testBuyBagsSuccessGold() throws OverloadedDevice, EmptyDevice {
@@ -154,6 +153,27 @@ public class PurchaseBagsTest {
         purchaseBags.buyBags();
 
    }
+    @Test(expected = RuntimeException.class)
+    public void testBuyBagsWithEmptyDispenserSilver() throws OverloadedDevice, EmptyDevice {
+        // Load no bag into the dispenser that's part of the silver station
+        ReusableBag[] bagsToLoad = new ReusableBag[0];
+        Arrays.fill(bagsToLoad, new ReusableBag());
+        
+        // Retrieve the correct dispenser type from the silver station
+      
+        // bug here when trying to get silver dispenser, gets a gold one instead
+        ReusableBagDispenserGold dispenserSilver = (ReusableBagDispenserGold) silver.getReusableBagDispenser();
+        dispenserSilver.load(bagsToLoad);
+        
+        // Set up PurchaseBags with the silver dispenser and session
+        purchaseBags = new PurchaseBags(silver, sessionSilver); 
+        purchaseBags.setBagsToBuy(5);
+        
+        // Attempt to buy bags
+        
+        purchaseBags.buyBags();
+    }
+
     
     @Test(expected = RuntimeException.class)
     public void testBuyBagsWithEmptyDispenserGold() throws OverloadedDevice, EmptyDevice{
@@ -193,7 +213,27 @@ public class PurchaseBagsTest {
        
         purchaseBags.buyBags();
     }
-
+    
+    @Test(expected = RuntimeException.class)
+    public void testBuyBagsWithMoreThanDispenserInventorySilver() throws OverloadedDevice, EmptyDevice {
+        // Load bags into the dispenser that's part of the silver station
+        ReusableBag[] bagsToLoad = new ReusableBag[2];
+        Arrays.fill(bagsToLoad, new ReusableBag());
+        
+        // Retrieve the correct dispenser type from the silver station
+      
+        // bug here when trying to get silver dispenser, gets a gold one instead
+        ReusableBagDispenserGold dispenserSilver = (ReusableBagDispenserGold) silver.getReusableBagDispenser();
+        dispenserSilver.load(bagsToLoad);
+        
+        // Set up PurchaseBags with the silver dispenser and session
+        purchaseBags = new PurchaseBags(silver, sessionSilver); 
+        purchaseBags.setBagsToBuy(5);
+        
+        // Attempt to buy bags
+        purchaseBags.buyBags();
+    }
+    
     @Test(expected = RuntimeException.class)
     public void testBuyBagWithMoreThanDispenserInventoryGold() throws OverloadedDevice, EmptyDevice{
     	// Load two bags into dispenser that is part of the gold station
@@ -214,11 +254,6 @@ public class PurchaseBagsTest {
 
    }
     
-
-
-
-
 	
-
-    }
+}
 
