@@ -3,6 +3,7 @@ package control;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 
+import attendant.Maintain;
 import payment.CoinController;
 import payment.CardController;
 import payment.BanknoteController;
@@ -43,6 +44,12 @@ public class SelfCheckoutLogic {
 	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
+	
+	//Controller for Maintain
+	public Maintain maintain;
+	
+	
+	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.
@@ -65,20 +72,25 @@ public class SelfCheckoutLogic {
 		session = new SessionController(this);
 		session.start();
 		
-		barcodeController = new AddItemBarcode(session, scs);
-		weightController = new WeightController(session, scs);
-		banknoteController = new BanknoteController(session, scs);
-		coinController = new CoinController(session, scs);
-	//	creditController = new CardController(session, scs, cardIssuer);
-		printController = new PrintController(session, scs);
+		//Issues with this logic. Cant seem to use unless every instances works
+			//SOLUTION: wrap every instance of a controller with a try catch OR fix everything
+		maintain = new Maintain(scs);
+		
+		
+//		barcodeController = new AddItemBarcode(session, scs);
+//		weightController = new WeightController(session, scs);
+//		banknoteController = new BanknoteController(session, scs);
+//		coinController = new CoinController(session, scs);
+//		creditController = new CardController(session, scs, cardIssuer);
+//		printController = new PrintController(session, scs);
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
-		scs.banknoteInput.disable();
+		scs.getBanknoteInput().disable();
 		// Same for coin insertion slot
-		scs.coinSlot.disable();
+		scs.getCoinSlot().disable();
 		// Same for debit/credit card reader
-		scs.cardReader.disable();
+		scs.getCardReader().disable();
 		
 	}
 }

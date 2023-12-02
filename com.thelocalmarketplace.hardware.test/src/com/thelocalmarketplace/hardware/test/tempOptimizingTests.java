@@ -124,8 +124,8 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 	 
 		logic.session.enable();
 		
-		logic.station.printer.addInk(300);
-		logic.station.printer.addPaper(100);
+		logic.station.getPrinter().addInk(300);
+		logic.station.getPrinter().addPaper(100);
 		
 		
 		
@@ -147,21 +147,21 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 	@Test //(expected = StringIndexOutOfBoundsException.class)
 	public void testSlotopen () throws DisabledException, CashOverloadException {
 		//logic.station.banknoteInput.attach();
-		logic.station.banknoteInput.activate();
-		logic.station.banknoteInput.enable();
-		logic.station.banknoteInput.removeDanglingBanknote();
-		logic.station.banknoteInput.receive(twenty);
-		logic.station.banknoteStorage.receive(twenty);
+		logic.station.getBanknoteInput().activate();
+		logic.station.getBanknoteInput().enable();
+		logic.station.getBanknoteInput().removeDanglingBanknote();
+		logic.station.getBanknoteInput().receive(twenty);
+		logic.station.getBanknoteStorage().receive(twenty);
 
 
 	}
 	//The system should accept the bank note
 	@Test (expected = NullPointerSimulationException.class)
 	public void testSlotopendanglingbankNote () throws DisabledException, CashOverloadException {
-		logic.station.banknoteInput.enable();
-		logic.station.banknoteInput.receive(five);
-		logic.station.banknoteInput.removeDanglingBanknote();
-		logic.station.banknoteInput.emit(five);
+		logic.station.getBanknoteInput().enable();
+		logic.station.getBanknoteInput().receive(five);
+		logic.station.getBanknoteInput().removeDanglingBanknote();
+		logic.station.getBanknoteInput().emit(five);
 
 	}
 	/*The system should reject a bad banknote
@@ -169,10 +169,10 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 	 */
 	@Test 
 	public void testBadBankNote () throws DisabledException, CashOverloadException {
-		logic.station.banknoteInput.enable();
-		logic.station.banknoteInput.receive(euros_5);
-		logic.station.banknoteInput.removeDanglingBanknote();
-		logic.station.banknoteInput.emit(five);
+		logic.station.getBanknoteInput().enable();
+		logic.station.getBanknoteInput().receive(euros_5);
+		logic.station.getBanknoteInput().removeDanglingBanknote();
+		logic.station.getBanknoteInput().emit(five);
 
 	}
 	/*
@@ -181,21 +181,21 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 	
 	@Test
 	public void onePaymentStepValidCurrency() throws DisabledException, CashOverloadException, EmptyDevice, OverloadedDevice {
-		logic.station.mainScanner.enable();
+		logic.station.getMainScanner().enable();
 		logic.session.Cart.add(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(products.beanBarcode));
 	
-		logic.station.mainScanner.scan(products.beanBarcodeItem);
+		logic.station.getMainScanner().scan(products.beanBarcodeItem);
 	
-		logic.station.baggingArea.enable();
-		logic.station.baggingArea.turnOn();
-		logic.station.baggingArea.addAnItem(products.beanBarcodeItem);
+		logic.station.getBaggingArea().enable();
+		logic.station.getBaggingArea().turnOn();
+		logic.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		logic.banknoteController.onPayViaBanknote();
-		logic.station.banknoteInput.enable();
+		logic.station.getBanknoteInput().enable();
 	
 		
-		logic.station.banknoteInput.receive(five);
-		logic.station.banknoteStorage.receive(five);
+		logic.station.getBanknoteInput().receive(five);
+		logic.station.getBanknoteStorage().receive(five);
 
 		
 		logic.station.printer.enable();
