@@ -44,9 +44,9 @@ public class PurchaseBags implements ReusableBagDispenserListener {
 	                AddItemBarcode.AddItemFromBarcode(session, bagsBarcode);
 	                station.getReusableBagDispenser().dispense();
 	            }
-	            JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
+	            // JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
 	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
+	            // JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
 	        } finally {
 	        	station.getHandheldScanner().enable();
 	    	    station.getMainScanner().enable();
@@ -62,19 +62,19 @@ public class PurchaseBags implements ReusableBagDispenserListener {
 		                AddItemBarcode.AddItemFromBarcode(session, bagsBarcode);
 		                station.getReusableBagDispenser().dispense();
 		            }
-	            	JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
+	            	// JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
 	            } else  {
-	            	JOptionPane.showMessageDialog(null, "We're sorry, there may not be enough bags left in the dispenser");
+	            	// JOptionPane.showMessageDialog(null, "We're sorry, there may not be enough bags left in the dispenser");
 	            }
 	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
+	            // JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
 	        } finally {
 	        	station.getHandheldScanner().enable();
 	    	    station.getMainScanner().enable();
 	    	    session.enable();
 	        }
 	    } else {
-	    	JOptionPane.showMessageDialog(null, "Error. Could not find bag dispenser");
+	    	// JOptionPane.showMessageDialog(null, "Error. Could not find bag dispenser");
 	    }
 	}
 	

@@ -91,6 +91,14 @@ public class MainPanel extends JFrame {
         mainLeft.add(button1);
         JButton button2 = new JButton("Enter Membership");
         button2.setFont(button2.getFont().deriveFont(19f));
+        
+        button2.addActionListener(e -> {
+        	
+        	mainPanel.setVisible(false);
+        	EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
+        	
+        });
+        
         mainLeft.add(button2);
         JButton button3 = new JButton("Pay");
         button3.setFont(button3.getFont().deriveFont(19f));

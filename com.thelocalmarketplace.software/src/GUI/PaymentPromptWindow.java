@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -30,6 +31,7 @@ public class PaymentPromptWindow {
 	JPanel promptPanel;
 	
 	JLabel promptLabel;
+	JLabel totalLabel;
 	JButton cashButton;
 	JButton cardButton;
 	JButton backButton;
@@ -41,14 +43,22 @@ public class PaymentPromptWindow {
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		promptPanel = new JPanel();
-		promptPanel.setLayout(new GridLayout(3,1,100,100));
+		promptPanel.setLayout(new GridLayout(4,1,100,100));
 		
 		promptLabel = new JLabel("Select payment type");
-		promptLabel.setVerticalAlignment(SwingConstants.CENTER);
+		promptLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		promptLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		promptLabel.setFont(promptLabel.getFont().deriveFont(35f));
 		
 		promptPanel.add(promptLabel);
+		
+		totalLabel = new JLabel("$" + logic.session.getCartTotal().toString());
+		totalLabel.setVerticalAlignment(SwingConstants.CENTER);
+		totalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		totalLabel.setFont(totalLabel.getFont().deriveFont(35f));
+		
+		promptPanel.add(totalLabel);
+		
 		
 		promptBottom = new JPanel();
 		promptBottom.setLayout(new GridLayout(1,2,50,50));
