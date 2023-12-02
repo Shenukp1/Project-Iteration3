@@ -28,7 +28,7 @@ public class StationPanel extends JPanel {
         enableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Enable Station clicked");
+                // JOptionPane.showMessageDialog(null, "Enable Station clicked");
             }
         });
         stationPanel.add(enableStationButton);
@@ -37,7 +37,7 @@ public class StationPanel extends JPanel {
         disableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Disable Station clicked");
+                // JOptionPane.showMessageDialog(null, "Disable Station clicked");
             }
         });
         stationPanel.add(disableStationButton);

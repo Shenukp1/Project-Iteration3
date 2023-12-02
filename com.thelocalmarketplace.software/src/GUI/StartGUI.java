@@ -22,6 +22,7 @@ import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.OverloadedDevice;
+import com.jjjwelectronics.bag.ReusableBag;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.tdc.CashOverloadException;
@@ -69,6 +70,7 @@ public class StartGUI {
 	static public Item Beans;
 	static public BigInteger bigIBeanMass = new BigInteger("500");
 	static public BigInteger excessiveMass= new BigInteger("5000000000000");
+	static public ReusableBag[] initBagList;
 
 	/*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
 	 *  
@@ -115,9 +117,16 @@ public class StartGUI {
 		logicBronze = SelfCheckoutLogic.installOn(bronze);
 		logicSilver = SelfCheckoutLogic.installOn(silver);
 		logicGold = SelfCheckoutLogic.installOn(gold);
-		logicBronze.session.enable();
-		logicBronze.station.getPrinter().addInk(300);
-		logicBronze.station.getPrinter().addPaper(300);
+		logicGold.session.enable();
+		logicGold.station.getPrinter().addInk(300);
+		logicGold.station.getPrinter().addPaper(300);
+		
+		
+		for (int i = 0; i <= 30; i++) { // Load 30 reusable bags
+			ReusableBag bag = new ReusableBag();
+			logicGold.station.getReusableBagDispenser().load(bag);
+		}
+		
 		
 		
 		
