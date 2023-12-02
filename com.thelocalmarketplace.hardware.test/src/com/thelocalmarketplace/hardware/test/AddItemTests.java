@@ -199,10 +199,11 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 public void addHugeItemToScaleAndRemoveTest() {
 	scaleWatch.notify = "";
 	logic.station.getScanningArea().addAnItem(bigProduct.barcodedItem);
-	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-	scaleWatch.notify = "";
+	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged"&&
+			scaleWatch.exceedsLimit=="theMassOnTheScaleHasExceededItsLimit");
+	//scaleWatch.notify = "";
 	logic.station.getScanningArea().removeAnItem(bigProduct.barcodedItem);
-	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
+	Assert.assertTrue (scaleWatch.exceedsLimit=="theMassOnTheScaleNoLongerExceedsItsLimit");
 	scaleWatch.notify = "";
 }
 @Test
@@ -237,7 +238,7 @@ public void testInventoryItem() {
 	Assert.assertTrue(100== ProductDatabases.INVENTORY.get(milk.barcodedProduct));}
 @Test
 public void addPluItem() {
-		
+	logic.station.getScanningArea().addAnItem(milk.barcodedItem);
 		Assert.assertEquals("Success: Product added to cart", AddItemPLU.AddItemFromPLU(logic.session, 
 				milk.pluCode,milk.bigDecimalMass));
 }
@@ -306,6 +307,7 @@ public class scannerListener implements BarcodeScannerListener{
 
 public class scaleListener implements ElectronicScaleListener{
 	String notify ="";
+	String exceedsLimit="";
 	@Override
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
 		this.notify= "enabled";
@@ -337,13 +339,13 @@ public class scaleListener implements ElectronicScaleListener{
 
 	@Override
 	public void theMassOnTheScaleHasExceededItsLimit(IElectronicScale scale) {
-		this.notify= "theMassOnTheScaleHasExceededItsLimit";
+		this.exceedsLimit= "theMassOnTheScaleHasExceededItsLimit";
 		
 	}
 
 	@Override
 	public void theMassOnTheScaleNoLongerExceedsItsLimit(IElectronicScale scale) {
-		this.notify= "theMassOnTheScaleNoLongerExceedsItsLimit";
+		this.exceedsLimit= "theMassOnTheScaleNoLongerExceedsItsLimit";
 		
 	}}
 
