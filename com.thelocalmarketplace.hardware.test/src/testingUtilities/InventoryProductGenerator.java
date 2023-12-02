@@ -1,5 +1,6 @@
 package testingUtilities;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +24,7 @@ public class InventoryProductGenerator {
 		public Barcode itemBarcode;
 		public BarcodedItem barcodedItem;
 		public BarcodedProduct barcodedProduct;
+		public BigDecimal bigDecimalMass; 
 		
 		//fields for a plu item
 		public Numeral[] numeralPlu = new Numeral [4];
@@ -30,32 +32,40 @@ public class InventoryProductGenerator {
 		public PLUCodedProduct pluCodedProduct;
 		public PLUCodedItem pluCodeditem;
 		
-		public InventoryProductGenerator(String productName, int productMass, int price, int inventory)  {
+		public InventoryProductGenerator(String productName, String codeLength, int productMass, int price, int inventory)  {
 			
-			int randomNumber;  
+			
 			String temp ="";
+
+			char parsedString;
 			// Get the current time in milliseconds
 	        long currentTimeMillis = System.currentTimeMillis();
 
 	        // Convert the time value to an integer
 	        int currentTimeAsInt = (int) currentTimeMillis;
-			BigInteger tempInt = new BigInteger (String.valueOf(productMass));
+			 bigDecimalMass = new BigDecimal (String.valueOf(productMass));
 			this.itemName=productName;
-			this.itemMass=new Mass(tempInt);
+			this.itemMass=new Mass(bigDecimalMass);
 		
-		for(int i=0; i<4;i++) {
-		  
-			currentTimeMillis = System.nanoTime();
-			randomNumber =(int) ((100*Math.random()*currentTimeAsInt));
-			randomNumber %=10;
-			this.numeral[i]=Numeral.valueOf((byte)randomNumber);
-			this.numeralPlu[i]=Numeral.valueOf((byte)((randomNumber+1)%10));
-			temp += String.valueOf((randomNumber+1)%10);
+		for(int i=0; i<codeLength.length();i++) {
+			
+			parsedString = codeLength.charAt(i);
+			//codeNumber %=10;
+			
+			this.numeral[i]=Numeral.valueOf((byte)(Character.getNumericValue(parsedString)%10));
+			this.numeralPlu[i]=Numeral.valueOf((byte)((Character.getNumericValue(parsedString)+1)%10));
+			temp += String.valueOf((Character.getNumericValue(parsedString)+1)%10);
+			//randomNumberSeed+=(int)(Math.random()*100);
 		}
+		//initialize plu fields
 		pluCode= new PriceLookUpCode(temp);
-		pluCodedProduct=new PLUCodedProduct(this.pluCode, productName, price);
+		pluCodedProduct=new PLUCodedProduct(pluCode, productName, price);
 		pluCodeditem= new PLUCodedItem(pluCode, itemMass);
-		
+		//initialize barcoded fields
+		itemBarcode= new Barcode(numeral);
+		barcodedProduct = new BarcodedProduct(itemBarcode, productName, price, productMass);
+		barcodedItem = new BarcodedItem(itemBarcode, itemMass);
+		//input into databases
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(this.itemBarcode, this.barcodedProduct);
 		ProductDatabases.PLU_PRODUCT_DATABASE.put(this.pluCode, this.pluCodedProduct);
 		ProductDatabases.INVENTORY.put(this.barcodedProduct, inventory);

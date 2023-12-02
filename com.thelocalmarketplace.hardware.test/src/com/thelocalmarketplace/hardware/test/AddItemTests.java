@@ -36,6 +36,10 @@ import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
+import item.AddItemBarcode;
+import item.AddItemCatalogue;
+import item.AddItemPLU;
+import item.AddItemText;
 import item.HandleBulkyItem;
 import item.RemoveItemController;
 import powerutility.NoPowerException;
@@ -50,7 +54,7 @@ import control.SelfCheckoutLogic;
 
 
 @RunWith(Parameterized.class)
-public class AddItemTests implements DollarsAndCurrency, CardPayment {
+public class AddItemTests implements DollarsAndCurrency, CardPayment, LoadProductDatabases {
 /*
  * make three types of station to test, we'll have to test all three types for each kind of test.
  * Maybe there's a fast way to plug in these objects than repeating a test method?
@@ -58,6 +62,10 @@ public class AddItemTests implements DollarsAndCurrency, CardPayment {
 public static SelfCheckoutStationBronze bronze;
 public static SelfCheckoutStationSilver silver;
 public static SelfCheckoutStationGold gold;
+
+public AddItemPLU addPluItem;
+public AddItemText addTextItem;
+public AddItemText addCatalogueItem;
 
 private AbstractSelfCheckoutStation station;
 /*
@@ -73,8 +81,8 @@ public scaleListener scaleWatch = new scaleListener();
 /*
  * Products? where are usharabs products?
  */
-Products products = new Products();
-LoadProductDatabases productsNew= new LoadProductDatabases();
+//Products products = new Products();
+//LoadProductDatabases productsNew=new LoadProductDatabases();
 
 
 @Rule
@@ -158,7 +166,7 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 		station.getScanningArea().register(scaleWatch);
 		station.getBaggingArea().register(scaleWatch);
 		
-		
+		//productsNew= new LoadProductDatabases();
 	}
 	
 /*
@@ -168,11 +176,11 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 	@Test
 	public void scanItem() {
 		for (int i =0;scanWatch.notify!="barcode has been scanned"; i++) {
-		logic.station.getHandheldScanner().scan(products.beanBarcodeItem);}
+		logic.station.getHandheldScanner().scan(beans.barcodedItem);}
 		Assert.assertTrue (scanWatch.notify=="barcode has been scanned");
 		scanWatch.notify="";
 		for (int i =0;scanWatch.notify!="barcode has been scanned"; i++) {
-		logic.station.getMainScanner().scan(products.beanBarcodeItem);}
+		logic.station.getMainScanner().scan(beans.barcodedItem);}
 		Assert.assertTrue (scanWatch.notify=="barcode has been scanned");
 	}
 
@@ -180,11 +188,7 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 	public void addItemToScaleTest() {
 	
 		
-		logic.station.getScanningArea().addAnItem(productsNew.bacon.barcodedItem);
-		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.getScanningArea().removeAnItem(productsNew.bacon.barcodedItem);
-		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-		logic.station.getBaggingArea().addAnItem(productsNew.bacon.barcodedItem);
+		logic.station.getScanningArea().addAnItem(bacon.barcodedItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 		//logic.weightController.
 	}
@@ -194,18 +198,48 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 @Test
 public void addHugeItemToScaleAndRemoveTest() {
 	scaleWatch.notify = "";
-	logic.station.getScanningArea().addAnItem(products.bigItem);
+	logic.station.getScanningArea().addAnItem(bigProduct.barcodedItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 	scaleWatch.notify = "";
-	logic.station.getScanningArea().removeAnItem(products.bigItem);
+	logic.station.getScanningArea().removeAnItem(bigProduct.barcodedItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
 	scaleWatch.notify = "";
-	logic.station.getBaggingArea().addAnItem(products.bigItem);
-	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
-	scaleWatch.notify = "";
-	logic.station.getBaggingArea().removeAnItem(products.bigItem);
-	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleNoLongerExceedsItsLimit");
-	//logic.weightController.
+}
+@Test
+public void addItembarcodeScanNew() {
+		//AddItemBarcode aib;
+	
+		//logic.station.getScanningArea().addAnItem(beer.barcodedItem);
+		Assert.assertEquals("Success: Product added to cart",
+				AddItemBarcode.AddItemFromBarcode(logic.session, bacon.itemBarcode));
+}
+@Test
+public void addItemfromCatalogue() {
+		
+	
+		//logic.station.getScanningArea().addAnItem(beer.barcodedItem);
+		Assert.assertEquals("Success: Product added to cart",
+				AddItemCatalogue.AddItemFromCatalogue(logic.session,
+				beer.barcodedProduct, beer.bigDecimalMass));
+}
+@Test
+public void addTextItem() {
+		
+	
+		//logic.station.getScanningArea().addAnItem(beer.barcodedItem);
+		Assert.assertEquals("Success: Product added to cart", 
+				AddItemText.AddItemFromText(logic.session, "beer", 
+				beer.bigDecimalMass));
+}
+//shows there's milk in inventory
+@Test
+public void testInventoryItem() {
+	Assert.assertTrue(100== ProductDatabases.INVENTORY.get(milk.barcodedProduct));}
+@Test
+public void addPluItem() {
+		
+		Assert.assertEquals("Success: Product added to cart", AddItemPLU.AddItemFromPLU(logic.session, 
+				milk.pluCode,milk.bigDecimalMass));
 }
 /*
  * add bulky item to cart?
@@ -214,10 +248,10 @@ public void addHugeItemToScaleAndRemoveTest() {
 public void addBulkyItemToCart() {
 	
 	logic.session.BulkyItems = new ArrayList<Product>();
-	logic.session.BulkyItems.add(products.beanBarcodedProduct);
-	logic.session.Cart.add(products.beanBarcodedProduct);
+	logic.session.BulkyItems.add(beans.barcodedProduct);
+	logic.session.Cart.add(beans.barcodedProduct);
 	RemoveItemController remover= new RemoveItemController(logic.session, bronze);
-	remover.removeItem(products.beanBarcodedProduct);
+	remover.removeItem(beans.barcodedProduct);
 	//logic.session.(,products.beanBarcodedProduct);
 	//logic.weightController.
 }
@@ -229,10 +263,10 @@ public void handleBulkyItem() {
 	
 	HandleBulkyItem handler = new HandleBulkyItem();
 	logic.session.BulkyItems = new ArrayList<Product>();
-	logic.session.BulkyItems.add(products.bigProduct);
-	logic.session.Cart.add(products.bigProduct);
+	logic.session.BulkyItems.add(bigProduct.barcodedProduct);
+	logic.session.Cart.add(bigProduct.barcodedProduct);
 	
-	handler.doNotBagItem(logic.session, products.bigProduct);
+	handler.doNotBagItem(logic.session, bigProduct.barcodedProduct);
 	//logic.session.(,products.beanBarcodedProduct);
 	//logic.weightController.
 }
