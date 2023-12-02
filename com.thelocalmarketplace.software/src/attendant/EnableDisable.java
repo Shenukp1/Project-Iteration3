@@ -8,7 +8,7 @@ public class EnableDisable {
     private String authorizedPassword; // Password for authorization
     private AbstractSelfCheckoutStation station;
 
-    enum StationStatus {
+   public enum StationStatus {
         ENABLED,
         DISABLED,
         OUT_OF_ORDER // When maintenance is required
@@ -64,17 +64,17 @@ public class EnableDisable {
      * @throws Exception If there is a failure in enabling hardware components.
      */
     private void enableHardwareComponents() throws Exception {
-        station.banknoteInput.enable();
-        station.coinSlot.enable();
-        station.cardReader.enable();
-        station.screen.enable();
-        station.mainScanner.enable();
-        station.handheldScanner.enable();
-        station.printer.enable();
-        station.scanningArea.enable();
-        station.baggingArea.enable();
-        station.screen.enable();
-        station.reusableBagDispenser.enable();
+        station.getBanknoteInput().enable();
+        station.getCoinSlot().enable();
+        station.getCardReader().enable();
+        station.getScreen().enable();
+        station.getMainScanner().enable();
+        station.getHandheldScanner().enable();
+        station.getPrinter().enable();
+        station.getScanningArea().enable();
+        station.getBaggingArea().enable();
+        station.getScreen().enable();
+        station.getReusableBagDispenser().enable();
     }
 
     /**
@@ -82,17 +82,17 @@ public class EnableDisable {
      * @throws Exception If there is a failure in disabling hardware components.
      */
     private void disableHardwareComponents() throws Exception {
-        station.banknoteInput.disable();
-        station.coinSlot.disable();
-        station.cardReader.disable();
-        station.screen.disable();
-        station.mainScanner.disable();
-        station.handheldScanner.disable();
-        station.printer.disable();
-        station.scanningArea.disable();
-        station.baggingArea.disable();
-        station.screen.disable();
-        station.reusableBagDispenser.disable();
+        station.getBanknoteInput().disable();
+        station.getCoinSlot().disable();
+        station.getCardReader().disable();
+        station.getScreen().disable();
+        station.getMainScanner().disable();
+        station.getHandheldScanner().disable();
+        station.getPrinter().disable();
+        station.getScanningArea().disable();
+        station.getBaggingArea().disable();
+        station.getScreen().disable();
+        station.getReusableBagDispenser().disable();
     }
 
     /**
@@ -103,5 +103,9 @@ public class EnableDisable {
     private boolean isAuthorized(String password) {
         return password != null && password.equals(authorizedPassword);
     }
+
+	public StationStatus getStatus() {
+		return status;
+	}
 
 }

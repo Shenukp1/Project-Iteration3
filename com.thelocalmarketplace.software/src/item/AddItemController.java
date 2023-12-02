@@ -23,7 +23,7 @@ public abstract class AddItemController implements BarcodeScannerListener{
 		this.station = station;
 		this.session = session;
 		// Register this controller as a listener to the barcode scanner
-		station.handheldScanner.register(this);
+		station.getHandheldScanner().register(this);
 	}
 	
 	/**
