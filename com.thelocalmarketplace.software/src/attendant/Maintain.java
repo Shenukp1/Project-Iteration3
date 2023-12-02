@@ -22,25 +22,21 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
 	
-	//printer
 	private Boolean lowInkMessage = false;
 	private Boolean outOfInkMessage= false;
 	private Boolean inkAddedMessage = false;
 	private Boolean lowPaperMessage = false;
 	private Boolean outOfPaperMessage = false;
 	private Boolean paperAddedMessage = false;
-	
-	//banknotes
 	private Boolean banknotesFullMessage = false;
-	private Boolean banknoteAddedMessage = false;
+	//private Boolean banknoteAddedMessage = false;
 	private Boolean banknotesLoadedMessage = false;
 	private Boolean banknotesUnloadedMessage = false;
-	
-	//coins
 	private Boolean coinsFullMessage = false;
-	private Boolean coinAddedMessage = false;
+	//private Boolean coinAddedMessage = false;
 	private Boolean coinsLoadedMessage = false;
 	private Boolean coinsUnloadedMessage = false;
+	
 	
 	public Maintain(AbstractSelfCheckoutStation station)  {
 		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
@@ -237,19 +233,9 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	}
 
 	@Override
-	/*
-	 * Method Used to announce that a banknote has been added to storage
-	 */
 	public void banknoteAdded(BanknoteStorageUnit unit) {
-		banknoteAddedMessage = true;
+		// TODO Auto-generated method stub
 		
-	}
-	
-	/*
-	 * Gets the banknoteAddedMessage Value
-	 */
-	public boolean getBanknoteAddedMessage() {
-		return banknoteAddedMessage;
 	}
 
 	@Override
@@ -289,9 +275,19 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 
 	@Override
+	/*
+	 * Method Used to announce that coin storage is full
+	 */
 	public void coinsFull(CoinStorageUnit unit) {
-		// TODO Auto-generated method stub
+		coinsFullMessage = true;
 		
+	}
+	
+	/*
+	 * Gets the coinsFullMessage Value
+	 */
+	public boolean getCoinsFullMessage() {
+		return coinsFullMessage;
 	}
 
 	@Override
@@ -301,15 +297,35 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that coins have been loaded into storage
+	 */
 	public void coinsLoaded(CoinStorageUnit unit) {
-		// TODO Auto-generated method stub
+		coinsLoadedMessage = true;
 		
+	}
+	
+	/*
+	 * Gets the coinsLoadedMessage Value
+	 */
+	public boolean getCoinsLoadedMessage() {
+		return coinsLoadedMessage;
 	}
 
 	@Override
+	/*
+	 * Method Used to announce that coins have been unloaded from storage
+	 */
 	public void coinsUnloaded(CoinStorageUnit unit) {
-		// TODO Auto-generated method stub
+		coinsUnloadedMessage = true;
 		
+	}
+	
+	/*
+	 * Gets the coinsUnloadedMessage Value
+	 */
+	public boolean getCoinsUnloadedMessage() {
+		return coinsUnloadedMessage;
 	}
 	
 }
