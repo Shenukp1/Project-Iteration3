@@ -43,49 +43,47 @@ import powerutility.PowerGrid;
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
 import control.SelfCheckoutLogic;
 
-public class GUITest  {
-/*
- * make three types of station to test, we'll have to test all three types for each kind of test.
- * Maybe there's a fast way to plug in these objects than repeating a test method?
- */
-SelfCheckoutStationBronze bronze;
-SelfCheckoutStationSilver silver;
-SelfCheckoutStationGold gold;
-/*
- * each station needs its own logic instance for setup.
- */
-SelfCheckoutLogic logicBronze;
-SelfCheckoutLogic logicSilver;
-SelfCheckoutLogic logicGold;
-public Numeral[] beansNumeral = new Numeral [4];
-public Barcode beanBarcode;
-public BarcodedItem beanBarcodeItem;
-public BarcodedItem bigItem; //to overload scale
-public BarcodedProduct beanBarcodedProduct;
-public BarcodedProduct bigProduct;
-public Mass beansMass;
-public Mass bigItemMass;
-public Item Beans;
-public BigInteger bigIBeanMass = new BigInteger("500");
-public BigInteger excessiveMass= new BigInteger("5000000000000");
-
-/*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
- *  
- */
-/*
- * 
- */
-/*
- * Products? where are usharabs products?
- */
-
-@Rule
-	public ExpectedException expectedMessage = ExpectedException.none();
-
-	@Before
-	public void testSetup () throws OverloadedDevice{
-		
+public class StartGUI {
 	
+	/*
+	 * make three types of station to test, we'll have to test all three types for each kind of test.
+	 * Maybe there's a fast way to plug in these objects than repeating a test method?
+	 */
+	static SelfCheckoutStationBronze bronze;
+	static SelfCheckoutStationSilver silver;
+	static SelfCheckoutStationGold gold;
+	/*
+	 * each station needs its own logic instance for setup.
+	 */
+	static SelfCheckoutLogic logicBronze;
+	static SelfCheckoutLogic logicSilver;
+	static SelfCheckoutLogic logicGold;
+	public static Numeral[] beansNumeral = new Numeral [4];
+	static public Barcode beanBarcode;
+	static public BarcodedItem beanBarcodeItem;
+	static public BarcodedItem bigItem; //to overload scale
+	static public BarcodedProduct beanBarcodedProduct;
+	static public BarcodedProduct bigProduct;
+	static public Mass beansMass;
+	static public Mass bigItemMass;
+	static public Item Beans;
+	static public BigInteger bigIBeanMass = new BigInteger("500");
+	static public BigInteger excessiveMass= new BigInteger("5000000000000");
+
+	/*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
+	 *  
+	 */
+	/*
+	 * 
+	 */
+	/*
+	 * Products? where are usharabs products?
+	 */
+
+	
+	public static void initialize() throws OverloadedDevice {
+		
+		
 		bronze.resetConfigurationToDefaults();
 		bronze.configureScaleSensitivity(0.0001);
 		PowerGrid.engageUninterruptiblePowerSource();
@@ -123,6 +121,7 @@ public BigInteger excessiveMass= new BigInteger("5000000000000");
 		
 		
 		
+		
 		beansNumeral [0]=Numeral.one;
 		beansNumeral [1]=Numeral.two;
 		beansNumeral [2]=Numeral.three;
@@ -134,30 +133,24 @@ public BigInteger excessiveMass= new BigInteger("5000000000000");
 		beanBarcodedProduct=new BarcodedProduct(beanBarcode, "beans", 5,bigIBeanMass.intValue());
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);
 		
+		
 	}
 	
-/*
- * add item to scale
- */
-@Test
-	public void Starttest() throws InterruptedException {
-
-	/* Remove this commented section to reformat as a test
-	
-	logicGold.station.getScreen().setVisible(true);
-	//start.getContentPane().removeAll();
-	//start.setLayout(new BorderLayout());
-	
-	//System.out.print(logicGold);
-	StartScreen checkoutPanel = new StartScreen(logicGold);
-	System.out.println(logicGold.station.getScreen().getFrame());
-	Thread.sleep(60000);
 	
 	
-	*/
-}
-}
-
-
-
+	public static void main(String[] args) {
 		
+		
+		try {
+			initialize();
+		} catch (OverloadedDevice e) {
+			System.out.println("Overloaded!");
+		}
+		
+		logicGold.station.getScreen().setVisible(true);
+		StartScreen checkoutPanel = new StartScreen(logicGold);
+		
+	}
+	
+	
+}
