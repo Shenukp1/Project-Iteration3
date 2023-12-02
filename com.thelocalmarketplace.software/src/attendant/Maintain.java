@@ -292,7 +292,11 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void coinAdded(CoinStorageUnit unit) {
-		// TODO Auto-generated method stub
+		if (unit.getCoinCount() > unit.getCapacity()-3) {
+			boolean coinLevelHigh = true;
+		} else if (unit.getCoinCount() > 2) {
+			boolean coinLevelLow = true;
+		}
 		
 	}
 
