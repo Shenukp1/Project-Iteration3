@@ -31,20 +31,17 @@ import item.PurchaseBags;
 public class EnterMembershipWindow {
 	JFrame mainFrame;
 	JPanel mainPanel;
+	JPanel bottomPanel;
 	JPanel keyboardPanel;
 	
 	String membershipNum = "";
 	int membershipNumLength = 9; // Feel free to change this if it's wrong!!!
 	
-	
 	JButton okayButton;
 	JButton backspaceButton;
-	JButton cancelButton;
 	
 	JLabel promptLabel;
 	JLabel numberLabel;
-	
-	String QWERTYlayout = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
 	
 	// JButton[] buttonArray;
 	
@@ -66,8 +63,11 @@ public class EnterMembershipWindow {
 		numberLabel.setVerticalAlignment(SwingConstants.TOP);
 		numberLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		bottomPanel = new JPanel();
+		bottomPanel.setLayout(new GridLayout(1,3));
+		
 		keyboardPanel = new JPanel();
-		keyboardPanel.setLayout(new GridLayout(4,10));
+		keyboardPanel.setLayout(new GridLayout(4,3));
 		
 		
 		okayButton = new JButton("Done");
@@ -80,60 +80,59 @@ public class EnterMembershipWindow {
 			
 		});
 		
-		cancelButton = new JButton("Quit");
-		cancelButton.addActionListener(e -> {
-			
-			mainPanel.setVisible(false);
-			MainPanel mainWindow = new MainPanel(logic, "Cancelled membership number input");
-			
-		});
-		
-		backspaceButton = new JButton("<-");
+		backspaceButton = new JButton("Quit");
 		backspaceButton.addActionListener(e -> {
 			
-			if (membershipNum.length() > 0) {
+			if (membershipNum.length() == 0) {
+				
+				mainPanel.setVisible(false);
+				MainPanel mainWindow = new MainPanel(logic, "Cancelled membership number input");
+				
+			} else if (membershipNum.length() > 0) {
 				
 				membershipNum = membershipNum.substring(0, membershipNum.length() - 1);
-				this.numberLabel.setText("X".repeat(this.membershipNum.length()) + 
+				this.numberLabel.setText(membershipNum + 
 						"-".repeat(membershipNumLength - this.membershipNum.length()));
+				
+				if (membershipNum.length() == 0) {
+					
+					backspaceButton.setText("Quit");
+					
+				}
 			}
 			
 		});
 		
 		
-		for (int i = 0; i <= 28; i++) {
+		for (int i = 1; i <= 9; i++) {
 			
 			// Generate two rows of buttons and add them to the grid
-			keyboardPanel.add(generateCharacterButton(QWERTYlayout.charAt(i)));
+			keyboardPanel.add(generateCharacterButton(i));
 			
 		}
 		
 		keyboardPanel.add(backspaceButton);
 		
-		for (int i = 29; i <= 35; i++) {
-			
-			// Generate two rows of buttons and add them to the grid
-			keyboardPanel.add(generateCharacterButton(QWERTYlayout.charAt(i)));
-			
-		}
+		keyboardPanel.add(generateCharacterButton(0));
 		
 		keyboardPanel.add(okayButton);
-		
-		keyboardPanel.add(cancelButton);
-		
-		keyboardPanel.add(new JLabel());
 		
 		mainPanel.add(promptLabel);
 		mainPanel.add(numberLabel);
 		
-		mainPanel.add(keyboardPanel);
+		bottomPanel.add(new JLabel());
+		bottomPanel.add(keyboardPanel);
+		bottomPanel.add(new JLabel());
+		
+		mainPanel.add(bottomPanel);
 		
 		mainFrame.getContentPane().add(mainPanel);
 	}
 	
-	private JButton generateCharacterButton(char character) {
+	private JButton generateCharacterButton(int character) {
 		// Good thing I thought of this, would be a nightmare to do manually
 		JButton button = new JButton(String.valueOf(character));
+		button.setFont(button.getFont().deriveFont(25f));
 		
 		button.addActionListener(e -> {
 			
@@ -143,6 +142,8 @@ public class EnterMembershipWindow {
 				
 				this.numberLabel.setText(this.membershipNum + 
 						"-".repeat(membershipNumLength - this.membershipNum.length()));
+				
+				backspaceButton.setText("<-"); // Replace the quit button to a backspace button
 				
 				// Use this code to make the membership num all Xs
 				// this.numberLabel.setText("X".repeat(this.membershipNum.length()) + 
