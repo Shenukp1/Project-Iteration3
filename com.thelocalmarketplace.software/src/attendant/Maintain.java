@@ -309,7 +309,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	/*
 	 * Gets the coinLevelHighMessage value. (if coin level is high after adding coin)
 	 */
-	public int getCoinLevelHighMessage() {
+	public int getCoinLevelHigh() {
 		return coinLevelHigh;
 	
 	}
