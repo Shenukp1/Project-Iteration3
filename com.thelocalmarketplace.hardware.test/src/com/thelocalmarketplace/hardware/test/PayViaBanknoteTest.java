@@ -100,13 +100,13 @@ Products products = new Products();
 		 */
 		
 		logicBronze = SelfCheckoutLogic.installOn(bronze);
-	 logicSilver = SelfCheckoutLogic.installOn(silver);
-	 logicGold = SelfCheckoutLogic.installOn(gold);
+		logicSilver = SelfCheckoutLogic.installOn(silver);
+		logicGold = SelfCheckoutLogic.installOn(gold);
 	 
-	 logicBronze.session.enable();
+		logicBronze.session.enable();
 		
-		logicBronze.station.printer.addInk(300);
-		logicBronze.station.printer.addPaper(300);
+		logicBronze.station.getPrinter().addInk(300);
+		logicBronze.station.getPrinter().addPaper(300);
 		
 		
 		
@@ -116,7 +116,7 @@ Products products = new Products();
 	 */
 	@Test (expected = DisabledException.class)
 	public void testSlotnotOpen () throws DisabledException, CashOverloadException {
-		logicBronze.station.banknoteInput.receive(twenty);
+		logicBronze.station.getBanknoteInput().receive(twenty);
 
 	}
 	/*
@@ -126,8 +126,8 @@ Products products = new Products();
 	@Test //(expected = StringIndexOutOfBoundsException.class)
 	public void testSlotopen () throws DisabledException, CashOverloadException {
 		//logicBronze.station.banknoteInput.attach();
-		logicBronze.station.banknoteInput.activate();
-		logicBronze.station.banknoteInput.enable();
+		logicBronze.station.getBanknoteInput().activate();
+		logicBronze.station.getBanknoteInput().enable();
 		
 		logicBronze.station.banknoteInput.receive(twenty);
 		logicBronze.station.banknoteStorage.receive(twenty);

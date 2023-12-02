@@ -21,7 +21,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private IReceiptPrinter printer;
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
-	
+
 	private Boolean lowInkMessage = false;
 	private Boolean outOfInkMessage= false;
 	private Boolean inkAddedMessage = false;
@@ -36,13 +36,16 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	//private Boolean coinAddedMessage = false;
 	private Boolean coinsLoadedMessage = false;
 	private Boolean coinsUnloadedMessage = false;
+
 	
 	
-	public Maintain(AbstractSelfCheckoutStation station)  {
+	public Maintain(AbstractSelfCheckoutStation station,BanknoteStorageUnit bns,CoinStorageUnit csu)  {
 		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
 		station.getPrinter().register(this);
 		station.getBanknoteStorage().attach(this);
 		station.getCoinStorage().attach(this);
+		bns.attach(this);
+		csu.attach(this);
 		
 	}
 	
@@ -111,38 +114,40 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 */
 	public boolean getOutOfPaperMessage() {
 		return outOfPaperMessage;
-	}
-
-	@Override
-	/*
-	 * Method Used to announce that the printer is out of ink
-	 */
-	public void thePrinterIsOutOfInk() {
-		outOfInkMessage = true;
 		
 	}
-	
-	/*
-	 * Gets the outOfInkMessage value
-	 */
-	public boolean getOutOfInkMessage() {
-		return outOfInkMessage;
-	}
+		
 
 	@Override
-	/*
-	 * Method Used to announce that the printer is low on ink
-	 */
-	public void thePrinterHasLowInk() {
-		lowInkMessage = true;
-	}
-	
-	/*
-	 * Gets the lowInkMessage Value
-	 */
-	public boolean getLowInkMessage() {
-		return lowInkMessage;
-	}
+    /*
+     * Method Used to announce that the printer is out of ink
+     */
+    public void thePrinterIsOutOfInk() {
+        outOfInkMessage = true;
+        
+    }
+    
+    /*
+     * Gets the outOfInkMessage value
+     */
+    public boolean getOutOfInkMessage() {
+        return outOfInkMessage;
+    }
+
+    @Override
+    /*
+     * Method Used to announce that the printer is low on ink
+     */
+    public void thePrinterHasLowInk() {
+        lowInkMessage = true;
+    }
+    
+    /*
+     * Gets the lowInkMessage Value
+     */
+    public boolean getLowInkMessage() {
+        return lowInkMessage;
+    }
 
 	@Override
 	/*

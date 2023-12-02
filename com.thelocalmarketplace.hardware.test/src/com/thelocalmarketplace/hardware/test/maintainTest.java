@@ -46,6 +46,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import com.jjjwelectronics.OverloadedDevice;
+import com.jjjwelectronics.printer.ReceiptPrinterBronze;
+import com.jjjwelectronics.printer.ReceiptPrinterGold;
+import com.jjjwelectronics.printer.ReceiptPrinterSilver;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -59,12 +62,21 @@ import testingUtilities.DollarsAndCurrency;
 import testingUtilities.Products;
 
 public class maintainTest implements DollarsAndCurrency, CardPayment{
+	
 	private SelfCheckoutStationGold gold;
 	private SelfCheckoutStationBronze bronze;
 	private SelfCheckoutStationSilver silver;
+	
+	
 	private SelfCheckoutLogic logicBronze;
 	private SelfCheckoutLogic logicSilver;
 	private SelfCheckoutLogic logicGold;
+	
+	
+	private ReceiptPrinterGold receiptPrinterGold;
+	private ReceiptPrinterBronze receiptPrinterBronze;
+	private ReceiptPrinterSilver ReceiptPrinterSilver;
+	
 	
 	private Maintain maintain;
 	
@@ -74,43 +86,33 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	
 	@Before
 	public void testSetup() throws Exception {
-		
+		//Creating instance of SelfCheckoutStation(Bronze,Silver,Gold)
+
+		//Bronze Station
 		bronze.resetConfigurationToDefaults();
 		bronze.configureBanknoteDenominations(bankNoteDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
-		SelfCheckoutStationBronze bronzeStation = new SelfCheckoutStationBronze();
-		bronzeStation.plugIn(PowerGrid.instance());
-		bronzeStation.turnOn();
+		bronze.plugIn(PowerGrid.instance());
+		bronze.turnOn();
 		
+		//Silver Station
 		silver.resetConfigurationToDefaults();
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
-		SelfCheckoutStationSilver silverStation = new SelfCheckoutStationSilver();
-		silverStation.plugIn(PowerGrid.instance());
-		silverStation.turnOn();
+		silver.plugIn(PowerGrid.instance());
+		silver.turnOn();
 		
+		//Gold Station
 		gold.resetConfigurationToDefaults();
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
-		SelfCheckoutStationGold goldStation = new SelfCheckoutStationGold();
-		goldStation.plugIn(PowerGrid.instance());
-		goldStation.turnOn();
-		
-		logicBronze = SelfCheckoutLogic.installOn(bronzeStation);
-		logicBronze.session.enable();
-		logicBronze.station.getPrinter().addInk(300);
-		logicBronze.station.getPrinter().addPaper(100);
+		gold.plugIn(PowerGrid.instance());
+		gold.turnOn();
 		
 		
-		//Do what is up for silver
-		logicSilver = SelfCheckoutLogic.installOn(silverStation);
 		
-		logicGold = SelfCheckoutLogic.installOn(goldStation);
-		logicGold.session.enable();
-		logicGold.station.getPrinter().addInk(300);
-		System.out.println(logicGold.station.getPrinter().inkRemaining());
-		logicGold.station.getPrinter().addPaper(100);
+
 		
 		
 		

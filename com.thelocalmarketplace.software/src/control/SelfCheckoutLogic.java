@@ -1,5 +1,8 @@
 package control;
 
+import com.jjjwelectronics.printer.ReceiptPrinterBronze;
+import com.jjjwelectronics.printer.ReceiptPrinterGold;
+import com.jjjwelectronics.printer.ReceiptPrinterSilver;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 
@@ -48,6 +51,12 @@ public class SelfCheckoutLogic {
 	//Controller for Maintain
 	public Maintain maintain;
 	
+	//Gold Printer
+	private ReceiptPrinterGold receiptPrinterGold;
+	//Bronze Printer
+	private ReceiptPrinterBronze receiptPrinterBronze;
+	//Silver Printer
+	private ReceiptPrinterSilver ReceiptPrinterSilver;
 	
 	
 	/**
@@ -74,9 +83,8 @@ public class SelfCheckoutLogic {
 		
 		//Issues with this logic. Cant seem to use unless every instances works
 			//SOLUTION: wrap every instance of a controller with a try catch OR fix everything
-		maintain = new Maintain(scs);
 		
-		
+			
 //		barcodeController = new AddItemBarcode(session, scs);
 //		weightController = new WeightController(session, scs);
 //		banknoteController = new BanknoteController(session, scs);
