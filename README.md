@@ -3,9 +3,26 @@
 The third and final iteration is the most complex yet.  Your team is now big and simply organizing and managing it will become a task in itself.
 
 ## Authors
-- [Ayman Momin: 30192494](https://github.com/aymanmomin)
+- [Andy Tang: 10139121](https://github.com/Thisisme-Andrew)
+- [Ayman Inayatali Momin: 30192494](https://github.com/aymanmomin)
+- [Darpal Patel: ](https://github.com/darpalp)
+- [Dylan Dizon: ](https://github.com/dylanrylee)
 - [Ellen Bowie: 30191922](https://github.com/ebeeze1)
+- [Ishita Udasi: 30170034](https://github.com/ishita-udasi)
+- [Jason Very: ](https://github.com/jvery11)
+- [Jesse Leinan: 00335214](https://github.com/JesseL382)
+- [Kear Sang heng: 30087289](https://github.com/kearsang)
+- [Khadeeja Abbas: 30180776](https://github.com/KhadeejaAbbas)
 - [Kian Sieppert: 30134666](https://github.com/givenn19)
+- [Michelle Le: 30145965](https://github.com/michelle-le1)
+- [Sean Gilluley: ](https://github.com/HQCPlays)
+- [Shenuk Perera: 30086618](https://github.com/shenukp1)
+- [Sina Salahshour: ](https://github.com/SinSalahshour)
+- [Tristan Van Decker: 30160634](https://github.com/Muffletruffle)
+- [Usharab Khan: ](https://github.com/usharabkhan)
+- [: ](https://github.com/)
+- [: ](https://github.com/)
+- [: ](https://github.com/)
 
 ## Revision History
 - Version 4: The previous hardware revision was incomplete; I have adjusted `AttendantStation` to permit `ISelfCheckoutStation` instances to be used.
