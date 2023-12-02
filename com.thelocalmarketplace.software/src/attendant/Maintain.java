@@ -36,6 +36,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	//private Boolean coinAddedMessage = false;
 	private Boolean coinsLoadedMessage = false;
 	private Boolean coinsUnloadedMessage = false;
+	
+	int coinLevelHigh;
 
 	
 	
@@ -297,12 +299,19 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void coinAdded(CoinStorageUnit unit) {
-		if (unit.getCoinCount() > unit.getCapacity()-3) {
-			boolean coinLevelHigh = true;
-		} else if (unit.getCoinCount() > 2) {
-			boolean coinLevelLow = true;
+		if (unit.getCoinCount() > unit.getCapacity()/2) {
+			coinLevelHigh = 1;
+		} else if (unit.getCoinCount() < unit.getCapacity()/2) {
+			coinLevelHigh = -1;
 		}
-		
+	}
+	
+	/*
+	 * Gets the coinLevelHighMessage value. (if coin level is high after adding coin)
+	 */
+	public int getCoinLevelHighMessage() {
+		return coinLevelHigh;
+	
 	}
 
 	@Override
