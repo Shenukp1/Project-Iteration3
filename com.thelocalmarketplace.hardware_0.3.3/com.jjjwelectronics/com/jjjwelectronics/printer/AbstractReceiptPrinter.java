@@ -187,6 +187,7 @@ abstract class AbstractReceiptPrinter extends AbstractDevice<ReceiptPrinterListe
 			notifyPaperAdded();
 		}
 	}
+	
 
 	protected void notifyOutOfInk() {
 		for(ReceiptPrinterListener l : listeners())
