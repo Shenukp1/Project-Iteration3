@@ -25,6 +25,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import control.SelfCheckoutLogic;
+import control.WeightController;
 import item.AddOwnBags;
 
 public class sessionBlocked {
@@ -97,16 +98,25 @@ public class sessionBlocked {
         attendantOverrideButton.setLayout(null);
 //        attendantOverrideButton.setBounds(0, 0, 600, 400);
 
-//        doNotBagButton.addActionListener(e -> {
-
-//
+        
+        //need to added button functionalities of the button still
+        doNotBagButton.addActionListener(e -> {
+//        	logicGold.station.baggingArea.addAnItem(null
+//        	theMassOnTheScaleNoLongerExceedsItsLimit(logicGold.station.baggingArea);
+////
 //            addItemButton.addActionListener(e -> {
-//                
-////            startPanel.setVisible(false);
-//            addOwnBags addbag= new addOwnBags(logicGold);
-//
-//            //mainFrame.setVisible(true);
-//        });
+                
+//            startPanel.setVisible(false);
+            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
+            
+            //!!!
+            //change the expected weight to not include the item
+            //logicGold.changeWeight
+            
+            
+            
+            //mainFrame.setVisible(true);
+        });
         
 
         blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));

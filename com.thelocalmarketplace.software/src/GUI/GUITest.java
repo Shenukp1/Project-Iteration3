@@ -140,7 +140,7 @@ SelfCheckoutLogic logicGold;
 	//start.setLayout(new BorderLayout());
 	
 	//System.out.print(logicGold);
-	StartScreen checkoutPanel = new StartScreen(logicGold);
+	vCatalogue checkoutPanel = new vCatalogue(logicGold);
 	System.out.println(logicGold.station.screen.getFrame());
 	Thread.sleep(60000);
 	
