@@ -7,6 +7,7 @@ import payment.CoinController;
 import payment.PaymentCardController;
 import payment.BanknoteController;
 import item.AddItemBarcode;
+import item.AddItemController;
 import item.PrintController;
 
 /**
@@ -43,6 +44,7 @@ public class SelfCheckoutLogic {
 	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
+	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.

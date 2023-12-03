@@ -64,7 +64,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-public class vCatalogue extends JPanel {
+public class vCatalogue extends JPanel implements LoadProductDatabases {
 
 	JFrame vcFrame;
     JPanel vcPanel;
@@ -111,10 +111,11 @@ public class vCatalogue extends JPanel {
     		bananaButton.addActionListener(e -> {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-//	            vcPanel.setVisible(false);
-//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, barcodeController.barcodedProduct, bananas.bigDecimalMass);
-//    			mainPanel = new MainPanel(logicGold, "Banana Added");
-//                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
+	            vcPanel.setVisible(false);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, bananas.barcodedProduct,
+						bananas.bigDecimalMass);
+    	//		mainPanel = new MainPanel(logicGold, "Banana Added");
+         //       mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
     		vcPanel.add(bananaButton);
 			
@@ -126,8 +127,8 @@ public class vCatalogue extends JPanel {
     		cookieButton.addActionListener(e -> {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-//	            vcPanel.setVisible(false);
-//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, cookie.barcodedProduct, cookie.bigDecimalMass);
+	            vcPanel.setVisible(false);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, cookie.barcodedProduct, cookie.bigDecimalMass);
 //    			mainPanel = new MainPanel(logicGold, "Cookies Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
@@ -142,9 +143,9 @@ public class vCatalogue extends JPanel {
     		milkButton.addActionListener(e -> {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-//	            vcPanel.setVisible(false);
-//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, milkc.barcodedProduct, milkc.bigDecimalMass);
-//    			mainPanel = new MainPanel(logicGold, "Milk Added");
+	            vcPanel.setVisible(false);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, milkc.barcodedProduct, milkc.bigDecimalMass);
+//   			mainPanel = new MainPanel(logicGold, "Milk Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
 	        vcPanel.add(milkButton);

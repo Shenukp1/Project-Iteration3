@@ -1,6 +1,6 @@
 package GUI;
 
-public class testingGUIDatabase {
+
 	public interface LoadProductDatabases {
 		
 		public testingGUIProductGenerator milkc = new testingGUIProductGenerator("milk", "1234", 3000000, 4, 100);
@@ -9,6 +9,5 @@ public class testingGUIDatabase {
 		public testingGUIProductGenerator egg = new testingGUIProductGenerator("eggs", "4444", 1660000, 4, 650);
 		
 		
-	}
 
 }
