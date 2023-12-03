@@ -76,10 +76,8 @@ public class vCatalogue extends JPanel {
 
     SelfCheckoutLogic logicGold;
     JFrame initial;
-    MainPanel mainPanel;
-//    JLabel bananaLabel = new JLabel();
+//    MainPanel mainPanel;
 
-    
     
     public vCatalogue(SelfCheckoutLogic logicGold)  {
     	this.logicGold = logicGold;
@@ -107,18 +105,15 @@ public class vCatalogue extends JPanel {
     	
 
     	try {
-//    		Image img = new ImageIcon(this.getClass().getResource("/istockphoto-173242750-612x612.jpg")).getImage();
-//    		bananaLabel.setIcon(new ImageIcon(img));
-
-    		//    		vcPanel.add(banana);
-    		Image banana = new ImageIcon(this.getClass().getResource("/istockphoto-173242750-612x612.jpg")).getImage();
+    		Image banana = new ImageIcon(this.getClass().getResource("/bananasImage.jpg")).getImage();    		
     		bananaButton.setIcon(new ImageIcon(banana));
 			validate();
-
     		bananaButton.addActionListener(e -> {
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, barcodeController.barcodedProduct, bananas.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Banana Added");
+//				Add logic here so it happens when the button is pressed
+//				here is my attempt below:
+//	            vcPanel.setVisible(false);
+//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, barcodeController.barcodedProduct, bananas.bigDecimalMass);
+//    			mainPanel = new MainPanel(logicGold, "Banana Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
     		vcPanel.add(bananaButton);
@@ -128,50 +123,64 @@ public class vCatalogue extends JPanel {
 			
     		Image cookies = new ImageIcon(this.getClass().getResource("/cookiesCho.jpeg")).getImage();
     		cookieButton.setIcon(new ImageIcon(cookies));
-    	
     		cookieButton.addActionListener(e -> {
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, cookie.barcodedProduct, cookie.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Cookies Added");
+//				Add logic here so it happens when the button is pressed
+//				here is my attempt below:
+//	            vcPanel.setVisible(false);
+//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, cookie.barcodedProduct, cookie.bigDecimalMass);
+//    			mainPanel = new MainPanel(logicGold, "Cookies Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
 	        vcPanel.add(cookieButton);
 			validate();
 			
+			
+			
+			
     		Image milk = new ImageIcon(this.getClass().getResource("/chocmilk.png")).getImage();
     		milkButton.setIcon(new ImageIcon(milk));
     		milkButton.addActionListener(e -> {
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, milkc.barcodedProduct, milkc.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Milk Added");
+//				Add logic here so it happens when the button is pressed
+//				here is my attempt below:
+//	            vcPanel.setVisible(false);
+//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, milkc.barcodedProduct, milkc.bigDecimalMass);
+//    			mainPanel = new MainPanel(logicGold, "Milk Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
 	        vcPanel.add(milkButton);
 			validate();
+			
+			
+			
 
     		Image eggs = new ImageIcon(this.getClass().getResource("/eggs.jpeg")).getImage();
     		eggButton.setIcon(new ImageIcon(eggs));
     		eggButton.addActionListener(e -> {
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, egg.barcodedProduct, egg.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Milk Added");
+//				Add logic here so it happens when the button is pressed
+//				here is my attempt below:
+//	            vcPanel.setVisible(false);
+//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, egg.barcodedProduct, egg.bigDecimalMass);
+//    			mainPanel = new MainPanel(logicGold, "Eggs Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
 	        vcPanel.add(eggButton);
 			validate();
 			
+			
+			
 			homeButton.addActionListener(e -> {
-	
-		            vcPanel.setVisible(false);
-		            
-		            mainPanel= new MainPanel(logicGold, "Returned to Main screen");
-	
-		            //mainFrame.setVisible(true);
-		        });
+//					This home button does go back to the main screen, however I'm not sure it's going back to the same screen or a new one
+//					Meaning, i dont know if items previously added to the list before going to the visual catalogue will be displayed on the main screen again once the user clicks this button 
+//		            vcPanel.setVisible(false);		     
+//		            mainPanel= new MainPanel(logicGold, "Returned to Main screen");
+			        });
 	
 		    vcPanel.add(homeButton);
+		    
 		}
+    	
 		catch (Exception ex) {
 			System.out.println("ERROR");
 		}
-\
+    }
+}

@@ -64,7 +64,7 @@ public class MainPanel extends JFrame {
     
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
-<<<<<<< HEAD
+//<<<<<<< HEAD
     	
     	this.message = message;			//Console message to be printed 
         this.logicGold = logicGold;
@@ -85,8 +85,8 @@ public class MainPanel extends JFrame {
         Font consoleFont = baseFont.deriveFont(16f);
         
         //mainPanel =  topPanel + bottomPanel
-=======
->>>>>>> 52e1c435949a5b527f28ad8c9bb48623c7f1af56
+//=======
+//>>>>>>> 52e1c435949a5b527f28ad8c9bb48623c7f1af56
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         
@@ -132,11 +132,9 @@ public class MainPanel extends JFrame {
         button2.setFont(button2.getFont().deriveFont(19f));
         button2.addActionListener(e -> {
         	mainPanel.setVisible(false);
-        	vCatalogue catalogue = new vCatalogue(logicGold);
         	//LOGIC: Membership Number
-        	// EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
+        	 EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
         });mainLeft.add(button2);
-        
         
         
         JButton buttonV = new JButton("Search Catalogue");
@@ -145,7 +143,15 @@ public class MainPanel extends JFrame {
         	//LOGIC: Call Attendant
         });mainLeft.add(buttonV);
         
-       
+        
+        JButton visualButton = new JButton("Visual Catalogue");
+        visualButton.setFont(visualButton.getFont().deriveFont(19f));
+        visualButton.addActionListener(e -> {
+        	//LOGIC: Visual Catalogue
+        	mainPanel.setVisible(false);
+        	vCatalogue catalogue = new vCatalogue(logicGold);
+        });mainLeft.add(visualButton);
+        
         
         JButton buttonPLU = new JButton("Enter PLU");
         buttonPLU.setFont(buttonPLU.getFont().deriveFont(19f));
