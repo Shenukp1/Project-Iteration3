@@ -16,7 +16,7 @@ public class PrintController implements ReceiptPrinterListener{
 	private SessionController session;
 	private AbstractSelfCheckoutStation station;
 	private static final int CHARACTERS_PER_LINE = 60;
-	private static String[] lines = {""};
+	private static int numOfLinesInReceipt = 0;
 	
 	public PrintController(SessionController session, AbstractSelfCheckoutStation station) {
 		this.session = session;
@@ -42,7 +42,7 @@ public class PrintController implements ReceiptPrinterListener{
         	receiptText.append("\n");								// Print a full stop with new line
         }
         
-        lines = receiptText.toString().split("\n");		// Split our receipt text into lines
+        String[] lines = receiptText.toString().split("\n");		// Split our receipt text into lines
         int character;
         															// Loop through the lines of our receipt text
         for (int line = 0; line < (lines.length-1); line++) {
@@ -56,11 +56,12 @@ public class PrintController implements ReceiptPrinterListener{
 				}
         		character++;
         	}
+        	numOfLinesInReceipt++;
         }
 	}
 	
-	public String[] getLinesInReceipt() {
-		return lines;
+	public int getLinesInReceipt() {
+		return numOfLinesInReceipt;
 	}
 	
 	@Override

@@ -146,7 +146,6 @@ public class PredictIssueController implements ReceiptPrinterListener {
 		}
 		if (lowCoinIssueExists == true) {
 			listOfIssues.add("One or More of the Coin Dispensers is Almost Empty");
-
 		}
 	}
 

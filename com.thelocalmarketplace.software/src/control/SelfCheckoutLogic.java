@@ -84,8 +84,7 @@ public class SelfCheckoutLogic {
 		coinController = new CoinController(session, scs);
 		// creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
-		totalNumOfPaperUsed += printController.getLinesInReceipt().length;
-		currentReceipt = printController.getLinesInReceipt();
+		totalNumOfPaperUsed += printController.getLinesInReceipt();
 
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
