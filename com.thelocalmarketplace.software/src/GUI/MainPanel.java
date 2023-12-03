@@ -37,7 +37,11 @@ import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
+
 import control.SelfCheckoutLogic;
+import item.AddItemBarcode;
+import item.AddItemController;
 
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
@@ -49,8 +53,9 @@ import com.thelocalmarketplace.hardware.Product;
 import control.SelfCheckoutLogic;
 
 
-public class MainPanel extends JFrame {
+public class MainPanel extends JFrame implements LoadProductDatabases {
     SelfCheckoutLogic logicGold;
+    AddItemController addItemController;
     JFrame mainFrame;
     JPanel topPanel;
     JPanel bottomPanel;
@@ -257,13 +262,17 @@ public class MainPanel extends JFrame {
         testPanel.add(barcodeLabel);
         
         
-        
-        
+       
+        /*
+         * this text field is for barcode input
+         */
         JTextField barcodeInput = new JTextField();
         barcodeInput.setPreferredSize(new Dimension(200, 30));
         barcodeInput.addActionListener(e -> {
             String enteredCode = barcodeInput.getText();
-            //System.out.println("Entered code: " + enteredCode);
+            
+            
+            System.out.println("Entered code: " + enteredCode);
             
             try {
                 Numeral[] barcodeNumeral = new Numeral[enteredCode.length()];
@@ -273,11 +282,12 @@ public class MainPanel extends JFrame {
                     int numeralIndex = Character.getNumericValue(numeralChar) - 1;
                     barcodeNumeral[i] = Numeral.values()[numeralIndex];
                 }
-
+              
                 Barcode enteredBarcode = new Barcode(barcodeNumeral);
+               // AddItemBarcode.AddItemFromBarcode(logicGold.session, enteredBarcode);
                 System.out.println(enteredBarcode.toString());
                 BarcodedItem item;
-                if ("1234".equals(enteredBarcode.toString())) {
+                if (null!=ProductDatabases.BARCODED_PRODUCT_DATABASE.get(enteredBarcode)) {
                 	item = new BarcodedItem(enteredBarcode,new Mass(new BigInteger("500")));
                 	logicGold.station.getHandheldScanner().scan(item);
                 	 SwingUtilities.invokeLater(() -> {
