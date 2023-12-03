@@ -1,4 +1,4 @@
-package gui;
+package attendant;
 
 public interface NotifyAttendantListener {
 	 void update(Object updateInfo);

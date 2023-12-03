@@ -1,4 +1,4 @@
-package gui;
+package attendant;
 
 import javax.swing.*;
 /*

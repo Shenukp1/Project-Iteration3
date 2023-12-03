@@ -9,7 +9,7 @@ import com.tdc.banknote.IBanknoteDispenser;
 import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 
-import gui.NotifyAttendantScreen;
+import attendant.NotifyAttendantScreen;
 
 /**
  * This class predicts any issue that might occur within the self checkout
