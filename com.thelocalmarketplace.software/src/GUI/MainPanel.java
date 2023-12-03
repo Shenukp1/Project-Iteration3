@@ -64,17 +64,12 @@ public class MainPanel extends JFrame {
     
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
-<<<<<<< HEAD
     	
     	this.message = message;			//Console message to be printed 
-=======
-    	this.message = message;			
->>>>>>> 52e1c435949a5b527f28ad8c9bb48623c7f1af56
         this.logicGold = logicGold;
         mainFrame = logicGold.station.getScreen().getFrame();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-<<<<<<< HEAD
         // Color Palette
         Color primaryColor = new Color(63, 81, 181);   // Dark Blue
         Color secondaryColor = new Color(76, 175, 80); // Green
@@ -89,8 +84,6 @@ public class MainPanel extends JFrame {
         Font consoleFont = baseFont.deriveFont(16f);
         
         //mainPanel =  topPanel + bottomPanel
-=======
->>>>>>> 52e1c435949a5b527f28ad8c9bb48623c7f1af56
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         
@@ -127,8 +120,7 @@ public class MainPanel extends JFrame {
         button1.setFont(button1.getFont().deriveFont(19f));
         button1.addActionListener(e -> {
         	mainPanel.setVisible(false);
-        	BagsPanel bagsPanel = new BagsPanel(logicGold, false);
-        	//LOGIC: Add Bags
+        	new BagsPanel(logicGold, false);
         });mainLeft.add(button1);
         
         
@@ -136,9 +128,7 @@ public class MainPanel extends JFrame {
         button2.setFont(button2.getFont().deriveFont(19f));
         button2.addActionListener(e -> {
         	mainPanel.setVisible(false);
-        	vCatalogue catalogue = new vCatalogue(logicGold);
-        	//LOGIC: Membership Number
-        	// EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
+        	new vCatalogue(logicGold);
         });mainLeft.add(button2);
         
         
@@ -181,7 +171,7 @@ public class MainPanel extends JFrame {
         button3.setFont(button3.getFont().deriveFont(19f));
         button3.addActionListener(e -> {
         	mainPanel.setVisible(false);
-        	BagsPanel bagsPanel = new BagsPanel(logicGold, true);
+        	new BagsPanel(logicGold, true);
         });
         mainLeft.add(button3);        
         topPanel.add(mainLeft);
@@ -313,7 +303,7 @@ public class MainPanel extends JFrame {
         JButton switchToAttendantButton = new JButton("Switch to Attendant Screen");
         switchToAttendantButton.addActionListener(e -> {
         	 mainPanel.setVisible(false);
-             MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold); 
+             new MainAttendantScreen(logicGold); 
         });testPanel2.add(switchToAttendantButton);
          
         JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
@@ -333,45 +323,7 @@ public class MainPanel extends JFrame {
         
         
        
-        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-        
-        // Applying Styles
-        mainPanel.setBackground(backgroundColor);
-
-        // Top Panel Styles
-        mainLeft.setBackground(primaryColor);
-        stationLabel.setForeground(backgroundColor);
-        stationLabel.setFont(largeFont);
-        empty.setForeground(backgroundColor);
-        button0.setBackground(secondaryColor);
-        button0.setForeground(backgroundColor);
-        button0.setFont(buttonFont);
-        button1.setBackground(secondaryColor);
-        button1.setForeground(backgroundColor);
-        button1.setFont(buttonFont);
-        button2.setBackground(secondaryColor);
-        button2.setForeground(backgroundColor);
-        button2.setFont(buttonFont);
-        button3.setBackground(secondaryColor);
-        button3.setForeground(backgroundColor);
-        button3.setFont(buttonFont);
-        total.setForeground(backgroundColor);
-        total.setFont(totalFont);
-
-        // Right Panel Styles
-        itemsLabel.setForeground(primaryColor);
-        itemsLabel.setFont(largeFont);
-        containerPanel.setBackground(backgroundColor);
-        test.setForeground(accentColor);
-        test.setFont(consoleFont);
-
-        // Test Panel Styles
-        barcodeLabel.setForeground(primaryColor);
-        barcodeLabel.setFont(largeFont);
-        barcodeInput.setPreferredSize(new Dimension(200, 30));
-        switchToAttendantButton.setBackground(secondaryColor);
-        switchToAttendantButton.setForeground(backgroundColor);
-        
+        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);     
         
     }
     
