@@ -137,20 +137,13 @@ public class MainPanel extends JFrame {
         });mainLeft.add(button2);
         
         
-        JButton buttonV = new JButton("Search Catalogue");
+        JButton buttonV = new JButton("Visual Catalogue");
         buttonV.setFont(buttonV.getFont().deriveFont(19f));
         buttonV.addActionListener(e -> {
-        	//LOGIC: Call Attendant
-        });mainLeft.add(buttonV);
-        
-        
-        JButton visualButton = new JButton("Visual Catalogue");
-        visualButton.setFont(visualButton.getFont().deriveFont(19f));
-        visualButton.addActionListener(e -> {
         	//LOGIC: Visual Catalogue
         	mainPanel.setVisible(false);
         	vCatalogue catalogue = new vCatalogue(logicGold);
-        });mainLeft.add(visualButton);
+        });mainLeft.add(buttonV);
         
         
         JButton buttonPLU = new JButton("Enter PLU");
