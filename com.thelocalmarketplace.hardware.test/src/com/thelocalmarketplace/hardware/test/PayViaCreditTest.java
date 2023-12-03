@@ -160,15 +160,15 @@ public PayViaCreditTest(AbstractSelfCheckoutStation station) {
 	
 	@Test
 	public void scanAndPay() throws IOException {
-		logic.session.Cart.add(milk.barcodedProduct);
+		logic.session.Cart.add(steak.barcodedProduct);
 		
 		logic.station.getMainScanner().enable();
 	
-		AddItemBarcode.AddItemFromBarcode(logic.session, milk.itemBarcode);
+		AddItemBarcode.AddItemFromBarcode(logic.session, steak.itemBarcode);
 		
 	
 		logic.station.getBaggingArea().enable();
-		logic.station.getBaggingArea().addAnItem( milk.item);
+		logic.station.getBaggingArea().addAnItem( steak.item);
 		
 		
 		
