@@ -44,9 +44,9 @@ public class PurchaseBags implements ReusableBagDispenserListener {
 	                station.getReusableBagDispenser().dispense();
 	                AddItemBarcode.AddItemFromBarcode(session, bagsBarcode);
 	            }
-	            JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
+	            // JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
 	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
+	            // JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
 	        } finally {
 	        	station.getHandheldScanner().enable();
 	    	    station.getMainScanner().enable();
@@ -62,20 +62,20 @@ public class PurchaseBags implements ReusableBagDispenserListener {
 	            		station.getReusableBagDispenser().dispense();
 		                AddItemBarcode.AddItemFromBarcode(session, bagsBarcode); 
 		            }
-	            	JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
+	            	// JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
 	            } else  {
-	            	JOptionPane.showMessageDialog(null, "We're sorry, there may not be enough bags left in the dispenser");
+	            	// JOptionPane.showMessageDialog(null, "We're sorry, there may not be enough bags left in the dispenser");
 	            	throw new RuntimeException("Dispenser low or empty");
 	            }
 	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
+	            // JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
 	        } finally {
 	        	station.getHandheldScanner().enable();
 	    	    station.getMainScanner().enable();
 	    	    session.enable();
 	        }
 	    } else {
-	    	JOptionPane.showMessageDialog(null, "Error. Could not find bag dispenser");
+	    	// JOptionPane.showMessageDialog(null, "Error. Could not find bag dispenser");
 	    }
 	}
 	
