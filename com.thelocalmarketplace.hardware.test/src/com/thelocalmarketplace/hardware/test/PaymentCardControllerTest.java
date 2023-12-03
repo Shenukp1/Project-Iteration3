@@ -22,13 +22,15 @@ import com.thelocalmarketplace.hardware.external.CardIssuer;
 
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
 import control.SelfCheckoutLogic;
-import junit.framework.Assert;
+import item.AddItemCatalogue;
 import payment.PaymentCardController;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
+import testingUtilities.DollarsAndCurrency;
+import testingUtilities.LoadProductDatabases;
 import testingUtilities.Products;
 
-public class PaymentCardControllerTest implements CardPayment{
+public class PaymentCardControllerTest implements DollarsAndCurrency, CardPayment, LoadProductDatabases{
 	/*
 	 * make three types of station to test, we'll have to test all three types for each kind of test.
 	 * Maybe there's a fast way to plug in these objects than repeating a test method?
@@ -220,14 +222,14 @@ public class PaymentCardControllerTest implements CardPayment{
 	 */
 	@Test
 	public void scanAndPaywithSwipe() throws IOException {
-		logicBronze.session.Cart.add(products.beanBarcodedProduct);
-		// scan item using main scanner
-		logicBronze.station.getMainScanner().enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
-		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+		//add item from catalogue for testing 
+
+		AddItemCatalogue.AddItemFromCatalogue(logicBronze.session,
+				beer.barcodedProduct, beer.bigDecimalMass);
+		System.out.println("Cart Total: "+logicBronze.session.getCartTotal());
 		//bag item
 		logicBronze.station.getBaggingArea().enable();
-		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().addAnItem(beer.barcodedItem);
 		
 		
 		
@@ -253,22 +255,21 @@ public class PaymentCardControllerTest implements CardPayment{
 			
 		catch (AssertionError e) {
 	    // Log the assertion failure, but continue with the loop
-			System.out.println("Assertion failed, retrying...");
+			//System.out.println("Assertion failed, retrying...");
 			}
 		}
-		System.out.println(i);
-		assertTrue(i<=99);// if the loop finishes executing without breaking, transaction was unsuccessful
+		//System.out.println(i);
+		assertTrue("Swipe was unsuccessful", i<100); // if the loop finishes executing without breaking, transaction was unsuccessful
 	}
 	@Test
 	public void scanAndPaywithTap() throws IOException {
-		logicBronze.session.Cart.add(products.beanBarcodedProduct);
-		//scan using main scanner
-		logicBronze.station.getMainScanner().enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
-		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+		//add item from catalogue for testing 
+
+		AddItemCatalogue.AddItemFromCatalogue(logicBronze.session,
+				beer.barcodedProduct, beer.bigDecimalMass);
 		//bag item
 		logicBronze.station.getBaggingArea().enable();
-		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().addAnItem(beer.barcodedItem);
 		
 		
 		
@@ -295,7 +296,7 @@ public class PaymentCardControllerTest implements CardPayment{
 	     // Log the assertion failure, but continue with the loop
 			System.out.println("Assertion failed, retrying...");
 			}}	
-		assertTrue(i<=99); // if the loop finishes executing without breaking, transaction was unsuccessful
+		assertTrue("Tap was unsuccessful", i<100); // if the loop finishes executing without breaking, transaction was unsuccessful
 
 		
 	}
@@ -303,13 +304,12 @@ public class PaymentCardControllerTest implements CardPayment{
 	@Test
 	public void scanAndPaywithInsert() throws IOException {
 		logicBronze.session.Cart.add(products.beanBarcodedProduct);
-		//scan using main scanner
-		logicBronze.station.getMainScanner().enable();
-		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
-		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
+		//add item from catalogue for testing 
+		AddItemCatalogue.AddItemFromCatalogue(logicBronze.session,
+				beer.barcodedProduct, beer.bigDecimalMass);
 		//bagItem
 		logicBronze.station.getBaggingArea().enable();
-		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().addAnItem(beer.barcodedItem);
 		
 		
 		
@@ -338,7 +338,7 @@ public class PaymentCardControllerTest implements CardPayment{
             // Log the assertion failure, but continue with the loop
             System.out.println("Assertion failed, retrying...");
         }}
-		assertTrue(i<=99); // if the loop finishes executing without breaking, transaction was unsuccessful
+		assertTrue("Insert was unsuccessful", i<100); // if the loop finishes executing without breaking, transaction was unsuccessful
 
 	}
 	
