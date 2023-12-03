@@ -55,6 +55,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private int PrinterInkAddCount;// keep track of the printer added 
 	private int PrinterInkAddCountGold;
 
+	private int maxInk;//Has the max Ink allowed in printer
+
 	
 	
 
@@ -73,10 +75,13 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		PowerGrid.instance().forcePowerRestore();
 		receiptPrinterGold.plugIn(PowerGrid.instance());
 		receiptPrinterGold.turnOn();
-		receiptPrinterGold.register(this);
-
+		//receiptPrinterGold.register(this);
+		
 		
 	}
+	
+	
+	
 	
 	// Attendant adds ink
 	public void maintainAddInk(int quantity) throws OverloadedDevice {
@@ -85,6 +90,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		//PROBLEM: gold,silver,bronze CheckoutStations all use the BronzeReceiptPrinter
 		//SOLUTION(possibly): to keep track of bronzePrinter ink count we will have an instance of the goldPrinter
 		//	Why: because in the documentation, gold and bronze are the same. thus, we can use the gold to get Ink values to check and possibly other things
+		//Honeslty this might not be useful for this usecase other than to check
 		receiptPrinterGold.addInk(quantity);
 	}
 	
@@ -107,7 +113,6 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	}
 	
 	
-	
 	// Attendant adds paper 
 	public void maintainAddPaper(int quantity) throws OverloadedDevice {
 		printer.addPaper(quantity); // AbstractReceiptPrinter. Announces "paperAdded" event. Requires power.
@@ -125,6 +130,17 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		coinStorage.load(coins);// CoinStorageUnit. Announces "coinsLoaded" event. Disabling has no effect. Requires power.
 	}
 
+	//Gets the max ink value allowed to be added
+	public int getMaxInkValue() {
+		maxInk = receiptPrinterGold.MAXIMUM_INK;
+		return maxInk;
+	}
+	
+	
+	
+	
+	
+	
 	
 	//====STUFF THAT NEEDS TO BE CHANGED======
 	
@@ -172,6 +188,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	@Override
     /*
      * Method Used to announce that the printer is out of ink
+     * outOfInkMessage is originally false but when this method is called, the listener 
+     * is notified, then the outOfInkMessage turns true
      */
     public void thePrinterIsOutOfInk() {
         outOfInkMessage = true;
