@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -36,7 +38,6 @@ import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 
-
 import control.SelfCheckoutLogic;
 
 
@@ -53,13 +54,11 @@ public class MainPanel extends JFrame {
     JPanel containerPanel;
     DefaultListModel<JPanel> listModel;
     MainAttendantScreen attendantScreen;
-    
-    
 
-    public MainPanel(SelfCheckoutLogic logicGold, String message) {
-    	this.message = message;			//Console message to be printed 
+    public MainPanel(SelfCheckoutLogic logicGold, String message, MainAttendantScreen attendantScreen) {
         this.logicGold = logicGold;
         mainFrame = logicGold.station.getScreen().getFrame();
+        this.attendantScreen = attendantScreen;
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         //mainPanel =  topPanel + bottomPanel
@@ -84,8 +83,7 @@ public class MainPanel extends JFrame {
         mainLeft.add(stationLabelPanel);
         JLabel empty = new JLabel("");
         mainLeft.add(empty);
-
-
+        
         JButton button0 = new JButton("Call Attendant");
         button0.setFont(button0.getFont().deriveFont(19f));
         mainLeft.add(button0);
@@ -104,15 +102,6 @@ public class MainPanel extends JFrame {
         });
         mainLeft.add(button1);
         JButton button2 = new JButton("Enter Membership");
-        button2.setFont(button2.getFont().deriveFont(19f));
-        
-        button2.addActionListener(e -> {
-        	
-        	mainPanel.setVisible(false);
-        	EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
-        	
-        });
-        
         mainLeft.add(button2);
         JButton button3 = new JButton("Pay");
         button3.setFont(button3.getFont().deriveFont(19f));

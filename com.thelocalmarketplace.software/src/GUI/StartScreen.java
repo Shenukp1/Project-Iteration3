@@ -23,12 +23,14 @@ public class StartScreen extends JPanel {
     SelfCheckoutLogic logicGold;
     //SelfCheckoutLogic logic;
     JFrame initial;
+    MainAttendantScreen attendantScreen;
 
-    public StartScreen(SelfCheckoutLogic logicGold)  {
+    public StartScreen(SelfCheckoutLogic logicGold, MainAttendantScreen attendantScreen)  {
     	this.logicGold = logicGold;
+        this.attendantScreen = attendantScreen;
         //this.setForeground(getBackground());
 
-        initial = logicGold.station.screen.getFrame();
+        initial = logicGold.station.getScreen().getFrame();
 
         startPanel = new JPanel();
         startPanel.setLayout(new GridLayout(1, 1));
@@ -59,7 +61,7 @@ public class StartScreen extends JPanel {
 
             startPanel.setVisible(false);
             
-            MainPanel mainPanel= new MainPanel(logicGold);
+            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!", attendantScreen);
 
             //mainFrame.setVisible(true);
         });

@@ -1,71 +1,116 @@
 package item;
 /*
- * This class utilizes the addItem by PLU code method to add dispensible bags to an order
- * this also allows the company to keep an inventory of # bags sold.
+ * This class utilizes the addItem by Barcode method to add dispensible bags to an order
+ * checks if there are enough bags for the order in silver and gold hardware.
  */
 import javax.swing.JOptionPane;
-/*/
- * TODO Open Issue: Should the CheckoutStation track the number of dispensible bags it has left and disable when out of stock?
- */
-/*
- *  TODO Connect GUI button that will utilize actionListener to run buyBags();
- *  ex. 
- *  create button:
- *  buyBagsButton = new JButton("Purchase Bags");
- *  
- *  create Listener object and override its method to do what we want:
- *  public void SetUpButtonListeners() {
- *  ActionListener purchaseBagsListener = new ActionListener() {
- *  	@Override
- *  	public void actionPerformed(ActionEvent e) {
- *  		PurchaseBags.buyBags();
- *  		}
- *  	};
- *  
- *  register listener to the button:
- *  buyBagsButton.addActionListener(purchaseBagsListener);
- *  }
- *  
- */
 
-public class PurchaseBags {
-	private int numBags;
+import com.jjjwelectronics.EmptyDevice;
+import com.jjjwelectronics.IDevice;
+import com.jjjwelectronics.IDeviceListener;
+import com.jjjwelectronics.bag.ReusableBagDispenserBronze;
+import com.jjjwelectronics.bag.ReusableBagDispenserGold;
+import com.jjjwelectronics.bag.ReusableBagDispenserListener;
+import com.jjjwelectronics.bag.ReusableBagDispenserSilver;
+import com.jjjwelectronics.scanner.Barcode;
+import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+
+import control.SessionController;
+
+//Note:  When adding reusable bags to product database the weight is 5 grams, or 5,000,000 micrograms as specified by the ReusableBag class.
+public class PurchaseBags implements ReusableBagDispenserListener {
+	private SessionController session;
+	private AbstractSelfCheckoutStation station;
+	private Barcode bagsBarcode; // This can be set to whatever barcode bags are assigned to in the product database
+	private int bagsToBuy;
 	
-	public PurchaseBags() {
-		this.numBags = 0;
-	}
-	
-	// prompts the user to enter how many bags to purchase
-	public void buyBags() {
-		//TODO Implement disable method here to prevent scanning/paying during buyBags().
-		String input = JOptionPane.showInputDialog("Enter number of bags to purchase.");
-		try {
-			int bagsToBuy = Integer.parseInt(input);
-			if (bagsToBuy > 0) {
-				for (int i = 0; i < bagsToBuy; i++) {
-					/*
-					 *  TODO use AddItem implementation to add bags from database.
-					 *  will increase expected weight by expected weight of each bag.
-					 *  will increase order price by price of each bag.
-					 *  
-					 */
-				}
-				numBags += bagsToBuy;
-				JOptionPane.showMessageDialog(null, bagsToBuy + "bags have been added to your order!");
-				//TODO Implement enable method here.
-			} else {
-				JOptionPane.showMessageDialog(null, "Please enter a valid number (greater than 0).");
-			}
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Please enter a valid number.");
-		}
-	}
+	public PurchaseBags(AbstractSelfCheckoutStation station, SessionController session) {
+		this.station = station;
+		this.session = session;
+		this.bagsToBuy = 0;
+		station.getReusableBagDispenser().register(this);
 		
-	//Optional: call to display how many bags have been purchased. Not required. If not, Numbags can be removed.
-	//TODO How to decrement numBags when removeItem() method is called
-	public int getNumberOfBags() {
-        return numBags;
-    }
+	}
+	// adds # of bags set by user based on which type of bag dispenser
+	public void buyBags() throws EmptyDevice{
+	    station.getHandheldScanner().disable();
+	    station.getMainScanner().disable();
+	    session.disable();
+	    
+	    //Bronze does not have a check for remaining quantity of bags in device
+	    if (station.getReusableBagDispenser() instanceof ReusableBagDispenserBronze) {
+	        try {
+	            for (int i = 0; i < bagsToBuy; i++) {
+	                station.getReusableBagDispenser().dispense();
+	                AddItemBarcode.AddItemFromBarcode(session, bagsBarcode);
+	            }
+	            // JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
+	        } catch (NumberFormatException e) {
+	            // JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
+	        } finally {
+	        	station.getHandheldScanner().enable();
+	    	    station.getMainScanner().enable();
+	    	    session.enable();
+	        }
+	        
+	    // Silver and Gold check number of bags remaining before adding to order (silver approximates)
+	    } else if (station.getReusableBagDispenser() instanceof ReusableBagDispenserSilver || station.getReusableBagDispenser() instanceof ReusableBagDispenserGold) {
+	        try {
+	        	//checks if quantity in dispenser is enough to complete order
+	            if (station.getReusableBagDispenser().getQuantityRemaining() >= bagsToBuy) {
+	            	for (int i = 0; i < bagsToBuy; i++) {
+	            		station.getReusableBagDispenser().dispense();
+		                AddItemBarcode.AddItemFromBarcode(session, bagsBarcode); 
+		            }
+	            	// JOptionPane.showMessageDialog(null, bagsToBuy + " bags have been added to your order!");
+	            } else  {
+	            	// JOptionPane.showMessageDialog(null, "We're sorry, there may not be enough bags left in the dispenser");
+	            	throw new RuntimeException("Dispenser low or empty");
+	            }
+	        } catch (NumberFormatException e) {
+	            // JOptionPane.showMessageDialog(null, "Error. Something went wrong.");
+	        } finally {
+	        	station.getHandheldScanner().enable();
+	    	    station.getMainScanner().enable();
+	    	    session.enable();
+	        }
+	    } else {
+	    	// JOptionPane.showMessageDialog(null, "Error. Could not find bag dispenser");
+	    }
+	}
+	
+	public void setBagsToBuy(int numBags) {
+		bagsToBuy = numBags;
+	}
+	public int getBagsToBuy() {
+		return bagsToBuy;
 
+	}
+	
+	@Override
+	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
+	}
+	@Override
+	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
+	}
+	@Override
+	public void aDeviceHasBeenTurnedOn(IDevice<? extends IDeviceListener> device) {
+	}
+	@Override
+	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {
+	}
+
+	@Override
+	public void aBagHasBeenDispensedByTheDispenser() {
+		
+	}
+	@Override
+	public void theDispenserIsOutOfBags() {
+		String attendantBagMSG = "Station dispenser is out of bags";
+		
+	}
+	@Override
+	public void bagsHaveBeenLoadedIntoTheDispenser(int count) {
+		String attendantBagLoadMSG = "Bags have been loaded";
+	}
 }
-

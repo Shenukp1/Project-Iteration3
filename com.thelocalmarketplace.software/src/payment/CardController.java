@@ -27,7 +27,7 @@ public class CardController implements CardReaderListener{
 		this.station = sco;
 		this.session = c_session;
 		this.bank = bank;
-		sco.cardReader.register(this);
+		sco.getCardReader().register(this);
 		
 	}
 	
@@ -46,7 +46,7 @@ public class CardController implements CardReaderListener{
 			System.err.println("Please add items to pay for");
 			return;
 		}
-		station.cardReader.enable();
+		station.getCardReader().enable();
 	}
     
 
@@ -117,6 +117,24 @@ public class CardController implements CardReaderListener{
 
 	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {}
 
-	public void aCardHasBeenSwiped() {};
+	public void aCardHasBeenSwiped() {}
+
+	@Override
+	public void aCardHasBeenInserted() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void theCardHasBeenRemoved() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aCardHasBeenTapped() {
+		// TODO Auto-generated method stub
+		
+	};
 }
 
