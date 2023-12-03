@@ -56,11 +56,7 @@ public class PayViaCreditTest implements CardPayment, DollarsAndCurrency, LoadPr
 	CardController tempCardClass;
 	
 	  CardIssuer temp; 
-	
-	/*
-	 * products
-	 */
-	Products products = new Products();
+
 
 	@Rule
 	public ExpectedException expectedMessage = ExpectedException.none();
@@ -131,6 +127,7 @@ public PayViaCreditTest(AbstractSelfCheckoutStation station) {
 		tempCardClass= new CardController(logic.session, logic.station, temp );
 		logic.creditController =tempCardClass;
 	 logic.session.enable();
+	 logic.session.Cart.clear();
 
 	}
 
@@ -163,10 +160,10 @@ public PayViaCreditTest(AbstractSelfCheckoutStation station) {
 	
 	@Test
 	public void scanAndPay() throws IOException {
-		logic.session.Cart.add(products.beanBarcodedProduct);
+		logic.session.Cart.add(milk.barcodedProduct);
 		
 		logic.station.getMainScanner().enable();
-		logic.station.getMainScanner().scan( milk.barcodedItem);
+	
 		AddItemBarcode.AddItemFromBarcode(logic.session, milk.itemBarcode);
 		
 	
