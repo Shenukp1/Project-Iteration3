@@ -64,6 +64,7 @@ public class MainPanel extends JFrame {
     
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
+<<<<<<< HEAD
     	
     	this.message = message;			//Console message to be printed 
         this.logicGold = logicGold;
@@ -84,6 +85,8 @@ public class MainPanel extends JFrame {
         Font consoleFont = baseFont.deriveFont(16f);
         
         //mainPanel =  topPanel + bottomPanel
+=======
+>>>>>>> 52e1c435949a5b527f28ad8c9bb48623c7f1af56
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         
@@ -120,7 +123,8 @@ public class MainPanel extends JFrame {
         button1.setFont(button1.getFont().deriveFont(19f));
         button1.addActionListener(e -> {
         	mainPanel.setVisible(false);
-        	new BagsPanel(logicGold, false);
+        	BagsPanel bagsPanel = new BagsPanel(logicGold, false);
+        	//LOGIC: Add Bags
         });mainLeft.add(button1);
         
         
@@ -128,7 +132,9 @@ public class MainPanel extends JFrame {
         button2.setFont(button2.getFont().deriveFont(19f));
         button2.addActionListener(e -> {
         	mainPanel.setVisible(false);
-        	new vCatalogue(logicGold);
+        	vCatalogue catalogue = new vCatalogue(logicGold);
+        	//LOGIC: Membership Number
+        	// EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
         });mainLeft.add(button2);
         
         
@@ -202,7 +208,7 @@ public class MainPanel extends JFrame {
 
         updateListModel();
 
- 
+        
         JScrollPane scrollPane = new JScrollPane(containerPanel);
         mainRight.add(itemsLabel, gbcRightPanelTop);
         itemsLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -289,7 +295,8 @@ public class MainPanel extends JFrame {
                 }
                 
              
-               
+                
+                
             } catch (Exception ex) {
                 System.err.println("Invalid input");
             } finally {
@@ -303,7 +310,7 @@ public class MainPanel extends JFrame {
         JButton switchToAttendantButton = new JButton("Switch to Attendant Screen");
         switchToAttendantButton.addActionListener(e -> {
         	 mainPanel.setVisible(false);
-             new MainAttendantScreen(logicGold); 
+             MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold); 
         });testPanel2.add(switchToAttendantButton);
          
         JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
