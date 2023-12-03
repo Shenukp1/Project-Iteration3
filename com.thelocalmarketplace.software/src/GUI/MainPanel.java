@@ -52,25 +52,22 @@ public class MainPanel extends JFrame {
     
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
-    	this.message = message;			//Console message to be printed 
+    	this.message = message;			
         this.logicGold = logicGold;
         mainFrame = logicGold.station.getScreen().getFrame();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        //mainPanel =  topPanel + bottomPanel
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         
-        	//topPanel = mainLeft + mainRight
         topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(1, 2));
         		//mainLeft
         mainLeft = new JPanel();
-        mainLeft.setLayout(new GridLayout(7, 1, 40,40));
+        mainLeft.setLayout(new GridLayout(7, 2, 10,10));
         JPanel stationLabelPanel = new JPanel();
         stationLabelPanel.setLayout(new BorderLayout());
         stationLabelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-
         JLabel stationLabel = new JLabel("Station #3");
         stationLabel.setFont(stationLabel.getFont().deriveFont(16f));
         stationLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -79,45 +76,81 @@ public class MainPanel extends JFrame {
         mainLeft.add(stationLabelPanel);
         JLabel empty = new JLabel("");
         mainLeft.add(empty);
+        
+       
+        
+        
         JButton button0 = new JButton("Call Attendant");
         button0.setFont(button0.getFont().deriveFont(19f));
-        mainLeft.add(button0);
+        button0.addActionListener(e -> {
+        	//LOGIC: Call Attendant
+        });mainLeft.add(button0);
+        
+        
+        
+        
         JButton button1 = new JButton("Add Bags");
         button1.setFont(button1.getFont().deriveFont(19f));
         button1.addActionListener(e -> {
         	mainPanel.setVisible(false);
         	BagsPanel bagsPanel = new BagsPanel(logicGold, false);
-        });
-        mainLeft.add(button1);
+        	//LOGIC: Add Bags
+        });mainLeft.add(button1);
+        
+        
         JButton button2 = new JButton("Enter Membership");
         button2.setFont(button2.getFont().deriveFont(19f));
-        
         button2.addActionListener(e -> {
-
         	mainPanel.setVisible(false);
-        	
         	vCatalogue catalogue = new vCatalogue(logicGold);
-        	
+        	//LOGIC: Membership Number
         	// EnterMembershipWindow membershipWindow = new EnterMembershipWindow(logicGold);
-        	
-        });
+        });mainLeft.add(button2);
         
-        mainLeft.add(button2);
+        
+        
+        JButton buttonV = new JButton("Search Catalogue");
+        buttonV.setFont(buttonV.getFont().deriveFont(19f));
+        buttonV.addActionListener(e -> {
+        	//LOGIC: Call Attendant
+        });mainLeft.add(buttonV);
+        
+       
+        
+        JButton buttonPLU = new JButton("Enter PLU");
+        buttonPLU.setFont(buttonPLU.getFont().deriveFont(19f));
+        buttonPLU.addActionListener(e -> {
+        	//LOGIC: Call Attendant
+        });
+        mainLeft.add(buttonPLU);
+        
+        
+        JLabel empty4 = new JLabel("");
+        mainLeft.add(empty4);
+        JLabel empty1 = new JLabel("");
+        mainLeft.add(empty1);
+        JLabel empty2 = new JLabel("");
+        mainLeft.add(empty2);
+        JLabel empty6 = new JLabel("");
+        mainLeft.add(empty6);
+        JLabel empty3 = new JLabel("");
+        mainLeft.add(empty3);
+      
+        
+        //LOGIC: added Cart Total
+        JLabel total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
+        total.setFont(button2.getFont().deriveFont(25f));
+        mainLeft.add(total);
+        
+        
         JButton button3 = new JButton("Pay");
         button3.setFont(button3.getFont().deriveFont(19f));
         button3.addActionListener(e -> {
         	mainPanel.setVisible(false);
         	BagsPanel bagsPanel = new BagsPanel(logicGold, true);
         });
-        mainLeft.add(button3);
-        JLabel total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
-        total.setFont(button3.getFont().deriveFont(25f));
-        mainLeft.add(total);
+        mainLeft.add(button3);        
         topPanel.add(mainLeft);
-        topPanel.add(new JSeparator(SwingConstants.VERTICAL));
-        
-
-        		//mainRight = itemsLabel + Container
         mainRight = new JPanel();
         mainRight.setLayout(new GridBagLayout());
 
@@ -135,8 +168,6 @@ public class MainPanel extends JFrame {
         gbcRightPanelBot.weightx = 1;
         gbcRightPanelBot.fill = GridBagConstraints.BOTH;
 
-
-
         JLabel itemsLabel = new JLabel("Items Scanned:");
         itemsLabel.setFont(itemsLabel.getFont().deriveFont(20f));
         
@@ -145,10 +176,9 @@ public class MainPanel extends JFrame {
         containerPanel = new JPanel();
         containerPanel.setLayout(new GridLayout(20, 0));
 
-        //Updated current list
         updateListModel();
 
-        
+ 
         JScrollPane scrollPane = new JScrollPane(containerPanel);
         mainRight.add(itemsLabel, gbcRightPanelTop);
         itemsLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -173,7 +203,6 @@ public class MainPanel extends JFrame {
         bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 1));
         bottomPanel.add(test);
-       
         bottomPanel.add(test);
       
         GridBagConstraints gbcBottomPanel = new GridBagConstraints();
@@ -236,8 +265,7 @@ public class MainPanel extends JFrame {
                 }
                 
              
-                
-                
+               
             } catch (Exception ex) {
                 System.err.println("Invalid input");
             } finally {
@@ -247,13 +275,19 @@ public class MainPanel extends JFrame {
 
         testPanel.add(barcodeInput);
         
+        JPanel testPanel2 = new JPanel();
         JButton switchToAttendantButton = new JButton("Switch to Attendant Screen");
         switchToAttendantButton.addActionListener(e -> {
         	 mainPanel.setVisible(false);
              MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold); 
-        });
-        testPanel.add(switchToAttendantButton); 
+        });testPanel2.add(switchToAttendantButton);
+         
+        JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
+        addedItemButton.addActionListener(e -> {
+        	 //LOGIC: item added
+        });testPanel2.add(addedItemButton);
 
+        testPanel.add(testPanel2);
         GridBagConstraints gbcTestPanel = new GridBagConstraints();
         gbcTestPanel.gridx = 0;
         gbcTestPanel.gridy = 2;
