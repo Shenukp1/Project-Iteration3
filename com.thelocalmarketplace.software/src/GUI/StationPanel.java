@@ -21,31 +21,35 @@ public class StationPanel extends JPanel {
         stationPanel = new JPanel(new GridLayout(4, 1));
 
         JPanel addItemsPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbcAddItemsPanel = new GridBagConstraints();
-        gbcAddItemsPanel.gridx = 0;
-        gbcAddItemsPanel.gridy = 0;
-        gbcAddItemsPanel.gridwidth = 7;
-        gbcAddItemsPanel.fill = GridBagConstraints.HORIZONTAL;
-
-
-        addItemTextField = new JTextField();
-        addItemTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String userInput = addItemTextField.getText();
-
-                //LOGIC: Textual search
-                
-                addItemTextField.setText("");
-            }
-        });
-        
-        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
-        gbcAddItemsPanel.gridy = 1;
-        addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
         stationPanel.add(addItemsPanel);
+                                GridBagConstraints gbcAddItemsPanel = new GridBagConstraints();
+                                gbcAddItemsPanel.anchor = GridBagConstraints.NORTH;
+                                gbcAddItemsPanel.insets = new Insets(0, 0, 5, 0);
+                                gbcAddItemsPanel.gridx = 0;
+                                gbcAddItemsPanel.gridy = 0;
+                                gbcAddItemsPanel.gridwidth = 7;
+                                gbcAddItemsPanel.fill = GridBagConstraints.HORIZONTAL;
+                                
+                                
+                                        addItemTextField = new JTextField();
+                                        addItemTextField.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                String userInput = addItemTextField.getText();
+
+                                                //LOGIC: Textual search
+                                                
+                                                addItemTextField.setText("");
+                                            }
+                                        });
+                                        
+//        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
+                                        gbcAddItemsPanel.gridy = 1;
+                                        addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
 
         enableStationButton = new JButton("Enable Station");
+        enableStationButton.setBackground(new Color(255, 128, 128));
+        enableStationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
         enableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,6 +59,9 @@ public class StationPanel extends JPanel {
         stationPanel.add(enableStationButton);
 
         disableStationButton = new JButton("Disable Station");
+        disableStationButton.setForeground(new Color(0, 0, 0));
+        disableStationButton.setBackground(new Color(181, 255, 181));
+        disableStationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
         disableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +70,8 @@ public class StationPanel extends JPanel {
         });
         stationPanel.add(disableStationButton);
 
-        backButton = new JButton("Back");
+        backButton = new JButton("<< Back");
+        backButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

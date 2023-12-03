@@ -142,19 +142,18 @@ public BigInteger excessiveMass= new BigInteger("5000000000000");
 @Test
 	public void Starttest() throws InterruptedException {
 
-	/* Remove this commented section to reformat as a test
+		/*
+		 * // Remove this commented section to reformat as a test
+		 * 
+		 * logicGold.station.getScreen().setVisible(true);
+		 * start.getContentPane().removeAll(); start.setLayout(new BorderLayout());
+		 * 
+		 * System.out.print(logicGold); StartScreen checkoutPanel = new
+		 * StartScreen(logicGold);
+		 * System.out.println(logicGold.station.getScreen().getFrame());
+		 * Thread.sleep(60000);
+		 */
 	
-	logicGold.station.getScreen().setVisible(true);
-	//start.getContentPane().removeAll();
-	//start.setLayout(new BorderLayout());
-	
-	//System.out.print(logicGold);
-	StartScreen checkoutPanel = new StartScreen(logicGold);
-	System.out.println(logicGold.station.getScreen().getFrame());
-	Thread.sleep(60000);
-	
-	
-	*/
 }
 }
 
