@@ -121,9 +121,9 @@ public class HandleBulkyItemTest {
 		
 		scale = new ElectronicScaleBronze();
 		
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.turnOn();
-		logicBronze.station.baggingArea.addAnItem(products.bag);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().turnOn();
+		logicBronze.station.getBaggingArea().addAnItem(products.bag);
 		
 	  }
     //Simulates valid session for coverage
