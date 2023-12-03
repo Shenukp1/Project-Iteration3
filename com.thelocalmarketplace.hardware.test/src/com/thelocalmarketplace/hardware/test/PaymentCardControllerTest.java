@@ -226,8 +226,8 @@ public class PaymentCardControllerTest implements CardPayment{
 		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
 		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 		//bag item
-		logicBronze.station.getBaggingArea.enable();
-		logicBronze.station.getBaggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
@@ -267,8 +267,8 @@ public class PaymentCardControllerTest implements CardPayment{
 		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
 		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 		//bag item
-		logicBronze.station.getBaggingArea.enable();
-		logicBronze.station.getBaggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
@@ -308,8 +308,8 @@ public class PaymentCardControllerTest implements CardPayment{
 		logicBronze.barcodeController.aBarcodeHasBeenScanned(logicBronze.station.getMainScanner(), products.beanBarcode);
 		logicBronze.station.getMainScanner().scan(products.beanBarcodeItem);
 		//bagItem
-		logicBronze.station.getBaggingArea.enable();
-		logicBronze.station.getBaggingArea.addAnItem(products.beanBarcodeItem);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
 		
 		
 		
