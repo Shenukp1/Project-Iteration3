@@ -43,6 +43,8 @@ public class SelfCheckoutLogicStub extends SelfCheckoutLogic {
 
 	// Card Issuer
 	public CardIssuer cardIssuer;
+	
+	public int linesUsed;
 
 	/**
 	 * This method links our software to our hardware (simulation) and initializes
@@ -75,7 +77,7 @@ public class SelfCheckoutLogicStub extends SelfCheckoutLogic {
 		coinController = new CoinController(session, scs);
 		// creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
-		predictController = new PredictIssueController(session, scs);
+		predictController = new PredictIssueController(session, scs, linesUsed);
 		// Disable banknote insertion slot so the customer does not insert banknotes
 		// before going to the payment page.
 		scs.banknoteInput.disable();

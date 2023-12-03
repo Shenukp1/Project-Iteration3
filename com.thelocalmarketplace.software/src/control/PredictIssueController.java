@@ -33,13 +33,15 @@ public class PredictIssueController {
 	private boolean lowBanknoteIssueExists = false;
 	private boolean fullCoinIssueExists = false;;
 	private boolean fullBanknoteIssueExists = false;
+	private int linesUsed = 0;
 
-	public PredictIssueController(SessionController sessionController, AbstractSelfCheckoutStation scs) {
+	public PredictIssueController(SessionController sessionController, AbstractSelfCheckoutStation scs, int linesUsed) {
 
 		/**
 		 * This initializes the self checkout station
 		 */
 		this.scs = scs;
+		this.linesUsed += linesUsed;
 		checkPrinter = new CheckForPrinterIssues(scs);
 
 		/**
@@ -78,15 +80,14 @@ public class PredictIssueController {
 			lowInkIssueExists = true;
 			listOfIssues.add("Printer is almost out of ink");
 		}
-	}
+	} 
 
 	/**
 	 * This method predicts low paper within the station's printer. It will not
 	 * check this for the bronze printer
 	 */
 	public void predictLowPaper() {
-
-		if (checkPrinter.paperRemaining() <= 20) {
+		if (linesUsed >= 1020) {
 			lowPaperIssueExists = true;
 			listOfIssues.add("Printer is almost out of paper");
 		}

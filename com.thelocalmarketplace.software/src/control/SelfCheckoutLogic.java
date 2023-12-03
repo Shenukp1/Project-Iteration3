@@ -64,6 +64,7 @@ public class SelfCheckoutLogic {
 	 * (currently simulated when a customer presses "Start Session")
 	 */
 	public SelfCheckoutLogic(AbstractSelfCheckoutStation scs) {
+		int linesUsed = 0;
 		station = scs;
 		session = new SessionController(this);
 		session.start();
@@ -74,7 +75,8 @@ public class SelfCheckoutLogic {
 		coinController = new CoinController(session, scs);
 	//	creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
-		predictController = new PredictIssueController(session, scs);
+		linesUsed += printController.getLinesUsed();
+		predictController = new PredictIssueController(session, scs, linesUsed);
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
 		scs.banknoteInput.disable();
