@@ -20,7 +20,7 @@ The third and final iteration is the most complex yet.  Your team is now big and
 - [Sina Salahshour: ](https://github.com/SinSalahshour)
 - [Tristan Van Decker: 30160634](https://github.com/Muffletruffle)
 - [Usharab Khan: ](https://github.com/usharabkhan)
-- [: ](https://github.com/)
+- [Simrat Virk: 30000516](https://github.com/SimratV0)
 - [: ](https://github.com/)
 - [: ](https://github.com/)
 
