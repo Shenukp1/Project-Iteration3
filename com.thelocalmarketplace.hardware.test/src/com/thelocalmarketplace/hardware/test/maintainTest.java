@@ -37,6 +37,7 @@ package com.thelocalmarketplace.hardware.test;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.prefs.BackingStoreException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,7 +50,10 @@ import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.printer.ReceiptPrinterBronze;
 import com.jjjwelectronics.printer.ReceiptPrinterGold;
 import com.jjjwelectronics.printer.ReceiptPrinterSilver;
+import com.tdc.banknote.BanknoteStorageUnit;
+import com.tdc.coin.CoinStorageUnit;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.AttendantStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
@@ -77,10 +81,11 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	private ReceiptPrinterBronze receiptPrinterBronze;
 	private ReceiptPrinterSilver ReceiptPrinterSilver;
 	
-	
+	private CoinStorageUnit coinStorageUnit;
+	private BanknoteStorageUnit banknoteStorageUnit;
 	private Maintain maintain;
 	
-	
+	AttendantStation attendentStation;
 	
 	
 	
@@ -93,6 +98,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		bronze.configureBanknoteDenominations(bankNoteDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
+		bronze = new SelfCheckoutStationBronze();
 		bronze.plugIn(PowerGrid.instance());
 		bronze.turnOn();
 		
@@ -100,18 +106,28 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		silver.resetConfigurationToDefaults();
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
+		silver = new SelfCheckoutStationSilver();
 		silver.plugIn(PowerGrid.instance());
 		silver.turnOn();
 		
 		//Gold Station
+		gold = new SelfCheckoutStationGold();
 		gold.resetConfigurationToDefaults();
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		gold.plugIn(PowerGrid.instance());
 		gold.turnOn();
+		maintain = new Maintain(gold);
+		gold.setSupervisor(attendentStation);
+		gold.getPrinter().addInk(300);
+		gold.getPrinter().print((char) 1);
+		//BankNote initalization 
+		gold.configureBanknoteStorageUnitCapacity(10);// Max capacity is 10
 		
+
 		
-		
+//		banknoteStorageUnit = new BanknoteStorageUnit(10);// Max capacity is 10
+//		coinStorageUnit = new CoinStorageUnit(10);// Max capacity is 10 
 
 		
 		
@@ -126,9 +142,10 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 * Ink is Low
 	 */
 	@Test
-	public void testLowInk() {
+	public void testGoldLowInk() {
+		
 		System.out.println("hello");
-		System.out.println(logicGold.station.getPrinter().inkRemaining());
+		
 
 	}
 	

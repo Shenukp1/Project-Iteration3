@@ -41,13 +41,14 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	
 	
-	public Maintain(AbstractSelfCheckoutStation station,BanknoteStorageUnit bns,CoinStorageUnit csu)  {
+	
+	public Maintain(AbstractSelfCheckoutStation station)  {
 		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
 		station.getPrinter().register(this);
 		station.getBanknoteStorage().attach(this);
 		station.getCoinStorage().attach(this);
-		bns.attach(this);
-		csu.attach(this);
+		
+		
 		
 	}
 	
