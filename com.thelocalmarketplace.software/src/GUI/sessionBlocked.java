@@ -42,7 +42,7 @@ public class sessionBlocked {
     public sessionBlocked(SelfCheckoutLogic logicGold)  {
     	this.logicGold = logicGold;
 
-        initial = logicGold.station.screen.getFrame();
+        initial = logicGold.station.getScreen().getFrame();
 
         blockedPanel = new JPanel();
         blockedPanel.setLayout(new GridLayout(10
