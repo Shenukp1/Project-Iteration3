@@ -1,7 +1,6 @@
 package payment;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
 
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
@@ -13,7 +12,7 @@ import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
 import control.SessionController;
 import item.PrintController;
 
-public class CardController implements CardReaderListener{
+public class PaymentCardController implements CardReaderListener{
 
 	private BigDecimal cartTotal; 												// Total value of customer's cart
 	private SessionController session;											// The current session Payment Controller is linked to
@@ -21,9 +20,10 @@ public class CardController implements CardReaderListener{
 	private CardIssuer bank; 													// Bank of credit card
 	private long holdNumber;													// Hold number of transaction
 	private boolean successfulTransaction = false;				 		 		// Tracks if the transaction is successful
+	private boolean isSuccess= false;
 
 	
-	public CardController(SessionController c_session, AbstractSelfCheckoutStation sco, CardIssuer bank) {
+	public PaymentCardController(SessionController c_session, AbstractSelfCheckoutStation sco, CardIssuer bank) {
 		this.station = sco;
 		this.session = c_session;
 		this.bank = bank;
@@ -75,39 +75,47 @@ public class CardController implements CardReaderListener{
 		cartTotal = session.getCartTotal();						// Get customer total
 
 		if(cardType == null) {
-			new NullPointerSimulationException("cardType");
+			throw new NullPointerSimulationException("cardType");
 		}
 		else if(cardType != "credit" && cardType != "debit") {
 			System.err.println("credit/debit card expected, type used is: " + cardType);
 		}
 		if(cardHolder == null) {
-			new NullPointerSimulationException("cardHolder");
+			throw new NullPointerSimulationException("cardHolder");
 		}
 		if(cardNumber == null) {
-			new NullPointerSimulationException("cardNumber");
+			throw new NullPointerSimulationException("cardNumber");
 		}
 		session.disable();
 		holdNumber = signalHoldToBank(bank, cardNumber, cartTotal);
 
 		if(holdNumber != -1) {
+			//System.out.println(holdNumber);
 			successfulTransaction = bank.postTransaction(cardNumber, holdNumber, cartTotal.doubleValue());
 		}
 		else
 			new NullPointerSimulationException("hold number");
-		
+
 
 		if(successfulTransaction) {
 			session.setCartTotal(BigDecimal.ZERO);	
 			System.out.println("You paid: $" + cartTotal);
 			PrintController.printReceipt(station, session);
+			isSuccess = true;
 			// CLEAN UP SESSION (LATER ITERATION)
 		}
 		else {
 			System.err.println("There was an error with payment, please try agian.");
+			isSuccess = false;
 		}
 		successfulTransaction = false;		// To reset to start state.
 		session.enable();
 	};
+	
+	public boolean getSuccess() {
+
+		return isSuccess;
+	}
 
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {};
 
@@ -117,6 +125,12 @@ public class CardController implements CardReaderListener{
 
 	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {}
 
-	public void aCardHasBeenSwiped() {};
+	public void aCardHasBeenSwiped() {}
+
+	public void aCardHasBeenInserted() {}
+
+	public void theCardHasBeenRemoved() {}
+
+	public void aCardHasBeenTapped() {}
 }
 

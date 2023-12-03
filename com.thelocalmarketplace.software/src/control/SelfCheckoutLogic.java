@@ -4,7 +4,7 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 
 import payment.CoinController;
-import payment.CardController;
+import payment.PaymentCardController;
 import payment.BanknoteController;
 import item.AddItemBarcode;
 import item.PrintController;
@@ -27,7 +27,7 @@ public class SelfCheckoutLogic {
 	public BanknoteController banknoteController;
 	
 	// Controller to manage credit card payments
-	public CardController creditController;
+	public PaymentCardController creditController;
 	
 	// Controller to manage handheld barcode scans
 	public AddItemBarcode barcodeController;
