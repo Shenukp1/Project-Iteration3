@@ -33,37 +33,39 @@ public class PredictIssueController {
 	private boolean lowBanknoteIssueExists = false;
 	private boolean fullCoinIssueExists = false;;
 	private boolean fullBanknoteIssueExists = false;
+	
+	private int maxPaper = 1 << 10;
+	private int maxInk = 1 << 20;
+	private int totalNumOfLinesPrinted;
+	private int numOfPaperRemaining = maxPaper;
 
-	public PredictIssueController(SessionController sessionController, AbstractSelfCheckoutStation scs) {
+	public PredictIssueController(AbstractSelfCheckoutStation scs, int totalNumOfLinesPrinted) {
 
 		/**
 		 * This initializes the self checkout station
 		 */
 		this.scs = scs;
-		checkPrinter = new CheckForPrinterIssues(scs);
-
+		numOfPaperRemaining -= totalNumOfLinesPrinted;
 		/**
 		 * This if statement is important to ensure that the software is only checking
 		 * for issues if the session is currently not occurring
 		 */
-		if (sessionController.isStarted() == false) {
-			predictLowInk();
-			predictLowPaper();
-			predictLowCoin();
-			predictLowBanknote();
-			predictFullCoin();
-			predictFullBanknote();
+		predictLowInk();
+		predictLowPaper();
+		predictLowCoin();
+		predictLowBanknote();
+		predictFullCoin();
+		predictFullBanknote();
 
-			/**
-			 * This updates the Attendant Station's GUI for new issues within the self
-			 * checkout station
-			 */
-			String text = "";
-			for (int i = 0; i < listOfIssues.size(); i++) {
-				text += "<html>" + listOfIssues.get(i) + "<br/>";
-			}
-			attendantGUI.update(text);
+		/**
+		 * This updates the Attendant Station's GUI for new issues within the self
+		 * checkout station
+		 */
+		String text = "";
+		for (int i = 0; i < listOfIssues.size(); i++) {
+			text += "<html>" + listOfIssues.get(i) + "<br/>";
 		}
+		attendantGUI.update(text);
 	}
 
 	/**
@@ -74,10 +76,10 @@ public class PredictIssueController {
 	 * session
 	 */
 	public void predictLowInk() {
-		if (checkPrinter.inkRemaining() <= 500) {
-			lowInkIssueExists = true;
-			listOfIssues.add("Printer is almost out of ink");
-		}
+//		if (checkPrinter.inkRemaining() <= 500) {
+//			lowInkIssueExists = true;
+//			listOfIssues.add("Printer is almost out of ink");
+//		}
 	}
 
 	/**
@@ -85,8 +87,7 @@ public class PredictIssueController {
 	 * check this for the bronze printer
 	 */
 	public void predictLowPaper() {
-
-		if (checkPrinter.paperRemaining() <= 20) {
+		if (numOfPaperRemaining <= 15) {
 			lowPaperIssueExists = true;
 			listOfIssues.add("Printer is almost out of paper");
 		}

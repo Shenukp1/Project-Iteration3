@@ -31,6 +31,7 @@ public class CheckForPrinterIssues implements ReceiptPrinterListener {
 		if (inkAdded == true) {
 			inkRemaining = maxInk;
 		}
+		
 		if (paperAdded == true) {
 			paperRemaining = maxPaper;
 		}
