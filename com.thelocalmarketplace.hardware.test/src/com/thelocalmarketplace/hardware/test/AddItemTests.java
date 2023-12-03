@@ -46,6 +46,7 @@ import powerutility.NoPowerException;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
 import testingUtilities.DollarsAndCurrency;
+import testingUtilities.InventoryProductGenerator;
 import testingUtilities.LoadProductDatabases;
 import testingUtilities.Products;
 import testingUtilities.Wallet;
@@ -165,6 +166,7 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 		station.getHandheldScanner().register(scanWatch);
 		station.getScanningArea().register(scaleWatch);
 		station.getBaggingArea().register(scaleWatch);
+		
 		
 		//productsNew= new LoadProductDatabases();
 	}

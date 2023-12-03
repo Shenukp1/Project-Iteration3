@@ -53,7 +53,7 @@ public class PayViaCreditTest implements CardPayment, DollarsAndCurrency, LoadPr
  */
 	Calendar calendar = Calendar.getInstance();
 	
-	CardController tempCardClass;
+	
 	
 	  CardIssuer temp; 
 
@@ -114,18 +114,15 @@ public PayViaCreditTest(AbstractSelfCheckoutStation station) {
 		 
 	logic = SelfCheckoutLogic.installOn(station);
 
-	 temp = new CardIssuer("TD trust", 12321);
+	temp = new CardIssuer("TD trust", 12321);
 		
-		logic.cardIssuer= temp;
-	  logic.cardIssuer = new CardIssuer("TD trust", 12321);
+		
+ logic.cardIssuer = new CardIssuer("TD trust", 12321);
 	 
 		logic.cardIssuer.addCardData(otherCreditCard.number, otherCreditCard.cardholder,
 				calendar,otherCreditCard.cvv , 1000);
-		temp.addCardData(otherCreditCard.number, otherCreditCard.cardholder,
-				calendar,otherCreditCard.cvv , 1000);
-		
-		tempCardClass= new CardController(logic.session, logic.station, temp );
-		logic.creditController =tempCardClass;
+
+		logic.creditController = new CardController(logic.session, logic.station, temp );
 	 logic.session.enable();
 	 logic.session.Cart.clear();
 
