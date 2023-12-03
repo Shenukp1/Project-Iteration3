@@ -76,7 +76,7 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 
     SelfCheckoutLogic logicGold;
     JFrame initial;
-//    MainPanel mainPanel;
+    MainPanel mainPanel;
 
     
     public vCatalogue(SelfCheckoutLogic logicGold)  {
@@ -114,8 +114,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 	            vcPanel.setVisible(false);
 				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, bananas.barcodedProduct,
 						bananas.bigDecimalMass);
-    	//		mainPanel = new MainPanel(logicGold, "Banana Added");
-         //       mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
+    			mainPanel = new MainPanel(logicGold, "Banana Added");
+              //  mainPanel.listModel.addElement(createItemPanel("Banana - $ " + bananas.barcodedProduct.getPrice()));
     	        });	        
     		vcPanel.add(bananaButton);
 			
@@ -129,8 +129,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
 				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, cookie.barcodedProduct, cookie.bigDecimalMass);
-//    			mainPanel = new MainPanel(logicGold, "Cookies Added");
-//                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
+    			mainPanel = new MainPanel(logicGold, "Cookies Added");
+             //   mainPanel.listModel.addElement(createItemPanel("Banana - $ " + cookie.barcodedProduct.getPrice()));
     	        });	        
 	        vcPanel.add(cookieButton);
 			validate();
@@ -145,8 +145,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
 				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, milkc.barcodedProduct, milkc.bigDecimalMass);
-//   			mainPanel = new MainPanel(logicGold, "Milk Added");
-//                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
+   			mainPanel = new MainPanel(logicGold, "Milk Added");
+             //   mainPanel.listModel.addElement(createItemPanel("Banana - $ " + milkc.barcodedProduct.getPrice()));
     	        });	        
 	        vcPanel.add(milkButton);
 			validate();
@@ -161,8 +161,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
 				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, egg.barcodedProduct, egg.bigDecimalMass);
-//    			mainPanel = new MainPanel(logicGold, "Eggs Added");
-//                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
+    			mainPanel = new MainPanel(logicGold, "Eggs Added");
+          //      mainPanel.listModel.addElement(createItemPanel("Banana - $ " + egg.barcodedProduct.getPrice()));
     	        });	        
 	        vcPanel.add(eggButton);
 			validate();
