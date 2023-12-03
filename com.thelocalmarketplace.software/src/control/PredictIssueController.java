@@ -26,7 +26,6 @@ public class PredictIssueController {
 	private AbstractSelfCheckoutStation scs;
 	private ArrayList<String> listOfIssues = new ArrayList<>();
 	private NotifyAttendantScreen attendantGUI = new NotifyAttendantScreen();
-	private CheckForPrinterIssues checkPrinter;
 	private boolean lowInkIssueExists = false;
 	private boolean lowPaperIssueExists = false;;
 	private boolean lowCoinIssueExists = false;
@@ -42,7 +41,6 @@ public class PredictIssueController {
 		 */
 		this.scs = scs;
 		this.linesUsed += linesUsed;
-		checkPrinter = new CheckForPrinterIssues(scs);
 
 		/**
 		 * This if statement is important to ensure that the software is only checking
@@ -76,7 +74,7 @@ public class PredictIssueController {
 	 * session
 	 */
 	public void predictLowInk() {
-		if (checkPrinter.inkRemaining() <= 500) {
+		if (linesUsed * 60 >= 1 << 20 - 500) {
 			lowInkIssueExists = true;
 			listOfIssues.add("Printer is almost out of ink");
 		}

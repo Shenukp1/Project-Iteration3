@@ -46,6 +46,10 @@ public class SelfCheckoutLogic {
 	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
+	
+	private int linesUsed = 0;
+
+	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.
@@ -64,7 +68,6 @@ public class SelfCheckoutLogic {
 	 * (currently simulated when a customer presses "Start Session")
 	 */
 	public SelfCheckoutLogic(AbstractSelfCheckoutStation scs) {
-		int linesUsed = 0;
 		station = scs;
 		session = new SessionController(this);
 		session.start();

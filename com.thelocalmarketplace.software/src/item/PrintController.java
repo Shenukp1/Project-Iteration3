@@ -41,7 +41,7 @@ public class PrintController implements ReceiptPrinterListener{
         	}
         	receiptText.append("\n");								// Print a full stop with new line
         }
-        
+       
         String[] lines = receiptText.toString().split("\n");		// Split our receipt text into lines
         int character;
         															// Loop through the lines of our receipt text
