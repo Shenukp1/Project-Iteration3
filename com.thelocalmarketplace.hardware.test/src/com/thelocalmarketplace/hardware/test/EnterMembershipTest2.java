@@ -23,7 +23,7 @@ import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
 import testingUtilities.Products;
 
-public class EnterMembershipTest implements CardPayment{
+public class EnterMembershipTest2 implements CardPayment{
 	private SelfCheckoutStationGold gold;
 	private SelfCheckoutStationBronze bronze;
 	private SelfCheckoutStationSilver silver;
@@ -140,8 +140,8 @@ public class EnterMembershipTest implements CardPayment{
 	public void testEnterByTouchScreen() {
 	    logicGold.station.getHandheldScanner().disable(); // Ensure handheld scanner is disabled for this test
 	    logicGold.session.enable();
-	    logicGold.station.getEnterMembership().EnterByTouchScreen();
-	    assertEquals(logicGold.session.membership, logicGold.station.getEnterMembership().getMembershipNumber());
+	    logicGold.enterMembership.EnterByTouchScreen();
+	    assertEquals(logicGold.session.membership, logicGold.enterMembership.getMembershipNumber());
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class EnterMembershipTest implements CardPayment{
 	 */
 	@Test(expected = NullPointerSimulationException.class)
 	public void testCardTypeIsNull() throws NullPointerSimulationException {
-	    logicGold.station.getCardReader().simulateCardSwipe("00000", null, "John");
+	    logicGold.station.getCardReader().swipe("00000", null, "John"); //change this to a card object
 	}
 
 	/**
@@ -164,11 +164,12 @@ public class EnterMembershipTest implements CardPayment{
 	 * - Configures the card reader to return a card with a non-membership type.
 	 * - Invokes the card reading process.
 	 * Expected Result: Checks if an error message is printed when a non-membership card is detected.
+	 * @throws IOException 
 	 */
 	@Test
-	public void testNonMembershipCardType() {
+	public void testNonMembershipCardType() throws IOException {
 	    Card nonMembershipCard = new Card("nonMembership", "12345", "Jane", null, null, false, false);
-	    logicGold.station.getCardReader().simulateCardSwipe(nonMembershipCard);
+	    logicGold.station.getCardReader().swipe(nonMembershipCard);
 	    // Check if an error message is printed 
 	}
 
@@ -200,7 +201,7 @@ public class EnterMembershipTest implements CardPayment{
 	@Test
 	public void testDeviceDisabled() {
 	    logicGold.station.getCardReader().disable();
-	    logicGold.station.getCardReader().simulateCardSwipe("00000", "membership", "John");
+	    logicGold.station.getCardReader().swipe("00000", "membership", "John"); //change this to a card object 
 	    // Check if an error message is printed 
 	}
 
@@ -218,8 +219,8 @@ public class EnterMembershipTest implements CardPayment{
 	    logicGold.session.enable();
 
 	    // Enter membership number through touch screen
-	    logicGold.station.getEnterMembership().EnterByTouchScreen();
-	    String enteredNumber = logicGold.station.getEnterMembership().getMembershipNumber();
+	    logicGold.enterMembership.EnterByTouchScreen();
+	    String enteredNumber = logicGold.enterMembership.getMembershipNumber();
 
 	    // Swipe a membership card
 	    Card memberCard = new Card("membership", "00000", "John", null, null, false, false);
