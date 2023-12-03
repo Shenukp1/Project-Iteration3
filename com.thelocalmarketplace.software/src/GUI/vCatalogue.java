@@ -117,7 +117,7 @@ public class vCatalogue extends JPanel {
 
     		bananaButton.addActionListener(e -> {
 	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, bananas.barcodedProduct, bananas.bigDecimalMass);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, barcodeController.barcodedProduct, bananas.bigDecimalMass);
     			mainPanel = new MainPanel(logicGold, "Banana Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        

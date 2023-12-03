@@ -101,14 +101,19 @@ public class sessionBlocked {
         
         //need to added button functionalities of the button still
         doNotBagButton.addActionListener(e -> {
-//        	logicGold.station.baggingArea.addAnItem(null
+        	logicGold.session.setBagWeight(0);
+        });
 //        	theMassOnTheScaleNoLongerExceedsItsLimit(logicGold.station.baggingArea);
 ////
 //            addItemButton.addActionListener(e -> {
-                
+        addItemButton.addActionListener(e -> {
+    
 //            startPanel.setVisible(false);
             MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
-            
+            JLabel weight = new JLabel("Total weight: " + logicGold.session.getBagWeight());
+            JLabel wanted_weight = new JLabel(logicGold.session.getCartWeight());
+            weight += logicGold.session.setBagWeight();
+
             //!!!
             //change the expected weight to not include the item
             //logicGold.changeWeight
