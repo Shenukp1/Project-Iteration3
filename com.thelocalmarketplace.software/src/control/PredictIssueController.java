@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.jjjwelectronics.IDevice;
+import com.jjjwelectronics.IDeviceListener;
+import com.jjjwelectronics.printer.ReceiptPrinterListener;
 import com.tdc.banknote.IBanknoteDispenser;
 import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
@@ -18,7 +21,7 @@ import gui.AttendantGUIMockup;
  * Issues that this controller will predict: 1. Low Ink 2. Low Paper 3. Low
  * Coins 4. Low Banknotes 5. Full Coins 6. Full Banknotes
  */
-public class PredictIssueController {
+public class PredictIssueController implements ReceiptPrinterListener {
 
 	/**
 	 * This declares all the variables and initializes only most of them.
@@ -34,10 +37,26 @@ public class PredictIssueController {
 	private boolean fullCoinIssueExists = false;;
 	private boolean fullBanknoteIssueExists = false;
 	
-	private int maxPaper = 1 << 10;
-	private int maxInk = 1 << 20;
+	private final int maxPaper = 1 << 10;
+	private final int maxInk = 1 << 20;
+	
 	private int totalNumOfLinesPrinted;
-	private int numOfPaperRemaining = maxPaper;
+	
+	private int numOfPaperRemaining;
+	private int numOfInkRemaining;
+	
+	private boolean inkAdded = false;
+	private boolean paperAdded = false;
+	
+	@Override
+	public void paperHasBeenAddedToThePrinter() {
+		inkAdded = true;
+	}
+
+	@Override
+	public void inkHasBeenAddedToThePrinter() {
+		paperAdded = true;
+	}
 
 	public PredictIssueController(AbstractSelfCheckoutStation scs, int totalNumOfLinesPrinted) {
 
@@ -46,6 +65,14 @@ public class PredictIssueController {
 		 */
 		this.scs = scs;
 		numOfPaperRemaining -= totalNumOfLinesPrinted;
+		
+		if (inkAdded = true) {
+			numOfInkRemaining = maxInk;
+		}
+		if (paperAdded = true) {
+			numOfPaperRemaining = maxPaper;
+		}
+		
 		/**
 		 * This if statement is important to ensure that the software is only checking
 		 * for issues if the session is currently not occurring
@@ -203,5 +230,53 @@ public class PredictIssueController {
 	public int numberOfIssues() {
 		return listOfIssues.size();
 
+	}
+
+	@Override
+	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aDeviceHasBeenTurnedOn(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void thePrinterIsOutOfPaper() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void thePrinterIsOutOfInk() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void thePrinterHasLowInk() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void thePrinterHasLowPaper() {
+		// TODO Auto-generated method stub
+		
 	}
 }

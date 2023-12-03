@@ -16,7 +16,7 @@ public class PrintController implements ReceiptPrinterListener{
 	private SessionController session;
 	private AbstractSelfCheckoutStation station;
 	private static final int CHARACTERS_PER_LINE = 60;
-	private static String[] lines;
+	private static String[] lines = {""};
 	
 	public PrintController(SessionController session, AbstractSelfCheckoutStation station) {
 		this.session = session;
@@ -59,8 +59,8 @@ public class PrintController implements ReceiptPrinterListener{
         }
 	}
 	
-	public int getNumOfLinesInReceipt() {
-		return lines.length;
+	public String[] getLinesInReceipt() {
+		return lines;
 	}
 	
 	@Override

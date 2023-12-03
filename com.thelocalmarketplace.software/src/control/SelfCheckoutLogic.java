@@ -47,7 +47,7 @@ public class SelfCheckoutLogic {
 	//	Card Issuer
 	public CardIssuer cardIssuer;
 	
-	private int totalNumOfLinesPrinted = 0;
+	private int totalNumOfPaperUsed = 0;
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.
@@ -67,7 +67,7 @@ public class SelfCheckoutLogic {
 	 */
 	public SelfCheckoutLogic(AbstractSelfCheckoutStation scs) {
 		station = scs;
-		predictController = new PredictIssueController(scs, totalNumOfLinesPrinted);
+		predictController = new PredictIssueController(scs, totalNumOfPaperUsed);
 
 		session = new SessionController(this);
 		session.start();
@@ -78,7 +78,7 @@ public class SelfCheckoutLogic {
 		coinController = new CoinController(session, scs);
 	//	creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
-		totalNumOfLinesPrinted += printController.getNumOfLinesInReceipt();
+		totalNumOfPaperUsed += printController.getLinesInReceipt().length;
 		
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
