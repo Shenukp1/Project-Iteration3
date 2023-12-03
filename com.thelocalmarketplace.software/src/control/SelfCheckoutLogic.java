@@ -4,9 +4,11 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 
 import payment.CoinController;
-import payment.CardController;
+import payment.PaymentCardController;
 import payment.BanknoteController;
-import item.BarcodeController;
+import item.AddItemBarcode;
+import item.AddItemController;
+import item.EnterMembership;
 import item.PrintController;
 
 /**
@@ -27,10 +29,10 @@ public class SelfCheckoutLogic {
 	public BanknoteController banknoteController;
 	
 	// Controller to manage credit card payments
-	public CardController creditController;
+	public PaymentCardController creditController;
 	
-	// Controller to manage handheld barcode scans
-	public BarcodeController barcodeController;
+	// Controller to manage add item cases
+	public AddItemController addItemController;
 		
 	// Controller to manage session
 	public SessionController session;
@@ -43,6 +45,10 @@ public class SelfCheckoutLogic {
 	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
+	
+	// Controller for input membership number
+	public EnterMembership	enterMembership;
+	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.
@@ -65,20 +71,21 @@ public class SelfCheckoutLogic {
 		session = new SessionController(this);
 		session.start();
 		
-		barcodeController = new BarcodeController(session, scs);
+		addItemController = new AddItemController(session, scs);
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
 	//	creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
+		enterMembership = new EnterMembership(session,scs);
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
-		scs.banknoteInput.disable();
+		scs.getBanknoteInput().disable();
 		// Same for coin insertion slot
-		scs.coinSlot.disable();
+		scs.getCoinSlot().disable();
 		// Same for debit/credit card reader
-		scs.cardReader.disable();
+		scs.getCardReader().disable();
 		
 	}
 }

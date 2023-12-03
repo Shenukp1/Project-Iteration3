@@ -108,11 +108,11 @@ public class AddOwnBagsTest {
 
 		scale = new ElectronicScaleBronze();
 
-		logicBronze.station.baggingArea.enable();
-		logicBronze.station.baggingArea.turnOn();
-		logicBronze.station.baggingArea.addAnItem(products.bag);
+		logicBronze.station.getBaggingArea().enable();
+		logicBronze.station.getBaggingArea().turnOn();
+		logicBronze.station.getBaggingArea().addAnItem(products.bag);
 		addOwnBags = new AddOwnBags(logicBronze);
-		logicBronze.station.baggingArea.register(scaleWatcher);
+		logicBronze.station.getBaggingArea().register(scaleWatcher);
 		
 	  }
 
@@ -195,7 +195,7 @@ public class AddOwnBagsTest {
 	//system is disabled
 	@Test
 	public void testSystemDisabled() {
-		logicBronze.station.baggingArea.disable();
+		logicBronze.station.getBaggingArea().disable();
 
 		ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
       	System.setOut(new PrintStream(outputStreamCaptor));
