@@ -4,6 +4,8 @@ package com.thelocalmarketplace.hardware.test;
 // 2. "- I" means it must be tested
 //WHAT I NEED TO DO
 
+import static org.junit.Assert.assertTrue;
+
 // 1. Maintain Ink Test
 // 	1.1 Ink is low - I
 // 	1.2 Ink is empty - I
@@ -83,9 +85,10 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	
 	private CoinStorageUnit coinStorageUnit;
 	private BanknoteStorageUnit banknoteStorageUnit;
-	private Maintain maintain;
 	
 	AttendantStation attendentStation;
+	//private Maintain maintainOne;
+	private AbstractSelfCheckoutStation station;
 	
 	
 	
@@ -101,6 +104,8 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		bronze = new SelfCheckoutStationBronze();
 		bronze.plugIn(PowerGrid.instance());
 		bronze.turnOn();
+		logicBronze = new SelfCheckoutLogic(bronze);
+		logicBronze.session.enable();
 		
 		//Silver Station
 		silver.resetConfigurationToDefaults();
@@ -109,24 +114,22 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		silver = new SelfCheckoutStationSilver();
 		silver.plugIn(PowerGrid.instance());
 		silver.turnOn();
+		logicSilver = new SelfCheckoutLogic(silver);
+		logicSilver.session.enable();
+
 		
 		//Gold Station
-		gold = new SelfCheckoutStationGold();
 		gold.resetConfigurationToDefaults();
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
+		gold = new SelfCheckoutStationGold();
 		gold.plugIn(PowerGrid.instance());
 		gold.turnOn();
-		
-		
+		logicGold = new SelfCheckoutLogic(gold);
+		logicGold.session.enable();
 
 		
-//		banknoteStorageUnit = new BanknoteStorageUnit(10);// Max capacity is 10
-//		coinStorageUnit = new CoinStorageUnit(10);// Max capacity is 10 
 
-		
-		
-		
 	}
 
 
@@ -134,19 +137,79 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 //====================MAINTAIN INK===========================
 	
 	/*
-	 * Ink is Low
+	 * Ink is Low Gold Station
 	 */
 	@Test
 	public void testGoldLowInk() {
-		
-		System.out.println("hello");
-		
+		try {
+			//System.out.println(maintainOne.getLowInkMessage()+"BEFORE");
+			logicGold.maintain.maintainAddInk(104858);//having 104858 and blow gives you a low
+			logicGold.maintain.maintainAddPaper(200);//this is to add a paper to write something on
+			logicGold.maintain.print('c');// we write one thing. meaning that, we used 1 ink
+			//System.out.println(maintainOne.getInkAdded());
+			//System.out.println(maintainOne.getLowInkMessage()+"AFTER");
+			assertTrue(logicGold.maintain.getLowInkMessage());	
+
+		} catch (OverloadedDevice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
 	/*
-	 * Ink is empty
+	 * Ink is Low Gold Station
 	 */
+	@Test
+	public void testSilverLowInk() {
+		try {
+			//System.out.println(maintainOne.getLowInkMessage()+"BEFORE");
+			logicSilver.maintain.maintainAddInk(2);//104858 this value is within the range of the hardware lowInk indication value
+			logicSilver.maintain.maintainAddPaper(200);//this is to add a paper to write something on
+			logicSilver.maintain.print('c');// we write one thing. meaning that, we used 1 ink
+			//System.out.println(maintainOne.getInkAdded());
+			//System.out.println(maintainOne.getLowInkMessage()+"AFTER");
+			assertTrue(logicSilver.maintain.getLowInkMessage());	
+
+		} catch (OverloadedDevice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	/*
+	 * Ink is Low Bronze Station
+	 */
+	@Test
+	public void testBronzeLowInk() {
+		try {
+			//System.out.println(maintainOne.getLowInkMessage()+"BEFORE");
+			logicBronze.maintain.maintainAddInk(2);//104858 this value is within the range of the hardware lowInk indication value
+			logicBronze.maintain.maintainAddPaper(200);//this is to add a paper to write something on
+			logicBronze.maintain.print('c');// we write one thing. meaning that, we used 1 ink
+			//System.out.println(maintainOne.getInkAdded());
+			//System.out.println(maintainOne.getLowInkMessage()+"AFTER");
+			assertTrue(logicBronze.maintain.getLowInkMessage());	
+
+		} catch (OverloadedDevice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
+	/*
+	 * Ink is empty Gold
+	 */
+	
+	
+	
+	
+	
 		
 	/*
 	 * Ink Spill occurred 

@@ -1,5 +1,6 @@
 package attendant;
 
+import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
 import com.jjjwelectronics.OverloadedDevice;
@@ -19,6 +20,7 @@ import com.tdc.coin.CoinStorageUnit;
 import com.tdc.coin.CoinStorageUnitObserver;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import ca.ucalgary.seng300.simulation.SimulationException;
+import powerutility.PowerGrid;
 
 public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver  {
 	
@@ -55,31 +57,50 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	
 	
+
 	
 	public Maintain(AbstractSelfCheckoutStation station)  {
 		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
-		station.getPrinter().register(this);
+		printer = station.getPrinter();
+		printer.register(this);
+		
 		station.getBanknoteStorage().attach(this);
 		station.getCoinStorage().attach(this);
 		
+		receiptPrinterGold = new ReceiptPrinterGold();
+		receiptPrinterGold.register(this);
+		PowerGrid.engageUninterruptiblePowerSource();
+		PowerGrid.instance().forcePowerRestore();
+		receiptPrinterGold.plugIn(PowerGrid.instance());
+		receiptPrinterGold.turnOn();
+		receiptPrinterGold.register(this);
+
 		
 	}
 	
 	// Attendant adds ink
 	public void maintainAddInk(int quantity) throws OverloadedDevice {
+		
 		printer.addInk(quantity); // AbstractReceiptPrinter. Announces "inkAdded" event. Requires power.
-		//when we add ink, we are adding it to all types of printers
-		//ISSUE: should I make the addition of ink to each printer in a seperate method?
-		receiptPrinterBronze.addInk(quantity);
-		//to keep track of bronzePrinter count but technically it would be the same as all the other printers. 
-		//thus, using the quaintity checker of another printer would work
-		PrinterInkAddCount = quantity;
-		receiptPrinterSilver.addInk(quantity);
+		//PROBLEM: gold,silver,bronze CheckoutStations all use the BronzeReceiptPrinter
+		//SOLUTION(possibly): to keep track of bronzePrinter ink count we will have an instance of the goldPrinter
+		//	Why: because in the documentation, gold and bronze are the same. thus, we can use the gold to get Ink values to check and possibly other things
 		receiptPrinterGold.addInk(quantity);
 	}
 	
-	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
+	public void print(char c) {
+		try {
+			printer.print(c);
+			receiptPrinterGold.print(c);
+		} catch (EmptyDevice e) {
+			e.printStackTrace();
+		} catch (OverloadedDevice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
+	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
 	public int getInkAdded() {
 		PrinterInkAddCountGold = receiptPrinterGold.inkRemaining();
 		return PrinterInkAddCountGold;
@@ -90,7 +111,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	// Attendant adds paper 
 	public void maintainAddPaper(int quantity) throws OverloadedDevice {
 		printer.addPaper(quantity); // AbstractReceiptPrinter. Announces "paperAdded" event. Requires power.
-		
+		receiptPrinterGold.addPaper(quantity);
 	}
 	
 	// Attendant adds bank notes

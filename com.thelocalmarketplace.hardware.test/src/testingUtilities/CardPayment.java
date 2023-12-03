@@ -16,8 +16,8 @@ public interface CardPayment {
 	/*
 	 * card issuer and card might be related, 
 	 */
-	CardIssuer creditcard= new CardIssuer("credit", 500);
-	CardIssuer debitcard= new CardIssuer("debit", 500);
+	CardIssuer creditcard= new CardIssuer("TD", 500);
+	CardIssuer debitcard= new CardIssuer("CIBC", 500);
 	
 	
 	/*

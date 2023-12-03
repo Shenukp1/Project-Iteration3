@@ -1,6 +1,5 @@
 package com.thelocalmarketplace.hardware.test;
 
-
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -33,6 +32,7 @@ import testingUtilities.DollarsAndCurrency;
 import testingUtilities.Products;
 import testingUtilities.Wallet;
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
+import ca.ucalgary.seng300.simulation.SimulationException;
 import control.SelfCheckoutLogic;
 
 @RunWith(Parameterized.class)
@@ -47,15 +47,20 @@ public static SelfCheckoutStationGold gold;
 
 private AbstractSelfCheckoutStation station;
 /*
- * each station needs its own logic instance for setup.
+ * Each station needs 1 logic
  */
 SelfCheckoutLogic logic;
 
+/*
+ * listener objects
+ */
 
 /*
  * Products? where are usharabs products?
  */
 Products products = new Products();
+
+
 
 @Rule
 	public ExpectedException expectedMessage = ExpectedException.none();
@@ -71,9 +76,13 @@ public static Collection<AbstractSelfCheckoutStation[]> data() {
 	bronze.plugIn(PowerGrid.instance());
 	bronze.turnOn();
 	
+	
+	
 	//silver
 	silver.resetConfigurationToDefaults();
 	silver.configureBanknoteDenominations(bankNoteDenominations);
+	
+	
 	PowerGrid.engageUninterruptiblePowerSource();
 	PowerGrid.instance().forcePowerRestore();
 	SelfCheckoutStationSilver silver = new SelfCheckoutStationSilver();
@@ -83,6 +92,7 @@ public static Collection<AbstractSelfCheckoutStation[]> data() {
 	//gold
 	gold.resetConfigurationToDefaults();
 	gold.configureBanknoteDenominations(bankNoteDenominations);
+	
 	PowerGrid.engageUninterruptiblePowerSource();
 	PowerGrid.instance().forcePowerRestore();
 	SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
@@ -99,15 +109,31 @@ public static Collection<AbstractSelfCheckoutStation[]> data() {
 public tempOptimizingTests(AbstractSelfCheckoutStation station) {
     this.station = station;
 }
-	@Before
-	public void testSetup () throws OverloadedDevice{
+		@Before
+		public void testSetup () throws OverloadedDevice{
+	
+			
+			/*
+			 * Now that we have a station, we need to link the software to it. 
+			 */
+			
+		 logic= SelfCheckoutLogic.installOn(station);
+	
+	
+		 try {
+			logic.station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);
+		} catch (SimulationException | CashOverloadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+			logic.station.configureCoinDenominations(coinDenominations);
+
+			
 		
 	
-		/* First, create an instance of the SelfCheckoutStation (Bronze, Silver, Gold).
-		 */
-		//bronze
-		station.resetConfigurationToDefaults();
-		station.configureBanknoteDenominations(bankNoteDenominations);
+		//tests good coin listener
 		
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
@@ -126,18 +152,20 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 		
 		logic.station.getPrinter().addInk(300);
 		logic.station.getPrinter().addPaper(100);
+
+		logic.station.getPrinter().addInk(300);
+		logic.station.getPrinter().addPaper(30);
+
 		
 		
 		
 	}
-
 	/*
-	
- * because no items have been added it should throw an exception or reject the bank note
+	 * because no items have been added it should throw an exception or reject the bank note
 	 */
 	@Test (expected = DisabledException.class)
 	public void testSlotnotOpen () throws DisabledException, CashOverloadException {
-		logic.station.banknoteInput.receive(twenty);
+		logic.station.getBanknoteInput().receive(twenty);
 
 	}
 	/*
@@ -149,7 +177,9 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 		//logic.station.banknoteInput.attach();
 		logic.station.getBanknoteInput().activate();
 		logic.station.getBanknoteInput().enable();
+
 		logic.station.getBanknoteInput().removeDanglingBanknote();
+
 		logic.station.getBanknoteInput().receive(twenty);
 		logic.station.getBanknoteStorage().receive(twenty);
 
@@ -198,11 +228,11 @@ public tempOptimizingTests(AbstractSelfCheckoutStation station) {
 		logic.station.getBanknoteStorage().receive(five);
 
 		
-		logic.station.printer.enable();
-		logic.station.printer.print('$');
-		logic.station.printer.cutPaper();
+		logic.station.getPrinter().enable();
+		logic.station.getPrinter().print('$');
+		logic.station.getPrinter().cutPaper();
 		
-		logic.station.printer.removeReceipt();
+		logic.station.getPrinter().removeReceipt();
 	}
 	
 	

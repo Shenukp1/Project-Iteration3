@@ -8,7 +8,7 @@ import com.thelocalmarketplace.hardware.external.CardIssuer;
 
 import attendant.Maintain;
 import payment.CoinController;
-import payment.CardController;
+import payment.PaymentCardController;
 import payment.BanknoteController;
 import item.AddItemBarcode;
 import item.PrintController;
@@ -31,7 +31,7 @@ public class SelfCheckoutLogic {
 	public BanknoteController banknoteController;
 	
 	// Controller to manage credit card payments
-	public CardController creditController;
+	public PaymentCardController creditController;
 	
 	// Controller to manage handheld barcode scans
 	public AddItemBarcode barcodeController;
@@ -77,6 +77,9 @@ public class SelfCheckoutLogic {
 	 * (currently simulated when a customer presses "Start Session")
 	 */
 	public SelfCheckoutLogic(AbstractSelfCheckoutStation scs) {
+		
+		
+		
 		station = scs;
 		session = new SessionController(this);
 		session.start();
@@ -84,13 +87,13 @@ public class SelfCheckoutLogic {
 		//Issues with this logic. Cant seem to use unless every instances works
 			//SOLUTION: wrap every instance of a controller with a try catch OR fix everything
 		
-			
-//		barcodeController = new AddItemBarcode(session, scs);
-//		weightController = new WeightController(session, scs);
-//		banknoteController = new BanknoteController(session, scs);
-//		coinController = new CoinController(session, scs);
-//		creditController = new CardController(session, scs, cardIssuer);
-//		printController = new PrintController(session, scs);
+		maintain = new Maintain(scs);	
+		barcodeController = new AddItemBarcode(session, scs);
+		weightController = new WeightController(session, scs);
+		banknoteController = new BanknoteController(session, scs);
+		coinController = new CoinController(session, scs);
+		creditController = new PaymentCardController(session, scs, cardIssuer);
+		printController = new PrintController(session, scs);
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
