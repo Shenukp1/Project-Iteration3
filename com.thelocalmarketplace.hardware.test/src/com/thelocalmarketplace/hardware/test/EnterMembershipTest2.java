@@ -151,10 +151,12 @@ public class EnterMembershipTest2 implements CardPayment{
 	 * - Configures the card reader to return a card with a null type.
 	 * - Invokes the card reading process.
 	 * Expected Result: Checks if a NullPointerSimulationException is thrown for a null card type.
+	 * @throws IOException 
 	 */
 	@Test(expected = NullPointerSimulationException.class)
-	public void testCardTypeIsNull() throws NullPointerSimulationException {
-	    logicGold.station.getCardReader().swipe("00000", null, "John"); //change this to a card object
+	public void testCardTypeIsNull() throws NullPointerSimulationException, IOException {
+		Card testCard = new Card("membership", "00000", null, "John", null, false, false);
+	    logicGold.station.getCardReader().swipe(testCard); //change this to a card object
 	}
 
 	/**
@@ -197,11 +199,13 @@ public class EnterMembershipTest2 implements CardPayment{
 	 * - Disables the card reader.
 	 * - Invokes the card reading process.
 	 * Expected Result: Checks if an error message is printed, indicating that the card reader needs to be enabled.
+	 * @throws IOException 
 	 */
 	@Test
-	public void testDeviceDisabled() {
+	public void testDeviceDisabled() throws IOException {
 	    logicGold.station.getCardReader().disable();
-	    logicGold.station.getCardReader().swipe("00000", "membership", "John"); //change this to a card object 
+	    Card testCard = new Card("membership", "00000", null, "John", null, false, false);
+	    logicGold.station.getCardReader().swipe(testCard); //change this to a card object
 	    // Check if an error message is printed 
 	}
 
