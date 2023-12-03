@@ -24,7 +24,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.jjjwelectronics.card.Card;
+import com.thelocalmarketplace.hardware.external.CardIssuer;
+
 import control.SelfCheckoutLogic;
+import payment.PaymentCardController;
 
 public class CardPaymentWindow {
 	JFrame mainFrame;
@@ -34,9 +38,17 @@ public class CardPaymentWindow {
 	JLabel statusLabel;
 	
 	JButton cancelButton;
+
+	CardIssuer cardIssuer = new CardIssuer("TD Trust", 123321);
+	Card creditCard = new Card("credit", "555", "Donkey Kong", "312", "911", true, true);
+	PaymentCardController cardController;
 	
 	
 	public CardPaymentWindow(SelfCheckoutLogic logic) {
+		cardController = new PaymentCardController(logic.session, logic.station, cardIssuer);
+		cardController.onPayWithCard();
+		logic.station.getCardReader().enable();
+
 		mainFrame = logic.station.getScreen().getFrame();
 		
 		mainPanel = new JPanel();
@@ -51,6 +63,13 @@ public class CardPaymentWindow {
 		statusLabel.setFont(statusLabel.getFont().deriveFont(30f));
 		statusLabel.setVerticalAlignment(SwingConstants.CENTER);
 		statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+		JButton cardInsertedButton = new JButton("Card Has been Inserted");
+    cardInsertedButton.setFont(cardInsertedButton.getFont().deriveFont(19f));
+		cardInsertedButton.addActionListener(e -> {
+			PINEntryWindow pinEntryWindow = new PINEntryWindow(logic, creditCard, cardController);
+		});
+
 		
 		cancelButton = new JButton("Tap to cancel operation");
 		cancelButton.setFont(cancelButton.getFont().deriveFont(30f));
@@ -64,6 +83,7 @@ public class CardPaymentWindow {
 
 		mainPanel.add(promptLabel);
 		mainPanel.add(statusLabel);
+		mainPanel.add(cardInsertedButton);
 		mainPanel.add(new JLabel());
 		mainPanel.add(cancelButton);
 		

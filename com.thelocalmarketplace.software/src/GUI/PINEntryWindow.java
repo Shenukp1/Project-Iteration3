@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
@@ -24,7 +25,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.jjjwelectronics.card.Card;
+import com.jjjwelectronics.card.Card.CardData;
+
+import ca.ucalgary.seng300.simulation.SimulationException;
 import control.SelfCheckoutLogic;
+import payment.PaymentCardController;
 
 public class PINEntryWindow extends JFrame {
 	JFrame mainFrame;
@@ -34,6 +40,8 @@ public class PINEntryWindow extends JFrame {
 	JLabel promptLabel;
 	JLabel PINLabel;
 	
+	Card paymentCard;
+	PaymentCardController cardController;
 	String PIN = "";
 	
 	JButton zerobutton = new JButton("0");
@@ -50,7 +58,11 @@ public class PINEntryWindow extends JFrame {
 	JButton confirmButton;
 	JButton backButton;
 	
-	public PINEntryWindow(SelfCheckoutLogic logic) {
+	public PINEntryWindow(SelfCheckoutLogic logic, Card paymentCard, PaymentCardController cardController) {
+		this.cardController = cardController;
+		this.paymentCard = paymentCard;
+		cardController.aCardHasBeenInserted();
+
 		mainFrame = logic.station.getScreen().getFrame();
 		
 		mainPanel = new JPanel();
@@ -86,7 +98,17 @@ public class PINEntryWindow extends JFrame {
 		confirmButton.addActionListener(e -> {
 			
 			// Pass the value of the PIN to the appropriate function
-			
+			if (PIN.length() == 3) {
+				try {
+					CardData cardData = logic.station.getCardReader().insert(paymentCard, PIN);
+					cardController.theDataFromACardHasBeenRead(cardData);
+				} catch (IOException error){
+					// Something that either restarts this scren or says to reinput pin
+					PINEntryWindow newPinEntryWindow = new PINEntryWindow(logic, paymentCard, cardController);
+				}
+			}else {
+				// Soemthing to say not enough pin numbers.
+			}
 		});
 		
 		backButton.addActionListener(e -> {
