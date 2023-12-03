@@ -29,25 +29,22 @@ public class PredictIssueController implements ReceiptPrinterListener {
 	private AbstractSelfCheckoutStation scs;
 	private ArrayList<String> listOfIssues = new ArrayList<>();
 	private AttendantGUIMockup attendantGUI = new AttendantGUIMockup();
-	private CheckForPrinterIssues checkPrinter;
 	private boolean lowInkIssueExists = false;
 	private boolean lowPaperIssueExists = false;;
 	private boolean lowCoinIssueExists = false;
 	private boolean lowBanknoteIssueExists = false;
 	private boolean fullCoinIssueExists = false;;
 	private boolean fullBanknoteIssueExists = false;
-	
+
 	private final int maxPaper = 1 << 10;
 	private final int maxInk = 1 << 20;
-	
-	private int totalNumOfLinesPrinted;
-	
+
 	private int numOfPaperRemaining;
 	private int numOfInkRemaining;
-	
+
 	private boolean inkAdded = false;
 	private boolean paperAdded = false;
-	
+
 	@Override
 	public void paperHasBeenAddedToThePrinter() {
 		inkAdded = true;
@@ -58,21 +55,31 @@ public class PredictIssueController implements ReceiptPrinterListener {
 		paperAdded = true;
 	}
 
-	public PredictIssueController(AbstractSelfCheckoutStation scs, int totalNumOfLinesPrinted) {
+	public PredictIssueController(AbstractSelfCheckoutStation scs, int totalNumOfLinesPrinted, String[] currentReceipt,
+			int numOfInkRemaining, int numOfPaperRemaining) {
 
-		/**
-		 * This initializes the self checkout station
-		 */
 		this.scs = scs;
-		numOfPaperRemaining -= totalNumOfLinesPrinted;
-		
+		this.numOfInkRemaining = numOfInkRemaining;
+		this.numOfPaperRemaining = numOfPaperRemaining;
+
 		if (inkAdded = true) {
-			numOfInkRemaining = maxInk;
+			this.numOfInkRemaining = maxInk;
 		}
 		if (paperAdded = true) {
-			numOfPaperRemaining = maxPaper;
+			this.numOfPaperRemaining = maxPaper;
 		}
-		
+
+		this.numOfPaperRemaining -= totalNumOfLinesPrinted;
+		int numOfInkUsed = 0;
+		for (int i = 0; i < currentReceipt.length; i++) {
+			for (int j = 0; j < currentReceipt[i].length(); j++) {
+				if (!Character.isWhitespace(currentReceipt[i].charAt(j))) {
+					numOfInkUsed++;
+				}
+			}
+		}
+		this.numOfInkRemaining -= numOfInkUsed;
+
 		/**
 		 * This if statement is important to ensure that the software is only checking
 		 * for issues if the session is currently not occurring
@@ -103,10 +110,14 @@ public class PredictIssueController implements ReceiptPrinterListener {
 	 * session
 	 */
 	public void predictLowInk() {
-//		if (checkPrinter.inkRemaining() <= 500) {
-//			lowInkIssueExists = true;
-//			listOfIssues.add("Printer is almost out of ink");
-//		}
+		if (numOfInkRemaining <= 150) {
+			lowInkIssueExists = true;
+			listOfIssues.add("Printer is almost out of ink");
+		}
+	}
+	
+	public int getNumOfInkRemaining() {
+		return numOfInkRemaining;
 	}
 
 	/**
@@ -118,6 +129,10 @@ public class PredictIssueController implements ReceiptPrinterListener {
 			lowPaperIssueExists = true;
 			listOfIssues.add("Printer is almost out of paper");
 		}
+	}
+	
+	public int getNumOfPaperRemaining() {
+		return numOfPaperRemaining;
 	}
 
 	/**
@@ -235,48 +250,48 @@ public class PredictIssueController implements ReceiptPrinterListener {
 	@Override
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenTurnedOn(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterIsOutOfPaper() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterIsOutOfInk() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterHasLowInk() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterHasLowPaper() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
