@@ -23,10 +23,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.jjjwelectronics.EmptyDevice;
+
 import control.SelfCheckoutLogic;
+import item.PurchaseBags;
 
 public class BagsPanel {
 	JFrame mainFrame;
+	PurchaseBags bagPurchaser;
 	
 	JPanel bagsPanel;
 	JLabel bagsText;
@@ -44,6 +48,8 @@ public class BagsPanel {
 	
 	
 	public BagsPanel(SelfCheckoutLogic logic, boolean endingSession) {
+		bagPurchaser = new PurchaseBags(logic.station, logic.session);
+		
 		mainFrame = logic.station.getScreen().getFrame();
 		
 		bagsPanel = new JPanel();
@@ -89,20 +95,41 @@ public class BagsPanel {
 		continueSession.addActionListener(e -> {
 			if (endingSession) {
 				
-				// Remember to actually add the bags!
-				
+				if (bagsBought > 0) { // Buys bags if the amount of bags selected is over 0, 
+									// if not then it's not worth the hassle
+					
+					bagPurchaser.setBagsToBuy(bagsBought);
+					try {
+						bagPurchaser.buyBags();
+					} catch (EmptyDevice e1) {
+						continueSession.setText("Bag dispenser is empty!");
+					}
+					
+				}
 				
 				bagsPanel.setVisible(false);
 				PaymentPromptWindow paymentPrompt = new PaymentPromptWindow(logic);
 				
 			} else {
-				bagsPanel.setVisible(false);
-				MainPanel mainPanel = new MainPanel(logic, "Operation Complete");
 				
-				
-				
+				if (bagsBought > 0) { // Buys bags if the amount of bags selected is over 0, 
+									// if not then it's not worth the hassle
+					bagPurchaser.setBagsToBuy(bagsBought);
+					try {
+						bagPurchaser.buyBags();
+						
+						bagsPanel.setVisible(false);
+						MainPanel mainPanel = new MainPanel(logic, "Operation Complete");
+						
+					} catch (EmptyDevice e1) {
+						
+						bagsPanel.setVisible(false); // Still go to the main screen, but set 
+													// the console to alert that the dispenser is empty
+						MainPanel mainPanel = new MainPanel(logic, "Bag dispenser is empty!");
+						
+					}
+				}	
 			}
-			
 		});
 		
 		bagsPanel.add(bagsText);

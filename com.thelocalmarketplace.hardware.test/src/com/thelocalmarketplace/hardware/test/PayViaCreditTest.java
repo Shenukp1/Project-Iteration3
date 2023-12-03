@@ -25,14 +25,16 @@ import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import control.SelfCheckoutLogic;
+import item.AddItemBarcode;
 import payment.CardController;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
 import testingUtilities.DollarsAndCurrency;
+import testingUtilities.LoadProductDatabases;
 import testingUtilities.Products;
 import testingUtilities.Wallet;
 @RunWith(Parameterized.class)
-public class PayViaCreditTest implements CardPayment, DollarsAndCurrency {
+public class PayViaCreditTest implements CardPayment, DollarsAndCurrency, LoadProductDatabases {
 	/*
 	 * make three types of station to test, we'll have to test all three types for each kind of test.
 	 * Maybe there's a fast way to plug in these objects than repeating a test method?
@@ -164,18 +166,18 @@ public PayViaCreditTest(AbstractSelfCheckoutStation station) {
 		logic.session.Cart.add(products.beanBarcodedProduct);
 		
 		logic.station.getMainScanner().enable();
+		logic.station.getMainScanner().scan( milk.barcodedItem);
+		AddItemBarcode.AddItemFromBarcode(logic.session, milk.itemBarcode);
 		
-		logic.barcodeController.AddItemFromBarcode(logic.session, products.beanBarcode);
-		logic.station.getMainScanner().scan(products.beanBarcodeItem);
 	
 		logic.station.getBaggingArea().enable();
-		logic.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logic.station.getBaggingArea().addAnItem( milk.item);
 		
 		
 		
 		try {
-			logic.station.getPrinter().addPaper(500);
-			logic.station.getPrinter().addInk(1000);
+			logic.station.getPrinter().addPaper(20);
+			logic.station.getPrinter().addInk(20);
 		} catch (OverloadedDevice e) {
 			e.printStackTrace();
 		}

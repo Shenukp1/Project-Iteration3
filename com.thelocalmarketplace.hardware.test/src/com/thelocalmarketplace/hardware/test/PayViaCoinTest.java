@@ -3,11 +3,12 @@ package com.thelocalmarketplace.hardware.test;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Currency;
 
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule; 
 import org.junit.Test;
@@ -17,6 +18,10 @@ import org.junit.runners.Parameterized;
 
 import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
+import com.tdc.IComponent;
+import com.tdc.IComponentObserver;
+import com.tdc.coin.CoinValidator;
+import com.tdc.coin.CoinValidatorObserver;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -35,7 +40,7 @@ import testingUtilities.Wallet;
 
 
 @RunWith(Parameterized.class)
-public class PayViaCoinTest implements DollarsAndCurrency, CardPayment {
+public class PayViaCoinTest implements DollarsAndCurrency, CardPayment, CoinValidatorObserver {
 /*
  * make three types of station to test, we'll have to test all three types for each kind of test.
  * Maybe there's a fast way to plug in these objects than repeating a test method?
@@ -53,7 +58,7 @@ SelfCheckoutLogic logic;
 /*
  * listener objects
  */
-
+public String notify="";
 /*
  * Products? where are usharabs products?
  */
@@ -129,7 +134,7 @@ public PayViaCoinTest(AbstractSelfCheckoutStation station) {
 		
 			logic.station.configureCoinDenominations(coinDenominations);
 
-			
+			logic.station.getCoinValidator().attach(this);
 		}
 	
 		//tests good coin listener
@@ -154,12 +159,13 @@ public PayViaCoinTest(AbstractSelfCheckoutStation station) {
 	@Test 
 	public void invalidCoinTest() throws Exception {
 		
-		
+		notify="";
 		logic.station.getCoinSlot().enable();
-		logic.station.getCoinSlot().receive(euros);
-		expectedMessage.expect(SimulationException.class);
-	    	expectedMessage.expectMessage("The coin(s) you entered is invalid. Please try again.");
-	    	logic.coinController.invalidCoinDetected(logic.station.getCoinValidator());
+		
+				logic.station.getCoinSlot().receive(euros);
+	Assert.assertTrue(notify=="invalidCoinDetected");
+	    	//expectedMessage.expectMessage("The coin(s) you entered is invalid. Please try again.");
+	    	//logic.coinController.invalidCoinDetected(logic.station.getCoinValidator());
 
 	}
 
@@ -169,6 +175,36 @@ public PayViaCoinTest(AbstractSelfCheckoutStation station) {
 		logic.station.getCoinSlot().enable();
 		logic.coinController.onPayViaCoin();
 		logic.station.getCoinSlot().receive(dollars);
+		
+	}
+	@Override
+	public void enabled(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void disabled(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void turnedOn(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void turnedOff(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void validCoinDetected(CoinValidator validator, BigDecimal value) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void invalidCoinDetected(CoinValidator validator) {
+		notify="invalidCoinDetected";
 		
 	}
 	
