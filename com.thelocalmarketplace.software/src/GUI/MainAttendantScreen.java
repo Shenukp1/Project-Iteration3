@@ -81,7 +81,7 @@ public class MainAttendantScreen extends JFrame {
             		attendantPanel.setVisible(false);
                 	StationPanel stationPanel = new StationPanel(logic);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Station " + stationNumber + " is unavailable for access");
+                    // JOptionPane.showMessageDialog(null, "Station " + stationNumber + " is unavailable for access");
                 }
             }
         }

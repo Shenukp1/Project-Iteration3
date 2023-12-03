@@ -18,17 +18,38 @@ public class StationPanel extends JPanel {
     public StationPanel(SelfCheckoutLogic logic) {
         this.logic = logic;
         mainFrame = logic.station.getScreen().getFrame();
-        stationPanel = new JPanel(new GridLayout(5, 1));
+        stationPanel = new JPanel(new GridLayout(4, 1));
+
+        JPanel addItemsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbcAddItemsPanel = new GridBagConstraints();
+        gbcAddItemsPanel.gridx = 0;
+        gbcAddItemsPanel.gridy = 0;
+        gbcAddItemsPanel.gridwidth = 7;
+        gbcAddItemsPanel.fill = GridBagConstraints.HORIZONTAL;
+
 
         addItemTextField = new JTextField();
-        stationPanel.add(new JLabel("Add Item:"));
-        stationPanel.add(addItemTextField);
+        addItemTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userInput = addItemTextField.getText();
+
+                //LOGIC: Textual search
+                
+                addItemTextField.setText("");
+            }
+        });
+        
+        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
+        gbcAddItemsPanel.gridy = 1;
+        addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
+        stationPanel.add(addItemsPanel);
 
         enableStationButton = new JButton("Enable Station");
         enableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Enable Station clicked");
+                // LOGIC: enable station
             }
         });
         stationPanel.add(enableStationButton);
@@ -37,7 +58,7 @@ public class StationPanel extends JPanel {
         disableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Disable Station clicked");
+                // LOGIC: disable station
             }
         });
         stationPanel.add(disableStationButton);
@@ -56,3 +77,4 @@ public class StationPanel extends JPanel {
     }
 }
   
+
