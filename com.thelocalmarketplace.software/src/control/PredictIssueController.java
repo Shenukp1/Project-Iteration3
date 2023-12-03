@@ -39,8 +39,8 @@ public class PredictIssueController implements ReceiptPrinterListener {
 	private final int maxPaper = 1 << 10;
 	private final int maxInk = 1 << 20;
 
-	private int numOfPaperRemaining;
-	private int numOfInkRemaining;
+	private int numOfPaperRemaining = maxPaper;
+	private int numOfInkRemaining = maxInk;
 
 	private boolean inkAdded = false;
 	private boolean paperAdded = false;
