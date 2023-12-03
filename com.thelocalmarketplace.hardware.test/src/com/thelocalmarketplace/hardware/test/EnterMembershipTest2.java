@@ -155,7 +155,7 @@ public class EnterMembershipTest2 implements CardPayment{
 	 */
 	@Test(expected = NullPointerSimulationException.class)
 	public void testCardTypeIsNull() throws NullPointerSimulationException, IOException {
-		Card testCard = new Card("membership", "00000", null, "John", null, false, false);
+	    Card testCard = new Card(null, "00000", "John", null, null, false, false);
 	    logicGold.station.getCardReader().swipe(testCard); //change this to a card object
 	}
 
@@ -204,7 +204,7 @@ public class EnterMembershipTest2 implements CardPayment{
 	@Test
 	public void testDeviceDisabled() throws IOException {
 	    logicGold.station.getCardReader().disable();
-	    Card testCard = new Card("membership", "00000", null, "John", null, false, false);
+	    Card testCard = new Card("membership", "00000", "John", null, null, false, false);
 	    logicGold.station.getCardReader().swipe(testCard); //change this to a card object
 	    // Check if an error message is printed 
 	}
