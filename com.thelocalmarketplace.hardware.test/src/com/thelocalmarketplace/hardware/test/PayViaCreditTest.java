@@ -26,7 +26,6 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import control.SelfCheckoutLogic;
 import item.AddItemBarcode;
-import payment.CardController;
 import payment.PaymentCardController;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
