@@ -58,6 +58,7 @@ public class PredictIssueController implements ReceiptPrinterListener {
 	public PredictIssueController(AbstractSelfCheckoutStation scs, int totalNumOfLinesPrinted, String[] currentReceipt) {
 
 		this.scs = scs;
+		this.scs.getPrinter().register(this);
 
 		if (inkAdded = true) {
 			this.numOfInkRemaining = maxInk;
