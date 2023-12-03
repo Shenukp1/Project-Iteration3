@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.GridLayout;
+import java.math.BigDecimal;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,7 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.jjjwelectronics.Mass;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
+
 import control.SelfCheckoutLogic;
+import item.AddItemPLU;
 
 public class plu {
 	JFrame mainFrame;
@@ -17,6 +24,9 @@ public class plu {
 	JPanel keyboardPanel;
 	
 	String pluNum = "";
+	PriceLookUpCode getter;
+	BigDecimal tempMass=new BigDecimal("2000");
+	Mass temp = new Mass (tempMass);
 	int pluNumLength = 4; // Feel free to change this if it's wrong!!!
 	
 	JButton okayButton;
@@ -50,7 +60,10 @@ public plu(SelfCheckoutLogic logic) {
 	
 	okayButton = new JButton("Done");
 	okayButton.addActionListener(e -> {
+		getter = new PriceLookUpCode (pluNum);
 		
+		//logic to add item to station instance. string may need to be converted to plu
+		AddItemPLU.AddItemFromPLU(logic.session,getter, tempMass);
 		// Pass the PLU number to another function
 		
 		mainPanel.setVisible(false);
