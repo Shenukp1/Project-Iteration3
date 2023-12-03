@@ -66,7 +66,7 @@ public BarcodedProduct bigProduct;
 public Mass beansMass;
 public Mass bigItemMass;
 public Item Beans;
-public BigInteger bigIBeanMass = new BigInteger("500");
+public BigInteger   bigIBeanMass = new BigInteger("500");
 public BigInteger excessiveMass= new BigInteger("5000000000000");
 
 /*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility

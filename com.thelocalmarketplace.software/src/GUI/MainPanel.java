@@ -27,6 +27,18 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigInteger;
+import javax.swing.*;
+import javax.swing.border.BorderFactory;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.Product;
+import control.SelfCheckoutLogic;
+
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.scanner.Barcode;
@@ -52,10 +64,24 @@ public class MainPanel extends JFrame {
     
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
+    	
     	this.message = message;			//Console message to be printed 
         this.logicGold = logicGold;
         mainFrame = logicGold.station.getScreen().getFrame();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        // Color Palette
+        Color primaryColor = new Color(63, 81, 181);   // Dark Blue
+        Color secondaryColor = new Color(76, 175, 80); // Green
+        Color backgroundColor = new Color(255, 255, 255); // White
+        Color accentColor = new Color(244, 67, 54);   // Red
+
+        // Font
+        Font baseFont = new Font("Helvetica", Font.PLAIN, 14);
+        Font largeFont = baseFont.deriveFont(Font.BOLD, 16);
+        Font buttonFont = baseFont.deriveFont(18f);
+        Font totalFont = baseFont.deriveFont(24f);
+        Font consoleFont = baseFont.deriveFont(16f);
         
         //mainPanel =  topPanel + bottomPanel
         mainPanel = new JPanel();
@@ -256,9 +282,46 @@ public class MainPanel extends JFrame {
        
         mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         
+        // Applying Styles
+        mainPanel.setBackground(backgroundColor);
+
+        // Top Panel Styles
+        mainLeft.setBackground(primaryColor);
+        stationLabel.setForeground(backgroundColor);
+        stationLabel.setFont(largeFont);
+        empty.setForeground(backgroundColor);
+        button0.setBackground(secondaryColor);
+        button0.setForeground(backgroundColor);
+        button0.setFont(buttonFont);
+        button1.setBackground(secondaryColor);
+        button1.setForeground(backgroundColor);
+        button1.setFont(buttonFont);
+        button2.setBackground(secondaryColor);
+        button2.setForeground(backgroundColor);
+        button2.setFont(buttonFont);
+        button3.setBackground(secondaryColor);
+        button3.setForeground(backgroundColor);
+        button3.setFont(buttonFont);
+        total.setForeground(backgroundColor);
+        total.setFont(totalFont);
+
+        // Right Panel Styles
+        itemsLabel.setForeground(primaryColor);
+        itemsLabel.setFont(largeFont);
+        containerPanel.setBackground(backgroundColor);
+        test.setForeground(accentColor);
+        test.setFont(consoleFont);
+
+        // Test Panel Styles
+        barcodeLabel.setForeground(primaryColor);
+        barcodeLabel.setFont(largeFont);
+        barcodeInput.setPreferredSize(new Dimension(200, 30));
+        switchToAttendantButton.setBackground(secondaryColor);
+        switchToAttendantButton.setForeground(backgroundColor);
         
         
     }
+    
     //Function to create the individual items " Name - $Price - Remove Button "
     private JPanel createItemPanel(String itemName) {
     	JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
