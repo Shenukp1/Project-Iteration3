@@ -71,56 +71,53 @@ public class sessionBlocked {
 
     private void addWidgets() {
         JLabel headline = new JLabel("      Session Blocked");
-        
-//        JLabel o = new JLabel(" ");
-//        JLabel p = new JLabel(" ");
-//        JLabel e = new JLabel(" ");
-//        JLabel n = new JLabel(" ");
 
         addItemButton = new JButton("Add an item");
         removeItemButton = new JButton("Remove an item");
         doNotBagButton = new JButton("Do not bag item");
         attendantOverrideButton = new JButton("Attendant Override");
-//        Font buttonFont = new Font(startSessButton.getFont().getName(), Font.PLAIN, 20);
-
-//        startSessButton.setFont(buttonFont);
+	    
         headline.setLayout(null);
 
         addItemButton.setLayout(null);
-//        addItemButton.setBounds(0, 0, 150, 100);
         
         removeItemButton.setLayout(null);
-//        removeItemButton.setBounds(0, 0, 300, 200);
         
         doNotBagButton.setLayout(null);
-//        doNotBagButton.setBounds(0, 0, 450, 300);
         
         attendantOverrideButton.setLayout(null);
-//        attendantOverrideButton.setBounds(0, 0, 600, 400);
 
         
         //need to added button functionalities of the button still
         doNotBagButton.addActionListener(e -> {
+	//need to add logic still
+
         	logicGold.session.setBagWeight(0);
         });
+	    
 //        	theMassOnTheScaleNoLongerExceedsItsLimit(logicGold.station.baggingArea);
-////
-//            addItemButton.addActionListener(e -> {
         addItemButton.addActionListener(e -> {
-    
+        //need to add logic still
+
 //            startPanel.setVisible(false);
-            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
-            JLabel weight = new JLabel("Total weight: " + logicGold.session.getBagWeight());
-            JLabel wanted_weight = new JLabel(logicGold.session.getCartWeight());
-            weight += logicGold.session.setBagWeight();
+//            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
+//            JLabel weight = new JLabel("Total weight: " + logicGold.session.getBagWeight());
+//            JLabel wanted_weight = new JLabel(logicGold.session.getCartWeight());
+//            weight += logicGold.session.setBagWeight();
 
             //!!!
             //change the expected weight to not include the item
             //logicGold.changeWeight
             
-            
-            
             //mainFrame.setVisible(true);
+        });
+
+        removeItemButton.addActionListener(e -> {
+	//need to add logic still
+        });
+
+        attendantOverrideButton.addActionListener(e -> {
+	//need to add logic still
         });
         
 
@@ -130,7 +127,6 @@ public class sessionBlocked {
         blockedPanel.add(headline);
         blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-//        blockedPanel.add(headline);
         addItemButton.setFont(addItemButton.getFont().deriveFont(19f));
         blockedPanel.add(addItemButton);
         blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
