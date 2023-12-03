@@ -49,10 +49,6 @@ public class SelfCheckoutLogic {
 
 	private int totalNumOfPaperUsed = 0;
 	private String[] currentReceipt = { "" };
-
-	private int numOfPaperRemaining = 0;
-	private int numOfInkRemaining = 0;
-
 	/**
 	 * This method links our software to our hardware (simulation) and initializes
 	 * all the controllers that we need.
@@ -74,13 +70,10 @@ public class SelfCheckoutLogic {
 	 */
 	public SelfCheckoutLogic(AbstractSelfCheckoutStation scs) {
 		station = scs;
-		predictController = new PredictIssueController(scs, totalNumOfPaperUsed, currentReceipt, numOfInkRemaining,
-				numOfPaperRemaining);
+		predictController = new PredictIssueController(scs, totalNumOfPaperUsed, currentReceipt);
 		/**
 		 * This updates the num of paper and ink remaining after the logic occurs in the predict issue controller
 		 */
-		this.numOfPaperRemaining = predictController.getNumOfPaperRemaining();
-		this.numOfInkRemaining = predictController.getNumOfInkRemaining();
 
 		session = new SessionController(this);
 		session.start();
@@ -104,11 +97,4 @@ public class SelfCheckoutLogic {
 
 	}
 
-	public void setNumOfPaperRemaining(int numOfPaperRemaining) {
-		this.numOfPaperRemaining = numOfPaperRemaining;
-	}
-
-	public void setNumOfInkRemaining(int numOfInkRemaining) {
-		this.numOfInkRemaining = numOfInkRemaining;
-	}
 }
