@@ -20,7 +20,7 @@ import com.thelocalmarketplace.hardware.test.*;
 		public  InventoryProductGenerator steak= new InventoryProductGenerator("steak", "1208",5000000, 15, 40);
 		public  InventoryProductGenerator onions= new InventoryProductGenerator("onions", "1207",3000000, 2,40);
 		 public  InventoryProductGenerator cheese= new InventoryProductGenerator("cheese", "1205",4000000, 10, 20);
-		 public  InventoryProductGenerator bigProduct= new InventoryProductGenerator("Big Product", "1202",999000000, 10, 20);
+		 public  InventoryProductGenerator bigProduct= new InventoryProductGenerator("Big Product", "1202",700000000, 10, 20);
 		//public LoadProductDatabases() {	}
 
 		

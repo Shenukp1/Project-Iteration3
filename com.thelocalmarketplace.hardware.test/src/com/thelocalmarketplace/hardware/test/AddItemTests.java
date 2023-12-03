@@ -38,6 +38,7 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import item.AddItemBarcode;
 import item.AddItemCatalogue;
+import item.AddItemController;
 import item.AddItemPLU;
 import item.AddItemText;
 import item.HandleBulkyItem;
@@ -167,7 +168,9 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 		station.getScanningArea().register(scaleWatch);
 		station.getBaggingArea().register(scaleWatch);
 		
-		
+		AddItemController addItemController;
+		//addItemController.
+		//
 		//productsNew= new LoadProductDatabases();
 	}
 	
@@ -193,6 +196,7 @@ public AddItemTests(AbstractSelfCheckoutStation station) {
 		logic.station.getScanningArea().addAnItem(bacon.barcodedItem);
 		Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged");
 		//logic.weightController.
+		logic.station.getScanningArea().removeAnItem(bacon.barcodedItem);
 	}
 /*
  * overload scale then remove overloaded item
@@ -203,9 +207,9 @@ public void addHugeItemToScaleAndRemoveTest() {
 	logic.station.getScanningArea().addAnItem(bigProduct.barcodedItem);
 	Assert.assertTrue (scaleWatch.notify=="theMassOnTheScaleHasChanged"&&
 			scaleWatch.exceedsLimit=="theMassOnTheScaleHasExceededItsLimit");
-	//scaleWatch.notify = "";
+	scaleWatch.notify = "";
 	logic.station.getScanningArea().removeAnItem(bigProduct.barcodedItem);
-	Assert.assertTrue (scaleWatch.exceedsLimit=="theMassOnTheScaleNoLongerExceedsItsLimit");
+	Assert.assertTrue (scaleWatch.exceedsLimit==  "theMassOnTheScaleNoLongerExceedsItsLimit");
 	scaleWatch.notify = "";
 }
 @Test
