@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import javax.swing.*;
-import javax.swing.border.BorderFactory;
+//import javax.swing.border.BorderFactory;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
@@ -156,6 +156,8 @@ public class MainPanel extends JFrame {
         JButton buttonPLU = new JButton("Enter PLU");
         buttonPLU.setFont(buttonPLU.getFont().deriveFont(19f));
         buttonPLU.addActionListener(e -> {
+        	mainPanel.setVisible(false);
+        	plu plu = new plu(logicGold);
         	//LOGIC: Call Attendant
         });
         mainLeft.add(buttonPLU);

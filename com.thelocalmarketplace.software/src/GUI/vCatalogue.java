@@ -169,11 +169,10 @@ public class vCatalogue extends JPanel {
 			
 			
 			homeButton.addActionListener(e -> {
-//					This home button does go back to the main screen, however I'm not sure it's going back to the same screen or a new one
-//					Meaning, i dont know if items previously added to the list before going to the visual catalogue will be displayed on the main screen again once the user clicks this button 
-//		            vcPanel.setVisible(false);		     
-//		            mainPanel= new MainPanel(logicGold, "Returned to Main screen");
-			        });
+				vcPanel.setVisible(false);
+				
+				MainPanel mainWindow = new MainPanel(logicGold, "Returned from the visual catalogue");
+			});
 	
 		    vcPanel.add(homeButton);
 		    
