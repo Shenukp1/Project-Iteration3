@@ -3,6 +3,8 @@ package item;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.jjjwelectronics.IDevice;
+import com.jjjwelectronics.IDeviceListener;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodeScannerListener;
 import com.jjjwelectronics.scanner.IBarcodeScanner;
@@ -12,14 +14,14 @@ import com.thelocalmarketplace.hardware.Product;
 
 import control.SessionController;
 
-public abstract class AddItemController implements BarcodeScannerListener{
+public class AddItemController implements BarcodeScannerListener{
  /**
  * Abstract class for all use cases that add an item to customer's cart
  */
 	private SessionController session;
 	private AbstractSelfCheckoutStation station;
 	
-	public AddItemController(AbstractSelfCheckoutStation station, SessionController session) {
+	public AddItemController(SessionController session, AbstractSelfCheckoutStation station) {
 		this.station = station;
 		this.session = session;
 		// Register this controller as a listener to the barcode scanner
@@ -104,5 +106,29 @@ public abstract class AddItemController implements BarcodeScannerListener{
 	 */
 	public ArrayList<Product> getProductCatalogue() {
 		return AddItemCatalogue.getCatalogue();
+	}
+
+	@Override
+	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aDeviceHasBeenTurnedOn(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
 	}
 }

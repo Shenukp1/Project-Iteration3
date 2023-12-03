@@ -30,8 +30,8 @@ public class SelfCheckoutLogic {
 	// Controller to manage credit card payments
 	public PaymentCardController creditController;
 	
-	// Controller to manage handheld barcode scans
-	public AddItemBarcode barcodeController;
+	// Controller to manage add item cases
+	public AddItemController addItemController;
 		
 	// Controller to manage session
 	public SessionController session;
@@ -67,7 +67,7 @@ public class SelfCheckoutLogic {
 		session = new SessionController(this);
 		session.start();
 		
-		barcodeController = new AddItemBarcode(session, scs);
+		addItemController = new AddItemController(session, scs);
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
