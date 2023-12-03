@@ -52,7 +52,7 @@ public class vCatalogue extends JPanel {
     public vCatalogue(SelfCheckoutLogic logicGold)  {
     	this.logicGold = logicGold;
 
-        initial = logicGold.station.screen.getFrame();
+        initial = logicGold.station.getScreen().getFrame();
 
         vcPanel = new JPanel();
         vcPanel.setLayout(new GridLayout(1, 1));
