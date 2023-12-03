@@ -1,5 +1,5 @@
 package gui;
 
-public interface UpdateListener {
+public interface NotifyAttendantListener {
 	 void update(Object updateInfo);
 	}

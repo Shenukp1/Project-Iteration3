@@ -9,7 +9,7 @@ import com.tdc.banknote.IBanknoteDispenser;
 import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 
-import gui.AttendantGUIMockup;
+import gui.NotifyAttendantScreen;
 
 /**
  * This class predicts any issue that might occur within the self checkout
@@ -25,7 +25,7 @@ public class PredictIssueController {
 	 */
 	private AbstractSelfCheckoutStation scs;
 	private ArrayList<String> listOfIssues = new ArrayList<>();
-	private AttendantGUIMockup attendantGUI = new AttendantGUIMockup();
+	private NotifyAttendantScreen attendantGUI = new NotifyAttendantScreen();
 	private CheckForPrinterIssues checkPrinter;
 	private boolean lowInkIssueExists = false;
 	private boolean lowPaperIssueExists = false;;
