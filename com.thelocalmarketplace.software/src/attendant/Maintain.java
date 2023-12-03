@@ -4,7 +4,10 @@ import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
 import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.printer.IReceiptPrinter;
+import com.jjjwelectronics.printer.ReceiptPrinterBronze;
+import com.jjjwelectronics.printer.ReceiptPrinterGold;
 import com.jjjwelectronics.printer.ReceiptPrinterListener;
+import com.jjjwelectronics.printer.ReceiptPrinterSilver;
 import com.tdc.CashOverloadException;
 import com.tdc.IComponent;
 import com.tdc.IComponentObserver;
@@ -18,7 +21,15 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import ca.ucalgary.seng300.simulation.SimulationException;
 
 public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver  {
+	
 	private IReceiptPrinter printer;
+	
+	private ReceiptPrinterBronze receiptPrinterBronze;
+	private ReceiptPrinterSilver receiptPrinterSilver;
+	private ReceiptPrinterGold receiptPrinterGold;
+	
+	
+	
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
 
@@ -39,6 +50,9 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 	int coinLevel;
 
+	private int PrinterInkAddCount;// keep track of the printer added 
+	private int PrinterInkAddCountGold;
+
 	
 	
 	
@@ -49,31 +63,44 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		station.getCoinStorage().attach(this);
 		
 		
-		
 	}
 	
 	// Attendant adds ink
-	public void maintainInk(int quantity) throws OverloadedDevice {
-		System.out.println("remaining ink: "+ printer.inkRemaining());
+	public void maintainAddInk(int quantity) throws OverloadedDevice {
 		printer.addInk(quantity); // AbstractReceiptPrinter. Announces "inkAdded" event. Requires power.
-		System.out.println("remaining ink: "+ printer.inkRemaining());
+		//when we add ink, we are adding it to all types of printers
+		//ISSUE: should I make the addition of ink to each printer in a seperate method?
+		receiptPrinterBronze.addInk(quantity);
+		//to keep track of bronzePrinter count but technically it would be the same as all the other printers. 
+		//thus, using the quaintity checker of another printer would work
+		PrinterInkAddCount = quantity;
+		receiptPrinterSilver.addInk(quantity);
+		receiptPrinterGold.addInk(quantity);
+	}
+	
+	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
+	
+	public int getInkAdded() {
+		PrinterInkAddCountGold = receiptPrinterGold.inkRemaining();
+		return PrinterInkAddCountGold;
 	}
 	
 	
+	
 	// Attendant adds paper 
-	public void maintainPaper(int quantity) throws OverloadedDevice {
+	public void maintainAddPaper(int quantity) throws OverloadedDevice {
 		printer.addPaper(quantity); // AbstractReceiptPrinter. Announces "paperAdded" event. Requires power.
 		
 	}
 	
 	// Attendant adds bank notes
-	public void maintainBanknotes(Banknote... banknotes) throws SimulationException, CashOverloadException {
+	public void maintainAddBanknotes(Banknote... banknotes) throws SimulationException, CashOverloadException {
 		banknoteStorage.load(banknotes);// BanknoteStorageUnit. Announces "banknotesLoaded" event. Disabling has no effect. Requires power.
 
 	}
 	
 	// Attendant adds coins
-	public void maintainCoins(Coin... coins) throws SimulationException, CashOverloadException {
+	public void maintainAddCoins(Coin... coins) throws SimulationException, CashOverloadException {
 		coinStorage.load(coins);// CoinStorageUnit. Announces "coinsLoaded" event. Disabling has no effect. Requires power.
 	}
 

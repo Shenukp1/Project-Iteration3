@@ -117,12 +117,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		PowerGrid.instance().forcePowerRestore();
 		gold.plugIn(PowerGrid.instance());
 		gold.turnOn();
-		maintain = new Maintain(gold);
-		gold.setSupervisor(attendentStation);
-		gold.getPrinter().addInk(300);
-		gold.getPrinter().print((char) 1);
-		//BankNote initalization 
-		gold.configureBanknoteStorageUnitCapacity(10);// Max capacity is 10
+		
 		
 
 		
