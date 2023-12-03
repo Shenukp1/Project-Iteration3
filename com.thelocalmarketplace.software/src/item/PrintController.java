@@ -20,11 +20,11 @@ public class PrintController implements ReceiptPrinterListener{
 	public PrintController(SessionController session, AbstractSelfCheckoutStation station) {
 		this.session = session;
 		this.station = station;
-		station.printer.register(this);
+		station.getPrinter().register(this);
 	}
 	
 	public static void printReceipt(AbstractSelfCheckoutStation station, SessionController session) {
-		IReceiptPrinter printer = station.printer;					// The printer we need to print from
+		IReceiptPrinter printer = station.getPrinter();					// The printer we need to print from
 		StringBuilder receiptText = new StringBuilder();
 		long p;
         Product item;
@@ -61,25 +61,25 @@ public class PrintController implements ReceiptPrinterListener{
 	@Override
 	public void thePrinterIsOutOfPaper() {
 		System.err.println("Printer has run out of paper");
-		station.printer.disable();
+		station.getPrinter().disable();
 	}
 
 	@Override
 	public void thePrinterIsOutOfInk() {
 		System.err.println("Printer has run out of ink");
-		station.printer.disable();
+		station.getPrinter().disable();
 	}
 
 	@Override
 	public void paperHasBeenAddedToThePrinter() {
 		System.err.println("Paper added to printer");
-		station.printer.enable();
+		station.getPrinter().enable();
 	}
 
 	@Override
 	public void inkHasBeenAddedToThePrinter() {
 		System.err.println("Ink added to printer");
-		station.printer.enable();
+		station.getPrinter().enable();
 	}
 	
 	@Override

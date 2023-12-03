@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -17,10 +18,16 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.jjjwelectronics.EmptyDevice;
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.OverloadedDevice;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
 import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
 import com.tdc.banknote.Banknote;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -50,6 +57,17 @@ SelfCheckoutStationGold gold;
 SelfCheckoutLogic logicBronze;
 SelfCheckoutLogic logicSilver;
 SelfCheckoutLogic logicGold;
+public Numeral[] beansNumeral = new Numeral [4];
+public Barcode beanBarcode;
+public BarcodedItem beanBarcodeItem;
+public BarcodedItem bigItem; //to overload scale
+public BarcodedProduct beanBarcodedProduct;
+public BarcodedProduct bigProduct;
+public Mass beansMass;
+public Mass bigItemMass;
+public Item Beans;
+public BigInteger bigIBeanMass = new BigInteger("500");
+public BigInteger excessiveMass= new BigInteger("5000000000000");
 
 /*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
  *  
@@ -99,15 +117,22 @@ SelfCheckoutLogic logicGold;
 		logicBronze = SelfCheckoutLogic.installOn(bronze);
 		logicSilver = SelfCheckoutLogic.installOn(silver);
 		logicGold = SelfCheckoutLogic.installOn(gold);
-		
-
 		logicBronze.session.enable();
-	 
-		logicBronze.station.printer.addInk(300);
-		logicBronze.station.printer.addPaper(300);
+		logicBronze.station.getPrinter().addInk(300);
+		logicBronze.station.getPrinter().addPaper(300);
 		
-		//I use custom bank notes from interface
 		
+		
+		beansNumeral [0]=Numeral.one;
+		beansNumeral [1]=Numeral.two;
+		beansNumeral [2]=Numeral.three;
+		beansNumeral [3]=Numeral.four;
+		
+		beansMass= new Mass(bigIBeanMass);
+		beanBarcode=new Barcode (beansNumeral);
+		beanBarcodeItem= new BarcodedItem (beanBarcode, beansMass);
+		beanBarcodedProduct=new BarcodedProduct(beanBarcode, "beans", 5,bigIBeanMass.intValue());
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);
 		
 	}
 	
@@ -116,36 +141,23 @@ SelfCheckoutLogic logicGold;
  */
 @Test
 	public void Starttest() throws InterruptedException {
-	
-	//JFrame start = logicGold.station.screen.getFrame();
-	//start.setVisible(true);
-	
-	//JFrame start2 = logicGold.station.screen.getFrame();
-	
-	//start2.setVisible(true); 
-	
-	
-    //JPanel converterPanel = new JPanel();
-    //converterPanel.setLayout(new GridLayout(1, 1));
 
+	/* Remove this commented section to reformat as a test
 	
-	
-	
-	//System.out.println(start);
-	
-	//JFrame start2 = new JFrame("Welcome");
-
-	logicGold.station.screen.setVisible(true);
+	logicGold.station.getScreen().setVisible(true);
 	//start.getContentPane().removeAll();
 	//start.setLayout(new BorderLayout());
 	
 	//System.out.print(logicGold);
-	vCatalogue checkoutPanel = new vCatalogue(logicGold);
-	System.out.println(logicGold.station.screen.getFrame());
+	StartScreen checkoutPanel = new StartScreen(logicGold);
+	System.out.println(logicGold.station.getScreen().getFrame());
 	Thread.sleep(60000);
 	
 	
-	
+	*/
 }
 }
+
+
+
 		

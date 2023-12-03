@@ -28,7 +28,7 @@ public class StartScreen extends JPanel {
     	this.logicGold = logicGold;
         //this.setForeground(getBackground());
 
-        initial = logicGold.station.screen.getFrame();
+        initial = logicGold.station.getScreen().getFrame();
 
         startPanel = new JPanel();
         startPanel.setLayout(new GridLayout(1, 1));
