@@ -159,8 +159,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
     		eggButton.addActionListener(e -> {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-//	            vcPanel.setVisible(false);
-//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, egg.barcodedProduct, egg.bigDecimalMass);
+	            vcPanel.setVisible(false);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, egg.barcodedProduct, egg.bigDecimalMass);
 //    			mainPanel = new MainPanel(logicGold, "Eggs Added");
 //                mainPanel.listModel.addElement(createItemPanel("Banana - $ " + product.getPrice()));
     	        });	        
