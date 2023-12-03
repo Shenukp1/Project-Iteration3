@@ -20,6 +20,7 @@ public class PaymentCardController implements CardReaderListener{
 	private CardIssuer bank; 													// Bank of credit card
 	private long holdNumber;													// Hold number of transaction
 	private boolean successfulTransaction = false;				 		 		// Tracks if the transaction is successful
+	private boolean isSuccess= false;
 
 	
 	public PaymentCardController(SessionController c_session, AbstractSelfCheckoutStation sco, CardIssuer bank) {
@@ -94,20 +95,27 @@ public class PaymentCardController implements CardReaderListener{
 		}
 		else
 			new NullPointerSimulationException("hold number");
-		
+
 
 		if(successfulTransaction) {
 			session.setCartTotal(BigDecimal.ZERO);	
 			System.out.println("You paid: $" + cartTotal);
 			PrintController.printReceipt(station, session);
+			isSuccess = true;
 			// CLEAN UP SESSION (LATER ITERATION)
 		}
 		else {
 			System.err.println("There was an error with payment, please try agian.");
+			isSuccess = false;
 		}
 		successfulTransaction = false;		// To reset to start state.
 		session.enable();
 	};
+	
+	public boolean getSuccess() {
+
+		return isSuccess;
+	}
 
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {};
 
