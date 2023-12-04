@@ -56,6 +56,7 @@ public class CashPaymentWindow {
 	JLabel remainingTotalLabel;
 	
 	BigDecimal remainingTotal;
+	BigDecimal recieptTotal;
 	BigDecimal changeDue;
 	
 
@@ -65,6 +66,7 @@ public class CashPaymentWindow {
 		mainFrame = logic.station.getScreen().getFrame();
 		
 		remainingTotal = logic.session.getCartTotal();
+		recieptTotal = remainingTotal;
 		changeDue = BigDecimal.ZERO;
 		
 		mainPanel = new JPanel();
@@ -357,10 +359,11 @@ public class CashPaymentWindow {
 			//do the normal stuff
 		}
 		else {
+			changeDue=new BigDecimal(logic.session.getCartTotal().toString());
 			logic.station.getBanknoteInput().disable();
 			logic.station.getCoinSlot().disable();
 			mainPanel.setVisible(false);
-			SessionEndedWindow endSesh = new SessionEndedWindow(logic);
+			SessionEndedWindow endSesh = new SessionEndedWindow(logic, recieptTotal, changeDue);
 		}
 			
 	}

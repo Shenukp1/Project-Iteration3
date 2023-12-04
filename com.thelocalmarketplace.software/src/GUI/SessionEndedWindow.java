@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -30,20 +31,42 @@ public class SessionEndedWindow {
 	JPanel mainPanel;
 	JLabel sessionEndedText;
 	
-	public SessionEndedWindow(SelfCheckoutLogic logic) {
+	public SessionEndedWindow(SelfCheckoutLogic logic, BigDecimal recieptTotal, BigDecimal changeOwed) {
 		mainFrame = logic.station.getScreen().getFrame();
 		
+
+//		JFrame frame = new JFrame("Your Frame Title");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(400, 300);
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,1));
-		
-		sessionEndedText = new JLabel("Thank you for shopping at SENG300!");
-		sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(35f));
-		sessionEndedText.setVerticalAlignment(SwingConstants.CENTER);
-		sessionEndedText.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		mainPanel.add(sessionEndedText);
-		
-		mainFrame.getContentPane().add(mainPanel);
-	}
+        mainPanel = new JPanel(new GridBagLayout());
+
+        sessionEndedText = new JLabel("Thank you for shopping at SENG300!");
+        sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(35f));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 0.6; 
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        
+        
+        JLabel TotalPaid = new JLabel("You paid: $"+ recieptTotal + "  your change is: $ " + Math.abs(changeOwed.doubleValue()));
+        TotalPaid.setFont(TotalPaid.getFont().deriveFont(35f));
+
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
+        gbc.weighty = 0.5;
+        gbc2.anchor = GridBagConstraints.CENTER;
+        
+        
+
+
+        mainPanel.add(sessionEndedText, gbc);
+        mainPanel.add(TotalPaid, gbc2);
+
+        mainFrame.getContentPane().add(mainPanel);
+
 	
-}
+}}
