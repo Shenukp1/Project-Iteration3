@@ -15,13 +15,14 @@ import com.jjjwelectronics.bag.ReusableBagDispenserSilver;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 
+import GUI.LoadProductDatabases;
 import control.SessionController;
 
 //Note:  When adding reusable bags to product database the weight is 5 grams, or 5,000,000 micrograms as specified by the ReusableBag class.
 public class PurchaseBags implements ReusableBagDispenserListener {
 	private SessionController session;
 	private AbstractSelfCheckoutStation station;
-	private Barcode bagsBarcode; // This can be set to whatever barcode bags are assigned to in the product database
+	private Barcode bagsBarcode = LoadProductDatabases.bag.itemBarcode;
 	private int bagsToBuy;
 	
 	public PurchaseBags(AbstractSelfCheckoutStation station, SessionController session) {
