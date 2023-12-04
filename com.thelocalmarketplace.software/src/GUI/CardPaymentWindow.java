@@ -102,7 +102,7 @@ public class CardPaymentWindow {
 				}
 				
 				//new PINEntryWindow(logic, creditCard, cardController);
-				new SessionEndedWindow(logic, cardController.getTotal());
+				new SessionEndedWindowCardPayment(logic, cardController.getTotal());
 			});
 		
 		JButton cardSwipedButton = new JButton("Card Has been swiped");
@@ -118,7 +118,7 @@ public class CardPaymentWindow {
 					e1.printStackTrace();
 				}
 				//new PINEntryWindow(logic, creditCard, cardController);
-				new SessionEndedWindow(logic, cardController.getTotal());
+				new SessionEndedWindowCardPayment(logic, cardController.getTotal());
 			});
 
 		

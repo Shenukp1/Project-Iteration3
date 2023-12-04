@@ -104,7 +104,7 @@ public class PINEntryWindow extends JFrame {
 					//cardController.theDataFromACardHasBeenRead(cardData);
 					logic.station.getCardReader().remove();
 					mainPanel.setVisible(false);
-					new SessionEndedWindow(logic, cardController.getTotal());
+					new SessionEndedWindowCardPayment(logic, cardController.getTotal());
 				} catch (IOException error){
 					// Something that either restarts this scren or says to reinput pin
 					new PINEntryWindow(logic, paymentCard, cardController);
