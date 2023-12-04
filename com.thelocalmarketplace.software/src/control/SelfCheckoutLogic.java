@@ -8,6 +8,7 @@ import payment.PaymentCardController;
 import payment.BanknoteController;
 import item.AddItemBarcode;
 import item.AddItemController;
+import item.EnterMembership;
 import item.PrintController;
 
 /**
@@ -45,6 +46,9 @@ public class SelfCheckoutLogic {
 	//	Card Issuer
 	public CardIssuer cardIssuer;
 	
+	// Controller for input membership number
+	public EnterMembership	enterMembership;
+	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.
@@ -73,6 +77,7 @@ public class SelfCheckoutLogic {
 		coinController = new CoinController(session, scs);
 	//	creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
+		enterMembership = new EnterMembership(session,scs);
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.
