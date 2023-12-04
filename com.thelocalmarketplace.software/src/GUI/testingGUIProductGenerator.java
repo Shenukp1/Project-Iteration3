@@ -51,8 +51,8 @@ public class testingGUIProductGenerator {
 				parsedString = codeLength.charAt(i);
 
 				this.numeral[i] = Numeral.valueOf((byte) (Character.getNumericValue(parsedString) % 10));
-				this.numeralPlu[i] = Numeral.valueOf((byte) ((Character.getNumericValue(parsedString) + 1) % 10));
-				temp += String.valueOf((Character.getNumericValue(parsedString) + 1) % 10);
+				this.numeralPlu[i] = Numeral.valueOf((byte) ((Character.getNumericValue(parsedString)) % 10));
+				temp += String.valueOf((Character.getNumericValue(parsedString)) % 10);
 			
 			}
 			// initialize plu fields
@@ -74,6 +74,4 @@ public class testingGUIProductGenerator {
 		}
 
 	}
-
-
 
