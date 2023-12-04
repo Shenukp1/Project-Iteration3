@@ -60,6 +60,7 @@ public class PINEntryWindow extends JFrame {
 		keyboardPanel.setLayout(new GridLayout(3,4));
 		
 		confirmButton = new JButton("Confirm");
+		confirmButton.setBackground(new Color(128, 255, 128));
 		backButton = new JButton("<-");
 		
 		promptLabel = new JLabel("Enter PIN:");
