@@ -122,55 +122,152 @@ public class CashPaymentWindow {
 		note100Button.setFont(note100Button.getFont().deriveFont(fontSize));
 		
 		cent5Button.addActionListener(e -> {
-			
+			logic.station.getCoinSlot().enable();
+			logic.station.getCoinValidator().enable();
+			try {
+				logic.station.getCoinValidator().receive(DollarsAndCurrency.dime);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			// Use refreshLabel(); to set the labels to reflect the change due and remaining total, as well as hide the cancel button
 			
+			refreshLabel();
 		});
 		cent10Button.addActionListener(e -> {
-			
-			
+			logic.station.getCoinSlot().enable();
+			logic.station.getCoinValidator().enable();
+			try {
+				logic.station.getCoinValidator().receive(DollarsAndCurrency.dime);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 			
 		});
 		cent25Button.addActionListener(e -> {
-			
-			
+			logic.station.getCoinSlot().enable();
+			logic.station.getCoinValidator().enable();
+			try {
+				logic.station.getCoinValidator().receive(DollarsAndCurrency.quarter);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 			
 		});
 		cent100Button.addActionListener(e -> {
-			
-			
+			logic.station.getCoinSlot().enable();
+			logic.station.getCoinValidator().enable();
+			try {
+				logic.station.getCoinValidator().receive(DollarsAndCurrency.dollars);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 			
 		});
 		cent200Button.addActionListener(e -> {
-			
-			
+			logic.station.getCoinSlot().enable();
+			logic.station.getCoinValidator().enable();
+			try {
+				logic.station.getCoinValidator().receive(DollarsAndCurrency.twodollar);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 			
 		});
 		
 		note5Button.addActionListener(e -> {
-			
-			
-			
+			logic.station.getBanknoteInput().enable();
+			logic.station.getBanknoteValidator().enable();
+			try {
+				logic.station.getBanknoteValidator().receive(DollarsAndCurrency.five);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 		});
 		note10Button.addActionListener(e -> {
-			
-			
-			
+			logic.station.getBanknoteInput().enable();
+			logic.station.getBanknoteValidator().enable();
+			try {
+				logic.station.getBanknoteValidator().receive(DollarsAndCurrency.ten);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}			
 		});
 		note20Button.addActionListener(e -> {
-			
-			
+			logic.station.getBanknoteInput().enable();
+			logic.station.getBanknoteValidator().enable();
+			try {
+				logic.station.getBanknoteValidator().receive(DollarsAndCurrency.twenty);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 			
 		});
 		note50Button.addActionListener(e -> {
-			
-			
+			logic.station.getBanknoteInput().enable();
+			logic.station.getBanknoteValidator().enable();
+			try {
+				logic.station.getBanknoteValidator().receive(DollarsAndCurrency.fifty);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 			
 		});
 		note100Button.addActionListener(e -> {
-			
-			
-			
+			logic.station.getBanknoteInput().enable();
+			logic.station.getBanknoteValidator().enable();
+			try {
+				logic.station.getBanknoteValidator().receive(DollarsAndCurrency.hundred);
+			} catch (DisabledException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CashOverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			refreshLabel();
 		});
 		
 		midPanelLeft.add(cent5Button);
