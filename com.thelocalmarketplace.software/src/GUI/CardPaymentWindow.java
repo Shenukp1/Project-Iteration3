@@ -25,6 +25,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import control.SelfCheckoutLogic;
+import java.awt.event.ActionListener;
 
 public class CardPaymentWindow {
 	JFrame mainFrame;
@@ -53,6 +54,9 @@ public class CardPaymentWindow {
 		statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		cancelButton = new JButton("Tap to cancel operation");
+		cancelButton.addActionListener(new ActionListener() {
+		});
+		cancelButton.setBackground(new Color(255, 128, 128));
 		cancelButton.setFont(cancelButton.getFont().deriveFont(30f));
 		
 		cancelButton.addActionListener(e -> {

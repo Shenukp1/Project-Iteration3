@@ -67,7 +67,8 @@ public class BagsPanel {
 		numberOfBags.setVerticalAlignment(SwingConstants.BOTTOM);
 		
 		
-		addBag = new JButton("+1");
+		addBag = new JButton("Add (1)");
+		addBag.setBackground(new Color(172, 255, 172));
 		addBag.setFont(addBag.getFont().deriveFont(30f));
 		
 		addBag.addActionListener(e -> {
@@ -76,9 +77,9 @@ public class BagsPanel {
 			removeBag.setBackground(addBag.getBackground());
 		});
 		
-		removeBag = new JButton("-1");
+		removeBag = new JButton("Remove (1)");
 		removeBag.setFont(removeBag.getFont().deriveFont(30f));
-		removeBag.setBackground(Color.LIGHT_GRAY);
+		removeBag.setBackground(new Color(255, 128, 128));
 		
 		removeBag.addActionListener(e -> {
 			if (bagsBought != 0) {
