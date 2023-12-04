@@ -57,7 +57,9 @@ public class PaymentCardController implements CardReaderListener{
 	public long signalHoldToBank(CardIssuer bank, String cardNumber, BigDecimal amountCharged) {
 		double amount = amountCharged.doubleValue();
 		long holdNumber = bank.authorizeHold(cardNumber, amount);
+
 		return holdNumber;
+
   }
 
 	/**
@@ -115,6 +117,10 @@ public class PaymentCardController implements CardReaderListener{
 	public boolean getSuccess() {
 
 		return isSuccess;
+	}
+	
+	public BigDecimal getTotal() {
+		return cartTotal;
 	}
 
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {};
