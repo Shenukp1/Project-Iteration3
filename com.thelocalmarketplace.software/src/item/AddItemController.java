@@ -51,7 +51,7 @@ public class AddItemController implements BarcodeScannerListener{
 			return;
 		}
 		session.disable();
-		barcodeScanner.disable();
+//		barcodeScanner.disable();
 
 		// This message (potentially) will be displayed to the customer on GUI
 		String message = AddItemBarcode.AddItemFromBarcode(session, scannedBarcode);
@@ -62,7 +62,7 @@ public class AddItemController implements BarcodeScannerListener{
 		 item will be made accordingly. **/
 		
 		// Enable the scanner
-		barcodeScanner.enable();
+//		barcodeScanner.enable();
 	}
 	
 	/**

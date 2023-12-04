@@ -284,17 +284,15 @@ public class MainPanel extends JFrame {
                 }
               
                 Barcode enteredBarcode = new Barcode(barcodeNumeral);
-               // AddItemBarcode.AddItemFromBarcode(logicGold.session, enteredBarcode);
-                System.out.println(enteredBarcode.toString());
+                BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(enteredBarcode);
                 BarcodedItem item;
-                if (null!=ProductDatabases.BARCODED_PRODUCT_DATABASE.get(enteredBarcode)) {
+                if (product != null) {
                 	item = new BarcodedItem(enteredBarcode,new Mass(new BigInteger("500")));
                 	logicGold.station.getHandheldScanner().scan(item);
                 	 SwingUtilities.invokeLater(() -> {
                          total.setText("Total: $" + logicGold.session.getCartTotal());                 
                          topPanel.revalidate();
                          topPanel.repaint();
-                         System.out.println("Helloooo");
                      });
                 	 
                 	 updateListModel();
