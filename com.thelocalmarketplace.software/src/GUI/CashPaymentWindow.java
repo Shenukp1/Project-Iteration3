@@ -58,6 +58,7 @@ public class CashPaymentWindow {
 	BigDecimal remainingTotal;
 	BigDecimal changeDue;
 	
+
 	JButton cancelButton;
 	
 	public CashPaymentWindow(SelfCheckoutLogic logic) {
@@ -86,7 +87,7 @@ public class CashPaymentWindow {
 		mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		mainLabel.setVerticalAlignment(SwingConstants.CENTER);
 		
-		remainingTotalLabel = new JLabel("Remaining: $" + remainingTotal);
+		remainingTotalLabel = new JLabel("Remaining: $" + logic.session.getCartTotal());
 		remainingTotalLabel.setFont(remainingTotalLabel.getFont().deriveFont(30f));
 		remainingTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		remainingTotalLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -122,6 +123,7 @@ public class CashPaymentWindow {
 		note100Button.setFont(note100Button.getFont().deriveFont(fontSize));
 		
 		cent5Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getCoinSlot().enable();
 			logic.station.getCoinValidator().enable();
 			try {
@@ -134,10 +136,11 @@ public class CashPaymentWindow {
 				e1.printStackTrace();
 			}
 			// Use refreshLabel(); to set the labels to reflect the change due and remaining total, as well as hide the cancel button
-			
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 		});
 		cent10Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getCoinSlot().enable();
 			logic.station.getCoinValidator().enable();
 			try {
@@ -149,10 +152,12 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 			
 		});
 		cent25Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getCoinSlot().enable();
 			logic.station.getCoinValidator().enable();
 			try {
@@ -164,10 +169,12 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 			
 		});
 		cent100Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getCoinSlot().enable();
 			logic.station.getCoinValidator().enable();
 			try {
@@ -179,10 +186,12 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 			
 		});
 		cent200Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getCoinSlot().enable();
 			logic.station.getCoinValidator().enable();
 			try {
@@ -194,11 +203,13 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 			
 		});
 		
 		note5Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getBanknoteInput().enable();
 			logic.station.getBanknoteValidator().enable();
 			try {
@@ -210,9 +221,11 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 		});
 		note10Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getBanknoteInput().enable();
 			logic.station.getBanknoteValidator().enable();
 			try {
@@ -223,9 +236,12 @@ public class CashPaymentWindow {
 			} catch (CashOverloadException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}			
+			}		
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 		});
 		note20Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getBanknoteInput().enable();
 			logic.station.getBanknoteValidator().enable();
 			try {
@@ -237,10 +253,12 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 			
 		});
 		note50Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getBanknoteInput().enable();
 			logic.station.getBanknoteValidator().enable();
 			try {
@@ -252,10 +270,12 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 			
 		});
 		note100Button.addActionListener(e -> {
+			booleanGuardForPayment( logic);
 			logic.station.getBanknoteInput().enable();
 			logic.station.getBanknoteValidator().enable();
 			try {
@@ -267,9 +287,10 @@ public class CashPaymentWindow {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			refreshLabel();
+			booleanGuardForPayment( logic);
+			refreshLabel(logic);
 		});
-		
+
 		midPanelLeft.add(cent5Button);
 		midPanelLeft.add(cent10Button);
 		midPanelLeft.add(cent25Button);
@@ -324,14 +345,29 @@ public class CashPaymentWindow {
 		
 	}
 	
-	private void refreshLabel() {
+	private void refreshLabel(SelfCheckoutLogic logic) {
 		
+		remainingTotalLabel = new JLabel("Remaining: $" + logic.session.getCartTotal());
+		remainingTotalLabel.setFont(remainingTotalLabel.getFont().deriveFont(30f));
+		remainingTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		remainingTotalLabel.setVerticalAlignment(SwingConstants.CENTER);
 		remainingTotalLabel.setText(remainingTotal.toString());
 		mainLabel.setText(changeDue.toString());
 		cancelButton.setVisible(false);
 		
 	}
-	
+	private void booleanGuardForPayment(SelfCheckoutLogic logic) {
+		if(logic.session.getCartTotal().doubleValue()>0) {
+			//do the normal stuff
+		}
+		else {
+			logic.station.getBanknoteInput().disable();
+			logic.station.getCoinSlot().disable();
+			mainPanel.setVisible(false);
+			SessionEndedWindow endSesh = new SessionEndedWindow(logic);
+		}
+			
+	}
 	
 	
 	
