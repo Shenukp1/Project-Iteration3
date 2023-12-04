@@ -100,8 +100,13 @@ public class EnterMembershipTest implements CardPayment{
 		Card memberCard = new Card("membership", "00000", "John", null, null, false, false);
 		logicGold.station.getCardReader().enable();
 		logicGold.station.getCardReader().swipe(memberCard);
-		//logicSilver.station.cardReader.enable();
-		//logicSilver.station.cardReader.swipe(memberCard);
+		
+		logicSilver.station.getCardReader().enable();
+		logicSilver.station.getCardReader().swipe(memberCard);
+		
+		logicBronze.station.getCardReader().enable();
+		logicBronze.station.getCardReader().swipe(memberCard);
+
 	}
 	
 	/**
@@ -119,6 +124,14 @@ public class EnterMembershipTest implements CardPayment{
 		logicGold.station.getCardReader().enable();
 		logicGold.station.getCardReader().swipe(memberCard);
 		assertEquals(logicGold.session.membership, memberCard.number );
+		
+		logicSilver.station.getCardReader().enable();
+		logicSilver.station.getCardReader().swipe(memberCard);
+		assertEquals(logicSilver.session.membership, memberCard.number );
+		
+		logicBronze.station.getCardReader().enable();
+		logicBronze.station.getCardReader().swipe(memberCard);
+		assertEquals(logicBronze.session.membership, memberCard.number );
 	}
 	
 	/**
@@ -134,6 +147,12 @@ public class EnterMembershipTest implements CardPayment{
 		products = new Products();
 		logicGold.session.enable();
 		logicGold.station.getHandheldScanner().scan(membershipCard);
+		
+		logicBronze.session.enable();
+		logicBronze.station.getHandheldScanner().scan(membershipCard);
+		
+		logicSilver.session.enable();
+		logicSilver.station.getHandheldScanner().scan(membershipCard);
 	}
 	
 	 /**
@@ -149,6 +168,14 @@ public class EnterMembershipTest implements CardPayment{
 		logicGold.session.enable();
 		logicGold.station.getHandheldScanner().scan(membershipCard);
 		assertEquals(logicGold.session.membership, barcode.toString() );
+		
+		logicBronze.session.enable();
+		logicBronze.station.getHandheldScanner().scan(membershipCard);
+		assertEquals(logicBronze.session.membership, barcode.toString() );
+		
+		logicSilver.session.enable();
+		logicSilver.station.getHandheldScanner().scan(membershipCard);
+		assertEquals(logicSilver.session.membership, barcode.toString() );
 	}
 
 
@@ -162,9 +189,21 @@ public class EnterMembershipTest implements CardPayment{
 	 * @throws IOException 
 	 */
 	@Test(expected = NullPointerSimulationException.class)
-	public void testCardTypeIsNull() throws NullPointerSimulationException, IOException {
+	public void testCardTypeIsNullGold() throws NullPointerSimulationException, IOException {
 	    Card testCard = new Card(null, "00000", "John", null, null, false, false);
 	    logicGold.station.getCardReader().swipe(testCard); //change this to a card object
+	}
+	
+	@Test(expected = NullPointerSimulationException.class)
+	public void testCardTypeIsNullBronze() throws NullPointerSimulationException, IOException {
+	    Card testCard = new Card(null, "00000", "John", null, null, false, false);
+	    logicBronze.station.getCardReader().swipe(testCard); //change this to a card object
+	}
+	
+	@Test(expected = NullPointerSimulationException.class)
+	public void testCardTypeIsNullSilver() throws NullPointerSimulationException, IOException {
+	    Card testCard = new Card(null, "00000", "John", null, null, false, false);
+	    logicSilver.station.getCardReader().swipe(testCard); //change this to a card object
 	}
 
 	/**
@@ -181,6 +220,12 @@ public class EnterMembershipTest implements CardPayment{
 	    Card nonMembershipCard = new Card("nonMembership", "12345", "Jane", null, null, false, false);
 	    logicGold.station.getCardReader().swipe(nonMembershipCard);
 	    assertTrue(errContent.toString().contains("membership card expected, type used is: nonMembership"));
+	    
+	    logicSilver.station.getCardReader().swipe(nonMembershipCard);
+	    assertTrue(errContent.toString().contains("membership card expected, type used is: nonMembership"));
+	    
+	    logicBronze.station.getCardReader().swipe(nonMembershipCard);
+	    assertTrue(errContent.toString().contains("membership card expected, type used is: nonMembership"));
 	}
 
 	/**
@@ -193,11 +238,21 @@ public class EnterMembershipTest implements CardPayment{
 	 * Expected Result: Checks if an error message is printed, indicating that a session needs to be started first.
 	 */
 	@Test
-	public void testSessionNotStartedScan() {
+	public void testSessionNotStartedScan()throws IOException {
 		products = new Products();
 	    logicGold.session.disable();
 	    logicGold.station.getHandheldScanner().enable();
 	    logicGold.station.getHandheldScanner().scan(products.membershipCard);
+	    assertTrue(errContent.toString().contains("Please wait for the system to be enabled"));
+	    
+	    logicSilver.session.disable();
+	    logicSilver.station.getHandheldScanner().enable();
+	    logicSilver.station.getHandheldScanner().scan(products.membershipCard);
+	    assertTrue(errContent.toString().contains("Please wait for the system to be enabled"));
+	    
+	    logicBronze.session.disable();
+	    logicBronze.station.getHandheldScanner().enable();
+	    logicBronze.station.getHandheldScanner().scan(products.membershipCard);
 	    assertTrue(errContent.toString().contains("Please wait for the system to be enabled"));
 	}
 
@@ -212,8 +267,18 @@ public class EnterMembershipTest implements CardPayment{
 	 */
 	@Test
 	public void testDeviceDisabled() throws IOException {
+		//Gold
 	    logicGold.station.getCardReader().disable();
 	    Card testCard = new Card("membership", "00000", "John", null, null, false, false);
-	    logicGold.station.getCardReader().swipe(testCard); //change this to a card object
+	    logicGold.station.getCardReader().swipe(testCard); 
+	    
+	    //Silver
+	    logicSilver.station.getCardReader().disable();
+	    Card testCard1 = new Card("membership", "00000", "John", null, null, false, false);
+	    logicSilver.station.getCardReader().swipe(testCard1); 
+	    //Bronze
+	    logicBronze.station.getCardReader().disable();
+	    Card testCard2 = new Card("membership", "00000", "John", null, null, false, false);
+	    logicBronze.station.getCardReader().swipe(testCard2); 
 	}
 }
