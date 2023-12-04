@@ -17,6 +17,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -25,8 +26,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.jjjwelectronics.card.BlockedCardException;
 import com.jjjwelectronics.card.Card;
 import com.jjjwelectronics.card.Card.CardData;
+import com.jjjwelectronics.card.InvalidPINException;
 
 import ca.ucalgary.seng300.simulation.SimulationException;
 import control.SelfCheckoutLogic;
@@ -108,6 +111,13 @@ public class PINEntryWindow extends JFrame {
 				} catch (IOException error){
 					// Something that either restarts this scren or says to reinput pin
 					new PINEntryWindow(logic, paymentCard, cardController);
+				}
+				catch( InvalidPINException e1) {
+					logic.station.getCardReader().remove();
+					PINLabel.setText("----");
+					PIN="";
+
+
 				}
 			}else {
 				// Soemthing to say not enough pin numbers.
