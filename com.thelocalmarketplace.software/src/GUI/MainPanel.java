@@ -27,6 +27,7 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import control.SelfCheckoutLogic;
 import item.AddItemBarcode;
 import item.AddItemController;
+import item.RemoveItemController;
 
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
@@ -41,6 +42,7 @@ import control.SelfCheckoutLogic;
 public class MainPanel extends JFrame {
     SelfCheckoutLogic logicGold;
     AddItemController addItemController;
+    RemoveItemController removeItemController;
     JFrame mainFrame;
     JPanel topPanel;
     JPanel bottomPanel;
@@ -61,6 +63,7 @@ public class MainPanel extends JFrame {
     	
     	this.message = message;			//Console message to be printed 
         this.logicGold = logicGold;
+        removeItemController = new RemoveItemController(logicGold.session, logicGold.station);
         mainFrame = logicGold.station.getScreen().getFrame();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
@@ -413,7 +416,7 @@ public class MainPanel extends JFrame {
     }
     
     //Function to create the individual items " Name - $Price - Remove Button "
-    private JPanel createItemPanel(String itemName) {
+    private JPanel createItemPanel(String itemName, Product product) {
     	JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel itemLabel = new JLabel(itemName);
@@ -423,6 +426,7 @@ public class MainPanel extends JFrame {
         removeButton.setForeground(Color.RED);
         removeButton.addActionListener(e -> {
             containerPanel.remove(itemPanel);
+            removeItemController.removeItem(product);
             containerPanel.revalidate();
             containerPanel.repaint();
         });
@@ -439,12 +443,12 @@ public class MainPanel extends JFrame {
         for (Product product : logicGold.session.Cart) {
             if (product instanceof BarcodedProduct) {
                 String desc = ((BarcodedProduct) product).getDescription();
-                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
+                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice(), product));
             } 
             if (product instanceof PLUCodedProduct) {
                 String desc = ((PLUCodedProduct) product).getDescription();
-                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
-            } 
+                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice(), product));
+            }
         }
         containerPanel.removeAll();
         for (int i = 0; i < listModel.getSize(); i++) {
