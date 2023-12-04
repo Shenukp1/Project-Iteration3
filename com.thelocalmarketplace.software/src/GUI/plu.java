@@ -18,6 +18,10 @@ import javax.swing.Timer;
 
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Numeral;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
@@ -31,15 +35,11 @@ public class plu  {
 	JPanel mainPanel;
 	JPanel bottomPanel;
 	JPanel keyboardPanel;
-	JPanel homePanel;
 	
 	String pluNum = "";
 	PriceLookUpCode getter;
-	BigDecimal tempMass=new BigDecimal("3000");
-	//int tempMassInt = 3000; 
-	Mass temp = new Mass (tempMass);
 	AddItemPLU addItemPlu;
-	int pluNumLength = 4; // Feel free to change this if it's wrong!!!
+	int pluNumLength = 4; 
 	
 	JButton okayButton;
 	JButton backspaceButton;
@@ -50,6 +50,7 @@ public class plu  {
 	JLabel test;
 	Timer timer;
 	SelfCheckoutLogic logic;
+	BarcodedProduct product1;
 
 public plu(SelfCheckoutLogic logic) {
 	this.logic = logic;
@@ -99,7 +100,19 @@ public plu(SelfCheckoutLogic logic) {
 				getter = new PriceLookUpCode (pluNum);
 				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
 				if (product != null) {
-					AddItemPLU.AddItemFromPLU(logic.session,getter, tempMass);
+					
+					Numeral[] PLUNumeral = new Numeral[getter.toString().length()];
+			    	for (int i = 0; i < getter.toString().length(); i++) {
+			            char numeralChar = getter.toString().charAt(i);
+			            int numeralIndex = Character.getNumericValue(numeralChar) - 1;
+			            PLUNumeral[i] = Numeral.values()[numeralIndex];
+			        }
+			      
+			        product1 = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(new Barcode(PLUNumeral));
+			        
+			        BigDecimal expectedWeight = new BigDecimal(product1.getExpectedWeight());
+			        
+					AddItemPLU.AddItemFromPLU(logic.session,getter, expectedWeight.multiply(new BigDecimal("1")));
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
 					test.repaint();
@@ -123,14 +136,6 @@ public plu(SelfCheckoutLogic logic) {
     	}
 		
 		
-		
-		
-		//logic to add item to station instance. string may need to be converted to plu
-		
-		// Pass the PLU number to another function
-		
-		//mainPanel.setVisible(false);
-		//MainPanel mainWindow = new MainPanel(logic, "item added");
 		
 	});
 	
@@ -225,16 +230,12 @@ public plu(SelfCheckoutLogic logic) {
     JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
     addedItemButton.addActionListener(e -> {
     	timer.stop();
-    	logic.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(tempMass)));
-    	mainPanel.setVisible(false);
-		MainPanel homePanel = new MainPanel(logic, "Item Added");
     	
-    	//if (item != null) {
-    		//logicGold.station.getBaggingArea().addAnItem(item);
-    		//mainPanel.setVisible(false);
-        	//MainPanel newPanel = new MainPanel(logic, "Added Item to Bagging Area");
-    		
-    	//}
+    	logic.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(product1.getExpectedWeight()*product1.getPrice())));
+    	
+    	mainPanel.setVisible(false);
+    	new MainPanel(logic, "Item Added");
+    	
     	
     });
     testPanel.add(addedItemButton);
