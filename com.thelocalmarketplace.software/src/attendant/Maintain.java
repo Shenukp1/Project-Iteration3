@@ -191,6 +191,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		receiptPrinterGold.addInk(ink);
 		printer.addPaper(paper);
 		receiptPrinterGold.addPaper(paper);
+		
 	}
 	
 	/**

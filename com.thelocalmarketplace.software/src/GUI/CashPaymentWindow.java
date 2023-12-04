@@ -359,6 +359,7 @@ public class CashPaymentWindow {
 		else {
 			logic.station.getBanknoteInput().disable();
 			logic.station.getCoinSlot().disable();
+
 			mainPanel.setVisible(false);
 			SessionEndedWindow endSesh = new SessionEndedWindow(logic);
 		}

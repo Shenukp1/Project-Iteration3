@@ -131,6 +131,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		gold.turnOn();
 		
 		
+		
 		//IDEA 2: to simulate disable
 		logicGold = new SelfCheckoutLogic(gold);
 		
@@ -284,7 +285,12 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		
 
 	}
-    
+	
+	
+    //===========================Coin=================================
+	
+	
+
 	
 //======================SILVER STATION TEST============================
 	
