@@ -216,13 +216,11 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 */
     @Test(expected = OverloadedDevice.class)
 	public void testInkSpillageGold() throws OverloadedDevice {
-		logicGold.maintain.setInitial(1,200);
+		logicGold.maintain.setInitial(1,200);// already has 1 ink
 		logicGold.maintain.maintenanceStart();
-		logicGold.maintain.maintainAddInk(logicGold.maintain.getMaxInkValue());//making it 1 more than the max should cause overloaded device
-		System.out.println("MAX: "+logicGold.maintain.getInkAdded());
+		logicGold.maintain.maintainAddInk(logicGold.maintain.getMaxInkValue());//adding max value. makes it 1 more than the max should cause overloaded device
 		logicGold.maintain.maintenanceStart();
 		
-		logicGold.maintain.maintainAddInk(1);//making it 1 more than the max should cause overloaded device
 
 		
 		
@@ -266,7 +264,27 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		
 	}
     
+    //===========================PAPER=================================
 
+   
+    
+
+	/*
+	 * Ink is Low in Gold Station and trigger maintenance 
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGoldLowPaperMaintain() throws OverloadedDevice {
+		logicGold.maintain.setInitial(104860,103);// what the station starts with. 1024 is consider low paper
+		logicGold.maintain.print('c');// printing 1 char, removes 1 ink
+		//now it should be in the state of lowInk. thus, maintenance should trigger. should be true
+		System.out.println(logicGold.maintain.getMaintenance());
+		assertTrue(logicGold.maintain.getMaintenance());
+		
+
+	}
+    
 	
 //======================SILVER STATION TEST============================
 	

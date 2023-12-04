@@ -72,6 +72,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private int PrinterInkAddCountGold;//Keeps track of the ink in printer
 
 	private int maxInk;//Has the max Ink allowed in printer
+	private int maxPaper;
 	
 	
 
@@ -200,7 +201,12 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		maxInk = receiptPrinterGold.MAXIMUM_INK;
 		return maxInk;
 	}
-		
+	
+	public int getMaxPaperValue() {
+		System.out.println("YO"+receiptPrinterGold.MAXIMUM_PAPER);
+		maxInk = receiptPrinterGold.MAXIMUM_PAPER;
+		return maxPaper;
+	}
 	
 	
 	
@@ -305,6 +311,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 */
 	public void thePrinterIsOutOfPaper() {
 		outOfPaperMessage = true;
+		printer.disable();
 	}
 	
 	/*
@@ -318,8 +325,10 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	@Override
 	/*
 	 * Method Used to announce that the printer is low on paper
+	 * disbale the station if it does
 	 */
 	public void thePrinterHasLowPaper() {
+		printer.disable();
 		lowPaperMessage = true;
 	}
 	
@@ -335,6 +344,11 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 * Method Used to announce that paper has been added to the printer
 	 */
 	public void paperHasBeenAddedToThePrinter() {
+		if (receiptPrinterGold.paperRemaining() >= getMaxPaperValue()*0.1 ) {
+			lowPaperMessage = false;
+			printer.enable();
+
+		}
 		paperAddedMessage = true;
 		
 	}
