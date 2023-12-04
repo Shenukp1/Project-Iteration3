@@ -17,7 +17,7 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import control.SelfCheckoutLogic;
 import item.AddItemPLU;
 
-public class plu {
+public class plu  {
 	JFrame mainFrame;
 	JPanel mainPanel;
 	JPanel bottomPanel;
@@ -27,6 +27,7 @@ public class plu {
 	PriceLookUpCode getter;
 	BigDecimal tempMass=new BigDecimal("2000");
 	Mass temp = new Mass (tempMass);
+	AddItemPLU addItemPlu;
 	int pluNumLength = 4; // Feel free to change this if it's wrong!!!
 	
 	JButton okayButton;

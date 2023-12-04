@@ -72,6 +72,7 @@ public class StartGUI {
 	static public BigInteger excessiveMass= new BigInteger("5000000000000");
 	static public ReusableBag[] initBagList;
 
+
 	/*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
 	 *  
 	 */

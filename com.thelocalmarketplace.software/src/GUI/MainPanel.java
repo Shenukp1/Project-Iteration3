@@ -53,7 +53,7 @@ import com.thelocalmarketplace.hardware.Product;
 import control.SelfCheckoutLogic;
 
 
-public class MainPanel extends JFrame implements LoadProductDatabases {
+public class MainPanel extends JFrame {
     SelfCheckoutLogic logicGold;
     AddItemController addItemController;
     JFrame mainFrame;
@@ -66,7 +66,7 @@ public class MainPanel extends JFrame implements LoadProductDatabases {
     String message;
     JPanel containerPanel;
     DefaultListModel<JPanel> listModel;
-    
+	static public LoadProductDatabases productDatabases = new LoadProductDatabases();
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
 //<<<<<<< HEAD

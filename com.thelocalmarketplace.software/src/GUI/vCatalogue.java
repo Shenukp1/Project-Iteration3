@@ -35,6 +35,7 @@ import org.junit.Assert;
 
 import com.thelocalmarketplace.hardware.*;
 import com.thelocalmarketplace.hardware.Product;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import control.SelfCheckoutLogic;
 import control.WeightController;
@@ -64,7 +65,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-public class vCatalogue extends JPanel implements LoadProductDatabases {
+public class vCatalogue extends JPanel {
 
 	JFrame vcFrame;
     JPanel vcPanel;
@@ -73,7 +74,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
     JButton cookieButton = new JButton("");
     JButton eggButton = new JButton("");
     JButton homeButton = new JButton("Home");
-
+    
+    LoadProductDatabases productDatabase;
     SelfCheckoutLogic logicGold;
     JFrame initial;
     MainPanel mainPanel;
@@ -112,8 +114,8 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, bananas.barcodedProduct,
-						bananas.bigDecimalMass);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.bananas.barcodedProduct,
+						LoadProductDatabases.bananas.bigDecimalMass);
     			mainPanel = new MainPanel(logicGold, "Banana Added");
               //  mainPanel.listModel.addElement(createItemPanel("Banana - $ " + bananas.barcodedProduct.getPrice()));
     	        });	        
@@ -128,7 +130,7 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, cookie.barcodedProduct, cookie.bigDecimalMass);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.cookie.barcodedProduct, LoadProductDatabases.cookie.bigDecimalMass);
     			mainPanel = new MainPanel(logicGold, "Cookies Added");
              //   mainPanel.listModel.addElement(createItemPanel("Banana - $ " + cookie.barcodedProduct.getPrice()));
     	        });	        
@@ -144,7 +146,7 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, milkc.barcodedProduct, milkc.bigDecimalMass);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.milkc.barcodedProduct, LoadProductDatabases.milkc.bigDecimalMass);
    			mainPanel = new MainPanel(logicGold, "Milk Added");
              //   mainPanel.listModel.addElement(createItemPanel("Banana - $ " + milkc.barcodedProduct.getPrice()));
     	        });	        
@@ -160,7 +162,7 @@ public class vCatalogue extends JPanel implements LoadProductDatabases {
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
 	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, egg.barcodedProduct, egg.bigDecimalMass);
+				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.egg.barcodedProduct, LoadProductDatabases.egg.bigDecimalMass);
     			mainPanel = new MainPanel(logicGold, "Eggs Added");
           //      mainPanel.listModel.addElement(createItemPanel("Banana - $ " + egg.barcodedProduct.getPrice()));
     	        });	        
