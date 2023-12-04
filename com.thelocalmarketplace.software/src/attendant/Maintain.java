@@ -155,6 +155,9 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 	/*
 	 * Prepare station before customer is able to use it
+	 * Its the intial setup. thus, the system has not been booted up yet
+	 * thus, printing can be done
+	 * ADD: wrap it with a if statement that has a count. this should only be able to be done 
 	 */
 	public void setInitial(int ink, int paper) throws OverloadedDevice {
 		printer.addInk(ink);

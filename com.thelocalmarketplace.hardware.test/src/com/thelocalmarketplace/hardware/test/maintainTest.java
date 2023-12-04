@@ -186,8 +186,6 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	
 	
 
-	
-	
 
 	/*
 	 * Ink is empty in Gold station
@@ -195,7 +193,10 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	@Test
 	public void testEmptyInkGold() {
 		try {
-			logicGold.maintain.setInitial(1,200);// what the station starts with. which is 0 ink and 200 papers
+			//how the station is setup
+			//setup in this test was done in a way that their was 1 ink in the system. setup by
+			logicGold.maintain.setInitial(1,200);
+			
 			logicGold.maintain.maintainAddPaper(200);
 			logicGold.maintain.print('c');// using 1 ink. meaning their will be 0 ink left. aka, empty.
 		
