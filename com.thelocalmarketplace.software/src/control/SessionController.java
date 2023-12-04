@@ -20,6 +20,7 @@ public class SessionController {
 	private double BulkyWeight;
 	private double BagWeight;
 	private SelfCheckoutLogic logic;
+	public String membership;
 	public ArrayList<Product> Cart;
 	public ArrayList<Product> BulkyItems;
 	

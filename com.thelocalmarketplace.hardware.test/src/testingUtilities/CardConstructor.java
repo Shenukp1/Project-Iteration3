@@ -5,7 +5,7 @@ import java.util.Calendar;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 
 import control.SelfCheckoutLogic;
-import payment.CardController;
+import payment.PaymentCardController;
 /*
  * this class is a stub class for a card
  */
@@ -16,7 +16,7 @@ public class CardConstructor implements CardPayment{
 	 */
 		Calendar calendar = Calendar.getInstance();
 		
-		CardController tempCardClass;
+		PaymentCardController tempCardClass;
 		CardIssuer temp; 
 		  
 		  CardConstructor(SelfCheckoutLogic logic){
@@ -32,7 +32,7 @@ public class CardConstructor implements CardPayment{
 			logic.cardIssuer.addCardData(otherCreditCard.number, otherCreditCard.cardholder,
 					calendar,otherCreditCard.cvv , 1000);
 				//registers listener on logic sco system
-			logic.creditController =new CardController(logic.session, logic.station, temp );
+			logic.creditController =new PaymentCardController(logic.session, logic.station, temp );
 	
 			  
 		  }

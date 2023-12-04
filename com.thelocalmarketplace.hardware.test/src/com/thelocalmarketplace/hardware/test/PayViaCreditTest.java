@@ -26,7 +26,7 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import control.SelfCheckoutLogic;
 import item.AddItemBarcode;
-import payment.CardController;
+import payment.PaymentCardController;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
 import testingUtilities.DollarsAndCurrency;
@@ -122,7 +122,7 @@ public PayViaCreditTest(AbstractSelfCheckoutStation station) {
 		logic.cardIssuer.addCardData(otherCreditCard.number, otherCreditCard.cardholder,
 				calendar,otherCreditCard.cvv , 1000);
 
-		logic.creditController = new CardController(logic.session, logic.station, temp );
+		logic.creditController = new PaymentCardController(logic.session, logic.station, temp );
 	 logic.session.enable();
 	 logic.session.Cart.clear();
 

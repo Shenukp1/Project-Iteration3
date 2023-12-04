@@ -24,7 +24,7 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import control.SelfCheckoutLogic;
 import item.AddItemBarcode;
-import payment.CardController;
+import payment.PaymentCardController;
 import powerutility.PowerGrid;
 import powerutility.NoPowerException;
 import testingUtilities.CardPayment;
@@ -38,7 +38,7 @@ public class PayViaDebitTest implements CardPayment, DollarsAndCurrency, LoadPro
 
 	Products products = new Products();
 	Calendar calendar = Calendar.getInstance();
-	CardController tempCardClass;
+	PaymentCardController tempCardClass;
 	CardIssuer temp;
 
 	/*
@@ -116,7 +116,7 @@ public class PayViaDebitTest implements CardPayment, DollarsAndCurrency, LoadPro
 		temp = new CardIssuer("CIBC", 12321);
 		temp.addCardData(otherDebitCard.number, otherDebitCard.cardholder, calendar, otherDebitCard.cvv, 1000);
 
-		tempCardClass = new CardController(logic.session, logic.station, temp);
+		tempCardClass = new PaymentCardController(logic.session, logic.station, temp);
 		logic.creditController = tempCardClass;
 
 		logic.session.enable();
@@ -137,8 +137,8 @@ public class PayViaDebitTest implements CardPayment, DollarsAndCurrency, LoadPro
 	public void testScanningAddingAndDebitCardPayment() throws IOException {
 		// Simulate scanning and adding items to the cart
 		logic.station.getMainScanner().enable();
-		AddItemBarcode.AddItemFromBarcode(logic.session, beer.itemBarcode );
-		logic.station.getMainScanner().scan(products.beanBarcodeItem);
+		//AddItemBarcode.AddItemFromBarcode(logic.session,  );
+		logic.station.getMainScanner().scan(beer.barcodedItem);
 		logic.station.getScanningArea().enable();
 		logic.station.getScanningArea().addAnItem(beer.item);
 
@@ -153,7 +153,7 @@ public class PayViaDebitTest implements CardPayment, DollarsAndCurrency, LoadPro
 	//	assertTrue("Transaction is successful", successfulTransaction);
 
 		// Simulate the card swipe process
-		tempCardClass = new CardController(logic.session, logic.station, temp);
+		tempCardClass = new PaymentCardController(logic.session, logic.station, temp);
 		logic.creditController = tempCardClass;
 		logic.creditController.onPayWithCard();
 
@@ -173,8 +173,8 @@ public class PayViaDebitTest implements CardPayment, DollarsAndCurrency, LoadPro
 	public void testInsufficientFundsDebitCardPayment() throws IOException {
 		// Simulate scanning and adding items to the cart
 		logic.station.getMainScanner().enable();
-		AddItemBarcode.AddItemFromBarcode(logic.session, bacon.itemBarcode );
-		logic.station.getMainScanner().scan(products.beanBarcodeItem);
+		//AddItemBarcode.AddItemFromBarcode(logic.session, bacon.itemBarcode );
+		logic.station.getMainScanner().scan(bacon.barcodedItem);
 		logic.station.getScanningArea().enable();
 		logic.station.getScanningArea().addAnItem(bacon.item);
 
@@ -188,7 +188,7 @@ public class PayViaDebitTest implements CardPayment, DollarsAndCurrency, LoadPro
 		
 
 		// Simulate the card swipe process
-		tempCardClass = new CardController(logic.session, logic.station, temp);
+		tempCardClass = new PaymentCardController(logic.session, logic.station, temp);
 		logic.creditController = tempCardClass;
 		logic.creditController.onPayWithCard();
 

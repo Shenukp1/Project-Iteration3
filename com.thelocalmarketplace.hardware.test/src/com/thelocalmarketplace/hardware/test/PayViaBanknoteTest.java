@@ -29,6 +29,7 @@ import powerutility.NoPowerException;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
 import testingUtilities.DollarsAndCurrency;
+import testingUtilities.LoadProductDatabases;
 import testingUtilities.Products;
 import testingUtilities.Wallet;
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
@@ -36,7 +37,7 @@ import ca.ucalgary.seng300.simulation.SimulationException;
 import control.SelfCheckoutLogic;
 
 @RunWith(Parameterized.class)
-public class PayViaBanknoteTest implements DollarsAndCurrency, CardPayment {
+public class PayViaBanknoteTest implements DollarsAndCurrency, CardPayment, LoadProductDatabases {
 /*
  * make three types of station to test, we'll have to test all three types for each kind of test.
  * Maybe there's a fast way to plug in these objects than repeating a test method?
@@ -191,13 +192,13 @@ public PayViaBanknoteTest(AbstractSelfCheckoutStation station) {
 	@Test
 	public void onePaymentStepValidCurrency() throws DisabledException, CashOverloadException, EmptyDevice, OverloadedDevice {
 		logic.station.getMainScanner().enable();
-		logic.session.Cart.add(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(products.beanBarcode));
+		logic.session.Cart.add(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(beans.itemBarcode));
 	
-		logic.station.getMainScanner().scan(products.beanBarcodeItem);
+		logic.station.getMainScanner().scan(beans.barcodedItem);
 	
 		logic.station.getBaggingArea().enable();
 		logic.station.getBaggingArea().turnOn();
-		logic.station.getBaggingArea().addAnItem(products.beanBarcodeItem);
+		logic.station.getBaggingArea().addAnItem(beans.barcodedItem);
 		
 		logic.banknoteController.onPayViaBanknote();
 		logic.station.getBanknoteInput().enable();

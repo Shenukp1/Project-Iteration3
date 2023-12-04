@@ -11,6 +11,8 @@ import payment.CoinController;
 import payment.PaymentCardController;
 import payment.BanknoteController;
 import item.AddItemBarcode;
+import item.AddItemController;
+import item.EnterMembership;
 import item.PrintController;
 
 /**
@@ -33,8 +35,8 @@ public class SelfCheckoutLogic {
 	// Controller to manage credit card payments
 	public PaymentCardController creditController;
 	
-	// Controller to manage handheld barcode scans
-	public AddItemBarcode barcodeController;
+	// Controller to manage add item cases
+	public AddItemController addItemController;
 		
 	// Controller to manage session
 	public SessionController session;
@@ -44,10 +46,15 @@ public class SelfCheckoutLogic {
 	
 	// Controller to manage printing
 	public PrintController printController;
+	private int linesUsed = 0;
+	
+	// Controller to manage predicting issues
+	public PredictIssueController predictController;
 	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
 	
+<<<<<<< HEAD
 	//Controller for Maintain
 	public Maintain maintain;
 	
@@ -58,6 +65,10 @@ public class SelfCheckoutLogic {
 	//Silver Printer
 	private ReceiptPrinterSilver ReceiptPrinterSilver;
 	
+=======
+	// Controller for input membership number
+	public EnterMembership	enterMembership;
+>>>>>>> master
 	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
@@ -84,16 +95,23 @@ public class SelfCheckoutLogic {
 		session = new SessionController(this);
 		session.start();
 		
+<<<<<<< HEAD
 		//Issues with this logic. Cant seem to use unless every instances works
 			//SOLUTION: wrap every instance of a controller with a try catch OR fix everything
 		
 		maintain = new Maintain(scs);	
 		barcodeController = new AddItemBarcode(session, scs);
+=======
+		addItemController = new AddItemController(session, scs);
+>>>>>>> master
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
 		creditController = new PaymentCardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
+		linesUsed += printController.getLinesUsed();
+		predictController = new PredictIssueController(session, scs, linesUsed);
+		enterMembership = new EnterMembership(session,scs);
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.

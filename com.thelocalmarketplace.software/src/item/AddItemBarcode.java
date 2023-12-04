@@ -21,10 +21,6 @@ import control.SessionController;
 
 public class AddItemBarcode {
 	
-	// private SessionController session;
-	// private AbstractSelfCheckoutStation station;
-	
-	
 	public static String AddItemFromBarcode(SessionController session, Barcode scannedBarcode) {
 		// Get product from barcode in our database
 		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(scannedBarcode);
@@ -33,7 +29,8 @@ public class AddItemBarcode {
 			session.enable();
 			return "Error: Product not found";
 		}
-		if (ProductDatabases.INVENTORY.get(product) <= 0){
+		int quantity = ProductDatabases.INVENTORY.get(product);
+		if (quantity <= 0){
 			return "Error: Product not available";
 		}
 		
@@ -46,13 +43,7 @@ public class AddItemBarcode {
 		session.setCartWeight(initialWeight + ItemWeight);							// Update cart weight
 		session.setCartTotal(CartTotal.add(ItemPrice));								// Update cart price
 		session.Cart.add(product);													// Add product to our list of products
+		ProductDatabases.INVENTORY.put(product, quantity-1);
 		return "Success: Product added to cart";
-	}
-	
-	
-	// ** WILL BE REMOVED ** //
-	public AddItemBarcode(SessionController c_session, AbstractSelfCheckoutStation sco) {
-		//station = sco;
-		//session = c_session;
 	}
 }
