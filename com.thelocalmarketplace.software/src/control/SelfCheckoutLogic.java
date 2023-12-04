@@ -10,6 +10,7 @@ import item.AddItemBarcode;
 import item.AddItemController;
 import item.EnterMembership;
 import item.PrintController;
+import item.RemoveItemController;
 
 /**
  * This class links all the controllers to an instance of the SelfCheckoutStations.
@@ -33,6 +34,9 @@ public class SelfCheckoutLogic {
 	
 	// Controller to manage add item cases
 	public AddItemController addItemController;
+	
+	// Controller to manage remove item cases
+	public RemoveItemController removeItemController;
 		
 	// Controller to manage session
 	public SessionController session;
@@ -76,6 +80,7 @@ public class SelfCheckoutLogic {
 		session.start();
 		
 		addItemController = new AddItemController(session, scs);
+		removeItemController = new RemoveItemController(session, scs);
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
