@@ -35,7 +35,9 @@ import javax.swing.Timer;
 
 import org.junit.Assert;
 
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.*;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
@@ -88,6 +90,10 @@ public class vCatalogue extends JPanel {
 	PriceLookUpCode getter;
 	String message;
 	JLabel test;
+	BarcodedProduct barcodedProduct;
+	Barcode barcode;
+	Product productTemp;
+	Item item; //to call the mass of the item...
 
    
     public vCatalogue(SelfCheckoutLogic logicGold)  {
@@ -135,7 +141,9 @@ public class vCatalogue extends JPanel {
     			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
     				code = "4111";
     				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.bananas.item;
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				
 				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
@@ -166,7 +174,9 @@ public class vCatalogue extends JPanel {
     			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
     				code = "5155";
     				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.cookie.item;
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				productTemp = product;
 				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
@@ -198,7 +208,9 @@ public class vCatalogue extends JPanel {
     			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
     				code = "1234";
     				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.milkc.item;
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				productTemp = product;
 				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
@@ -231,7 +243,9 @@ public class vCatalogue extends JPanel {
     			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
     				code = "4444";
     				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.egg.item;
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				productTemp = product;
 				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
@@ -261,8 +275,9 @@ public class vCatalogue extends JPanel {
 		
 	        JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
 	        addedItemButton.addActionListener(e -> {
+	        	
 	        	timer.stop();
-	        	logicGold.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(tempMass)));
+	        	logicGold.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, item.getMass()));
 	        	vcPanel.setVisible(false);
     			mainPanel = new MainPanel(logicGold, "Item Added");
 	        
@@ -291,6 +306,7 @@ private void handleTimeout() {
 	sessionBlocked sessBlocked = new sessionBlocked(logicGold);
 	
 }
+
 
 
 }
