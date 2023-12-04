@@ -48,14 +48,9 @@ public class CashPaymentWindow {
 		mainLabel = new JLabel("Start inserting cash to begin");
 		mainLabel.setFont(mainLabel.getFont().deriveFont(30f));
 		mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		mainLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-		
-		remainingTotalLabel = new JLabel("Remaining total: $" + remainingTotal);
-		remainingTotalLabel.setFont(remainingTotalLabel.getFont().deriveFont(30f));
-		remainingTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		remainingTotalLabel.setVerticalAlignment(SwingConstants.CENTER);
 		
 		JButton cancelButton = new JButton("Tap to cancel operation");
+		cancelButton.setBackground(new Color(255, 128, 128));
 		cancelButton.setFont(cancelButton.getFont().deriveFont(30f));
 		cancelButton.addActionListener(e -> {
 			
@@ -67,6 +62,12 @@ public class CashPaymentWindow {
 		});
 		
 		mainPanel.add(mainLabel);
+		
+		remainingTotalLabel = new JLabel("Remaining total: $" + remainingTotal);
+		remainingTotalLabel.setForeground(new Color(87, 87, 87));
+		remainingTotalLabel.setFont(remainingTotalLabel.getFont().deriveFont(30f));
+		remainingTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		remainingTotalLabel.setVerticalAlignment(SwingConstants.CENTER);
 		mainPanel.add(remainingTotalLabel);
 		mainPanel.add(new JLabel());
 		mainPanel.add(cancelButton);
