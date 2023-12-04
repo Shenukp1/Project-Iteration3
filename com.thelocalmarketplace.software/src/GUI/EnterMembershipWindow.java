@@ -53,7 +53,7 @@ public class EnterMembershipWindow {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3,1));
 		
-		promptLabel = new JLabel("Enter a valid membership number here:");
+		promptLabel = new JLabel("Enter your membership ID");
 		promptLabel.setFont(promptLabel.getFont().deriveFont(35f));
 		promptLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		promptLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,6 +71,7 @@ public class EnterMembershipWindow {
 		
 		
 		okayButton = new JButton("Done");
+		okayButton.setBackground(new Color(189, 255, 189));
 		okayButton.addActionListener(e -> {
 			
 			// Pass the membership number to another function
@@ -81,6 +82,7 @@ public class EnterMembershipWindow {
 		});
 		
 		backspaceButton = new JButton("Quit");
+		backspaceButton.setBackground(new Color(255, 128, 128));
 		backspaceButton.addActionListener(e -> {
 			
 			if (membershipNum.length() == 0) {
