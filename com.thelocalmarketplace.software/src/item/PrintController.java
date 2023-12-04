@@ -8,6 +8,7 @@ import com.jjjwelectronics.printer.IReceiptPrinter;
 import com.jjjwelectronics.printer.ReceiptPrinterListener;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 
 import control.SessionController;
@@ -17,6 +18,7 @@ public class PrintController implements ReceiptPrinterListener{
 	private AbstractSelfCheckoutStation station;
 	private static final int CHARACTERS_PER_LINE = 60;
 	public static int linesUsed = 0;
+	public static String []lines;
 	
 	public PrintController(SessionController session, AbstractSelfCheckoutStation station) {
 		this.session = session;
@@ -40,9 +42,14 @@ public class PrintController implements ReceiptPrinterListener{
         		receiptText.append("Description: " + desc);
         	}
         	receiptText.append("\n");								// Print a full stop with new line
+        	if (item instanceof PLUCodedProduct) {						
+        		desc = ((PLUCodedProduct) item).getDescription();	// Print description if its a barcoded product
+        		receiptText.append("Description: " + desc);
+        	}
+        	receiptText.append("\n");	
         }
         
-        String[] lines = receiptText.toString().split("\n");		// Split our receipt text into lines
+        	lines = receiptText.toString().split("\n");		// Split our receipt text into lines
         int character;
         															// Loop through the lines of our receipt text
         for (int line = 0; line < (lines.length-1); line++) {
@@ -58,6 +65,15 @@ public class PrintController implements ReceiptPrinterListener{
         	}
         	linesUsed++;
         }
+	}
+	
+	public String print() {
+		String temp = "";
+		for(int i = 0; i< lines.length;i++) {
+			temp += lines[i]+ "\n";
+		//	System.out.println(lines[i]);
+		}
+		return temp;
 	}
 	
 	public int getLinesUsed() {

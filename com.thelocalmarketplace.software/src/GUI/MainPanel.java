@@ -456,7 +456,7 @@ public class MainPanel extends JFrame {
         mainPanel.revalidate();
         mainPanel.repaint();
     }
-    
+   
     private void handleTimeout() {
     	timer.stop();	
     	System.err.println("Timeout: Item not added");

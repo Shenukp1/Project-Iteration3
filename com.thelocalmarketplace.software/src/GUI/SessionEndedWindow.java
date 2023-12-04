@@ -49,9 +49,11 @@ public class SessionEndedWindow {
         gbc.gridy = 0;
         gbc.weighty = 0.6; 
         gbc.anchor = GridBagConstraints.PAGE_START;
+       
         
-        
-        JLabel TotalPaid = new JLabel("You paid: $"+ recieptTotal + "  your change is: $ " + Math.abs(changeOwed.doubleValue()));
+        //JLabel TotalPaid = new JLabel("You paid: $"+ recieptTotal + "  your change is: $ " + Math.abs(changeOwed.doubleValue()));
+        JLabel TotalPaid = new JLabel(logic.printController.print());
+       
         TotalPaid.setFont(TotalPaid.getFont().deriveFont(35f));
 
         GridBagConstraints gbc2 = new GridBagConstraints();
