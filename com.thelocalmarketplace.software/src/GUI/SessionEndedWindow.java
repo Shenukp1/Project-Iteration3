@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,8 +30,9 @@ public class SessionEndedWindow {
 	JFrame mainFrame;
 	JPanel mainPanel;
 	JLabel sessionEndedText;
+	JLabel sessionTotalLabel;
 	
-	public SessionEndedWindow(SelfCheckoutLogic logic) {
+	public SessionEndedWindow(SelfCheckoutLogic logic, BigDecimal cartTotal) {
 		mainFrame = logic.station.getScreen().getFrame();
 		
 		mainPanel = new JPanel();
@@ -40,8 +42,15 @@ public class SessionEndedWindow {
 		sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(35f));
 		sessionEndedText.setVerticalAlignment(SwingConstants.CENTER);
 		sessionEndedText.setHorizontalAlignment(SwingConstants.CENTER);
+		sessionTotalLabel = new JLabel("You paid: $"+ cartTotal.toString());
+		sessionTotalLabel.setFont(sessionEndedText.getFont().deriveFont(35f));
+		sessionTotalLabel.setVerticalAlignment(SwingConstants.TOP);
+		sessionTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		mainPanel.add(sessionEndedText);
+		mainPanel.add(sessionTotalLabel);
+		
+		
 		
 		mainFrame.getContentPane().add(mainPanel);
 	}

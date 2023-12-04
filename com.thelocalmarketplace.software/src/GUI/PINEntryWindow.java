@@ -61,7 +61,7 @@ public class PINEntryWindow extends JFrame {
 	public PINEntryWindow(SelfCheckoutLogic logic, Card paymentCard, PaymentCardController cardController) {
 		this.cardController = cardController;
 		this.paymentCard = paymentCard;
-		cardController.aCardHasBeenInserted();
+		
 
 		mainFrame = logic.station.getScreen().getFrame();
 		
@@ -101,10 +101,13 @@ public class PINEntryWindow extends JFrame {
 			if (PIN.length() == 3) {
 				try {
 					CardData cardData = logic.station.getCardReader().insert(paymentCard, PIN);
-					cardController.theDataFromACardHasBeenRead(cardData);
+					//cardController.theDataFromACardHasBeenRead(cardData);
+					logic.station.getCardReader().remove();
+					mainPanel.setVisible(false);
+					new SessionEndedWindow(logic, cardController.getTotal());
 				} catch (IOException error){
 					// Something that either restarts this scren or says to reinput pin
-					PINEntryWindow newPinEntryWindow = new PINEntryWindow(logic, paymentCard, cardController);
+					new PINEntryWindow(logic, paymentCard, cardController);
 				}
 			}else {
 				// Soemthing to say not enough pin numbers.
