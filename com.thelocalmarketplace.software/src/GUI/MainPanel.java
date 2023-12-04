@@ -349,6 +349,8 @@ public class MainPanel extends JFrame {
 	                	 
 
 	                	 updateListModel();
+				 test.setText("Console: Please place item in bagging area within 10 seconds" );
+	         		 test.repaint();
 	                	 timer.restart();
 	                	 timer.start();
 	                    
