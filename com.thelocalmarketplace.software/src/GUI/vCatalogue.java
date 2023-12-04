@@ -136,7 +136,7 @@ public class vCatalogue extends JPanel {
     				code = "4111";
     				getter = new PriceLookUpCode (code);
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
-					AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
 					test.repaint();
@@ -167,7 +167,7 @@ public class vCatalogue extends JPanel {
     				code = "5155";
     				getter = new PriceLookUpCode (code);
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
-					AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
 					test.repaint();
@@ -199,7 +199,7 @@ public class vCatalogue extends JPanel {
     				code = "1234";
     				getter = new PriceLookUpCode (code);
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
-					AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
 					test.repaint();
@@ -232,7 +232,7 @@ public class vCatalogue extends JPanel {
     				code = "4444";
     				getter = new PriceLookUpCode (code);
     				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
-					AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
 					test.repaint();
