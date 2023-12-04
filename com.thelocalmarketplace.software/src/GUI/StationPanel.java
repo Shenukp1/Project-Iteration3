@@ -47,7 +47,7 @@ public class StationPanel extends JPanel {
                                             }
                                         });
                                         
-//        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
+        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
                                         gbcAddItemsPanel.gridy = 1;
                                         addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
 
