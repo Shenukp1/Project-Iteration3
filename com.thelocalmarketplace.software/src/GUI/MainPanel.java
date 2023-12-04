@@ -143,11 +143,7 @@ public class MainPanel extends JFrame {
         buttonPLU.addActionListener(e -> {
         	mainPanel.setVisible(false);
         	plu plu = new plu(logicGold);
-        	//LOGIC: Call Attendant
-            MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold);
-            JDialog helpNotification = new JDialog(attendantScreen.mainFrame, "Attendant Help Requested");
-            JLabel dialogText = new JLabel("Station 3 requires help");
-            helpNotification.add(dialogText);
+        
         });
         mainLeft.add(buttonPLU);
         
