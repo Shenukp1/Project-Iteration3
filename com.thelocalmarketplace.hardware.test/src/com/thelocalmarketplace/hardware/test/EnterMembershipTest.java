@@ -77,10 +77,13 @@ public class EnterMembershipTest implements CardPayment{
 	@Test
 	public void testSwipeMembershipCard() throws IOException {
 		Card memberCard = new Card("membership", "00000", "John", null, null, false, false);
+		//Gold
 		logicGold.station.getCardReader().enable();
 		logicGold.station.getCardReader().swipe(memberCard);
+		//Silver
 		logicSilver.station.getcardReader.enable();
 		logicSilver.station.getcardReader.swipe(memberCard);
+		//Bronze
 		logicBronze.station.getcardReader.enable();
 		logicBronze.station.getcardReader.swipe(memberCard);
 	}
@@ -97,12 +100,15 @@ public class EnterMembershipTest implements CardPayment{
 	@Test
 	public void testSwipeInformationCorrect() throws IOException {
 		Card memberCard = new Card("membership", "00000", "John", null, null, false, false);
+		//Gold
 		logicGold.station.getCardReader().enable();
 		logicGold.station.getCardReader().swipe(memberCard);
 		assertEquals(logicGold.session.membership, memberCard.number );
+		//Silver
 		logicSilver.station.getCardReader().enable();
 		logicSilver.station.getCardReader().swipe(memberCard);
 		assertEquals(logicSilver.session.membership, memberCard.number );
+		//Bronze
 		logicBronze.station.getCardReader().enable();
 		logicBronze.station.getCardReader().swipe(memberCard);
 		assertEquals(logicBronze.session.membership, memberCard.number );
@@ -118,10 +124,13 @@ public class EnterMembershipTest implements CardPayment{
      */
 	@Test
 	public void testScanMembershipCard() throws IOException {
+		//Gold
 		logicGold.session.enable();
 		logicGold.station.getHandheldScanner().scan(products.membershipCard);
+		//Silver
 		logicSilver.session.enable();
 		logicSilver.station.getHandheldScanner().scan(products.membershipCard);
+		//Bronze
 		logicBronze.session.enable();
 		logicBronze.station.getHandheldScanner().scan(products.membershipCard);
 	}
@@ -136,12 +145,15 @@ public class EnterMembershipTest implements CardPayment{
      */
 	@Test
 	public void testScanInformationCorrect() throws IOException {
+		//Gold
 		logicGold.session.enable();
 		logicGold.station.getHandheldScanner().scan(products.membershipCard);
 		assertEquals(logicGold.session.membership, products.beanBarcode.toString() );
+		//Silver
 		logicSilver.session.enable();
 		logicSilver.station.getHandheldScanner().scan(products.membershipCard);
 		assertEquals(logicSilver.session.membership, products.beanBarcode.toString() );
+		//Bronze
 		logicBronze.session.enable();
 		logicBronze.station.getHandheldScanner().scan(products.membershipCard);
 		assertEquals(logicBronze.session.membership, products.beanBarcode.toString() );
@@ -156,14 +168,17 @@ public class EnterMembershipTest implements CardPayment{
 	 */
 	@Test
 	public void testEnterByTouchScreen() {
+		//Gold
 	    logicGold.station.getHandheldScanner().disable(); 
 	    logicGold.session.enable();
 	    logicGold.enterMembership.EnterByTouchScreen();
 	    assertEquals(logicGold.session.membership, logicGold.enterMembership.getMembershipNumber());
+	    //Silver
 	    logicSilver.station.getHandheldScanner().disable(); 
 	    logicSilver.session.enable();
 	    logicSilver.enterMembership.EnterByTouchScreen();
 	    assertEquals(logicSilver.session.membership, logicSilver.enterMembership.getMembershipNumber());
+	    //Bronze
 	    logicBronze.station.getHandheldScanner().disable(); 
 	    logicBronze.session.enable();
 	    logicBronze.enterMembership.EnterByTouchScreen();
@@ -182,8 +197,11 @@ public class EnterMembershipTest implements CardPayment{
 	@Test(expected = NullPointerSimulationException.class)
 	public void testCardTypeIsNull() throws NullPointerSimulationException, IOException {
 	    Card testCard = new Card(null, "00000", "John", null, null, false, false);
+	    //Gold
 	    logicGold.station.getCardReader().swipe(testCard); 
+	    //Silver
 	    logicSilver.station.getCardReader().swipe(testCard);
+	    //Bronze
 	    logicBronze.station.getCardReader().swipe(testCard); 
 	}
 
@@ -199,8 +217,11 @@ public class EnterMembershipTest implements CardPayment{
 	@Test
 	public void testNonMembershipCardType() throws IOException {
 	    Card nonMembershipCard = new Card("nonMembership", "12345", "Jane", null, null, false, false);
+	    //Gold
 	    logicGold.station.getCardReader().swipe(nonMembershipCard);
+	    //Silver
 	    logicSilver.station.getCardReader().swipe(nonMembershipCard);
+	    //Bronze
 	    logicBronze.station.getCardReader().swipe(nonMembershipCard);
 	}
 
@@ -215,14 +236,17 @@ public class EnterMembershipTest implements CardPayment{
 	 */
 	@Test
 	public void testSessionNotStartedScan() {
+		//Gold
 	    logicGold.session.disable();
 	    logicGold.station.getHandheldScanner().enable();
 	    logicGold.station.getHandheldScanner().scan(products.membershipCard);
 	    // Check if an error message is printed 
 	    
+	    //Silver
 	    logicSilver.session.disable();
 	    logicSilver.station.getHandheldScanner().enable();
 	    logicSilver.station.getHandheldScanner().scan(products.membershipCard);
+	    //Bronze
 	    logicBronze.session.disable();
 	    logicBronze.station.getHandheldScanner().enable();
 	    logicBronze.station.getHandheldScanner().scan(products.membershipCard);
@@ -239,14 +263,17 @@ public class EnterMembershipTest implements CardPayment{
 	 */
 	@Test
 	public void testDeviceDisabled() throws IOException {
+		//Gold
 	    logicGold.station.getCardReader().disable();
 	    Card testCard = new Card("membership", "00000", "John", null, null, false, false);
 	    logicGold.station.getCardReader().swipe(testCard); 
 	    // Check if an error message is printed 
 	    
+	    //Silver
 	    logicSilver.station.getCardReader().disable();
 	    Card testCard = new Card("membership", "00000", "John", null, null, false, false);
 	    logicSilver.station.getCardReader().swipe(testCard); 
+	    //Bronze
 	    logicBronze.station.getCardReader().disable();
 	    Card testCard = new Card("membership", "00000", "John", null, null, false, false);
 	    logicBronze.station.getCardReader().swipe(testCard); 
@@ -263,8 +290,10 @@ public class EnterMembershipTest implements CardPayment{
 	 */
 	@Test
 	public void testMembershipNumberSetCorrectly() throws IOException {
+		//Gold:
+		
 	    logicGold.session.enable();
-
+	    
 	    // Enter membership number through touch screen
 	    logicGold.enterMembership.EnterByTouchScreen();
 	    String enteredNumber = logicGold.enterMembership.getMembershipNumber();
@@ -282,7 +311,7 @@ public class EnterMembershipTest implements CardPayment{
 	    assertEquals(logicGold.session.membership, enteredNumber);
 	    
 	    
-	    
+	    //Silver:
 	    
 	    logicSilver.session.enable();
 
@@ -303,7 +332,7 @@ public class EnterMembershipTest implements CardPayment{
 	    assertEquals(logicSilver.session.membership, enteredNumber);
 	    
 	    
-	    
+	    //Bronze:
 	    
 	    logicBronze.session.enable();
 
