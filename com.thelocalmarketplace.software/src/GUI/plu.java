@@ -68,7 +68,7 @@ public plu(SelfCheckoutLogic logic) {
 		// Pass the PLU number to another function
 		
 		mainPanel.setVisible(false);
-		MainPanel mainWindow = new MainPanel(logic, "Adding item corresponding with the PLU not implemented yet");
+		//MainPanel mainWindow = new MainPanel(logic, "Adding item corresponding with the PLU not implemented yet");
 		
 	});
 	

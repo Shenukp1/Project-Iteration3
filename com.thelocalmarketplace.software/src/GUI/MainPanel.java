@@ -19,6 +19,7 @@ import javax.swing.*;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
@@ -358,9 +359,11 @@ public class MainPanel extends JFrame {
             if (product instanceof BarcodedProduct) {
                 String desc = ((BarcodedProduct) product).getDescription();
                 listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
-            } else {
-                listModel.addElement(createItemPanel("Unknown Product - $ " + product.getPrice()));
-            }
+            } 
+            if (product instanceof PLUCodedProduct) {
+                String desc = ((PLUCodedProduct) product).getDescription();
+                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
+            } 
         }
         containerPanel.removeAll();
         for (int i = 0; i < listModel.getSize(); i++) {
