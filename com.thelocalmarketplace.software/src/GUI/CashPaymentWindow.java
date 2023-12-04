@@ -24,6 +24,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.tdc.CashOverloadException;
+import com.tdc.DisabledException;
+
 import control.SelfCheckoutLogic;
 
 public class CashPaymentWindow {
@@ -55,12 +58,29 @@ public class CashPaymentWindow {
 		remainingTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		remainingTotalLabel.setVerticalAlignment(SwingConstants.CENTER);
 		
+		JButton fiveDollarButton = new JButton("5$");
+		fiveDollarButton.setFont(fiveDollarButton.getFont().deriveFont(10f));
+		fiveDollarButton.addActionListener(e ->{
+		// PINEntryWindow paymentPromptWindow = new PINEntryWindow(logic);
+		
+		logic.station.getBanknoteInput().enable();
+		try {
+			logic.station.getBanknoteInput().receive(DollarsAndCurrency.five);
+		} catch (DisabledException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (CashOverloadException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}  });
+		
+		
 		JButton cancelButton = new JButton("Tap to cancel operation");
 		cancelButton.setFont(cancelButton.getFont().deriveFont(30f));
 		cancelButton.addActionListener(e -> {
 			
 			mainPanel.setVisible(false);
-			// PINEntryWindow paymentPromptWindow = new PINEntryWindow(logic);
+	
 			
 			PaymentPromptWindow paymentPromptWindow = new PaymentPromptWindow(logic);
 			
@@ -69,7 +89,9 @@ public class CashPaymentWindow {
 		mainPanel.add(mainLabel);
 		mainPanel.add(remainingTotalLabel);
 		mainPanel.add(new JLabel());
+		mainPanel.add(fiveDollarButton);
 		mainPanel.add(cancelButton);
+		
 		
 		mainFrame.getContentPane().add(mainPanel);
 		

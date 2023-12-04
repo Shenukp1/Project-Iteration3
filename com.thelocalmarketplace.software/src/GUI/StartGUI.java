@@ -89,6 +89,8 @@ public class StartGUI {
 		
 		bronze.resetConfigurationToDefaults();
 		bronze.configureScaleSensitivity(0.0001);
+		bronze.configureBanknoteDenominations(DollarsAndCurrency.bankNoteDenominations);
+		bronze.configureCoinDenominations(DollarsAndCurrency.coinDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		SelfCheckoutStationBronze bronze = new SelfCheckoutStationBronze();
@@ -97,6 +99,8 @@ public class StartGUI {
 		
 		//silver
 		silver.resetConfigurationToDefaults();
+		silver.configureBanknoteDenominations(DollarsAndCurrency.bankNoteDenominations);
+		silver.configureCoinDenominations(DollarsAndCurrency.coinDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		SelfCheckoutStationSilver silver = new SelfCheckoutStationSilver();
@@ -105,6 +109,8 @@ public class StartGUI {
 		
 		//gold
 		gold.resetConfigurationToDefaults();
+		gold.configureBanknoteDenominations(DollarsAndCurrency.bankNoteDenominations);
+		gold.configureCoinDenominations(DollarsAndCurrency.coinDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
