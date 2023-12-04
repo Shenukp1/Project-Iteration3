@@ -42,7 +42,7 @@ public class SessionEndedWindow {
         mainPanel = new JPanel(new GridBagLayout());
 
         sessionEndedText = new JLabel("Thank you for shopping at SENG300!");
-        sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(35f));
+        sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(20f));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -52,7 +52,8 @@ public class SessionEndedWindow {
        
         
         //JLabel TotalPaid = new JLabel("You paid: $"+ recieptTotal + "  your change is: $ " + Math.abs(changeOwed.doubleValue()));
-        JLabel TotalPaid = new JLabel(logic.printController.print());
+        JLabel TotalPaid = new JLabel("<html>The total cost: $"+ recieptTotal.toString() +"<br/>"+logic.printController.print()+ 
+        		" your change is: $" + Math.abs(changeOwed.doubleValue())+" <html>");
        
         TotalPaid.setFont(TotalPaid.getFont().deriveFont(35f));
 

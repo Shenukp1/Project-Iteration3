@@ -39,12 +39,12 @@ public class PrintController implements ReceiptPrinterListener{
         	receiptText.append("Price: $" + p +", ");						// Print price without new line
         	if (item instanceof BarcodedProduct) {						
         		desc = ((BarcodedProduct) item).getDescription();	// Print description if its a barcoded product
-        		receiptText.append( desc + " $"+ item.getPrice());
+        		receiptText.append( desc );
         	}
         	receiptText.append("\n");								// Print a full stop with new line
         	if (item instanceof PLUCodedProduct) {						
         		desc = ((PLUCodedProduct) item).getDescription();	// Print description if its a barcoded product
-        		receiptText.append( desc+ " $"+ item.getPrice());
+        		receiptText.append( desc);
         	}
         	receiptText.append("\n");	
         }
@@ -70,12 +70,12 @@ public class PrintController implements ReceiptPrinterListener{
 	public String print() {
 		String temp = "";
 		for(int i = 0; i< lines.length;i++) {
-			temp += "<html>";
+			//temp += "<html>";
 			temp += lines[i]+ "<br/>";
 			
-		//	System.out.println(lines[i]);
+		System.out.println(lines[i]);
 		}
-		temp += "<html>";
+		//temp += "<html>";
 		return temp;
 	}
 	

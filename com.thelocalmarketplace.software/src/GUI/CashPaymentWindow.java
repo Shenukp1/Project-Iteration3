@@ -59,7 +59,7 @@ public class CashPaymentWindow {
 	BigDecimal recieptTotal;
 	BigDecimal changeDue;
 	
-
+	
 	JButton cancelButton;
 	
 	public CashPaymentWindow(SelfCheckoutLogic logic) {
