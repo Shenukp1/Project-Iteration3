@@ -30,6 +30,8 @@ import com.tdc.coin.Coin;
 import com.tdc.coin.CoinStorageUnit;
 import com.tdc.coin.CoinStorageUnitObserver;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+
+import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.PowerGrid;
 
@@ -161,7 +163,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 * @param quantity - the quantity of ink that is being added
 	 * @throws OverloadedDevice - when to much ink is added
 	 */
-	public void maintainAddInk(int quantity) throws OverloadedDevice {
+	public void maintainAddInk(int quantity) throws OverloadedDevice, InvalidArgumentSimulationException {
 		if (isMaintenance == true) {
 			
 			printer.addInk(quantity); // AbstractReceiptPrinter. Announces "inkAdded" event. Requires power.
@@ -183,7 +185,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 * thus, printing can be done
 	 * ADD: wrap it with a if statement that has a count. this should only be able to be done 
 	 */
-	public void setInitial(int ink, int paper) throws OverloadedDevice {
+	public void setInitial(int ink, int paper) throws OverloadedDevice,InvalidArgumentSimulationException {
 		printer.addInk(ink);
 		receiptPrinterGold.addInk(ink);
 		printer.addPaper(paper);
@@ -218,6 +220,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 	//Gets the max ink value allowed to be added
 	public int getMaxInkValue() {
+		System.out.println("YO"+receiptPrinterGold.MAXIMUM_INK);
 		maxInk = receiptPrinterGold.MAXIMUM_INK;
 		return maxInk;
 	}
