@@ -31,6 +31,7 @@ public class plu  {
 	JPanel mainPanel;
 	JPanel bottomPanel;
 	JPanel keyboardPanel;
+	JPanel homePanel;
 	
 	String pluNum = "";
 	PriceLookUpCode getter;
@@ -225,6 +226,8 @@ public plu(SelfCheckoutLogic logic) {
     addedItemButton.addActionListener(e -> {
     	timer.stop();
     	logic.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(tempMass)));
+    	mainPanel.setVisible(false);
+		MainPanel homePanel = new MainPanel(logic, "Item Added");
     	
     	//if (item != null) {
     		//logicGold.station.getBaggingArea().addAnItem(item);
