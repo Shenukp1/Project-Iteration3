@@ -18,6 +18,8 @@ import javax.swing.Timer;
 
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Numeral;
+import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
@@ -37,6 +39,8 @@ public class plu  {
 	BigDecimal tempMass=new BigDecimal("3000");
 	//int tempMassInt = 3000; 
 	Mass temp = new Mass (tempMass);
+	Item tempItemForMass;
+	Item item;
 	AddItemPLU addItemPlu;
 	int pluNumLength = 4; // Feel free to change this if it's wrong!!!
 	
@@ -95,9 +99,22 @@ public plu(SelfCheckoutLogic logic) {
 				
 			}
 			else {
+				char parsedString;
+				Numeral [] numeral = new Numeral [4];
+				//parses string into numeral barcode and plucode
+				for (int i = 0; i < pluNum.length(); i++) {
+
+					parsedString = pluNum.charAt(i);
+
+					numeral[i] = Numeral.valueOf((byte) (Character.getNumericValue(parsedString) % 10));
+				
+				}
+				Barcode barcodeGetter = new Barcode(numeral);
 				getter = new PriceLookUpCode (pluNum);
 				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
 				if (product != null) {
+					double x = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(numeral).getExpectedWeight();
+			    	tempMass = new BigDecimal(String.valueOf(x));
 					AddItemPLU.AddItemFromPLU(logic.session,getter, tempMass);
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
@@ -224,14 +241,14 @@ public plu(SelfCheckoutLogic logic) {
     JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
     addedItemButton.addActionListener(e -> {
     	timer.stop();
-    	logic.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(tempMass)));
-    	
-    	//if (item != null) {
-    		//logicGold.station.getBaggingArea().addAnItem(item);
-    		//mainPanel.setVisible(false);
-        	//MainPanel newPanel = new MainPanel(logic, "Added Item to Bagging Area");
+    	logic.station.getBaggingArea().enable();
+    	item = new PLUCodedItem(getter, new Mass(tempMass));
+    	if (item != null) {
+    		logic.station.getBaggingArea().addAnItem(item);
+    		mainPanel.setVisible(false);
+        	MainPanel newPanel = new MainPanel(logic, "Added Item to Bagging Area");
     		
-    	//}
+    	}
     	
     });
     testPanel.add(addedItemButton);
