@@ -1,5 +1,7 @@
 package attendant;
 
+import java.util.ArrayList;
+
 //GENERAL IDEA FOR MAINTAIN IMPLEMENTATION
 //	1.1 A system for detecting low or empty levels of materials(Ink,paper,coin,banknotes)
 //	1.2 open hardware and close hardware
@@ -74,6 +76,11 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private int maxInk;//Has the max Ink allowed in printer
 	private int maxPaper;
 	
+	private boolean changesOccurred = false;
+	public String maintenanceMessage;
+	private NotifyAttendantScreen attendantGUI = new NotifyAttendantScreen();
+	private ArrayList<String> list = new ArrayList<>(); // list of all maintenance done
+	
 	
 
 
@@ -109,6 +116,21 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		PowerGrid.instance().forcePowerRestore();
 		receiptPrinterGold.plugIn(PowerGrid.instance());
 		receiptPrinterGold.turnOn();
+		
+		// ----NEW STUFF -----
+		
+		
+		/**
+		 * This updates the Attendant Station's GUI for new issues within the self
+		 * checkout station
+		 */
+		String text = "";
+		for (int i = 0; i < list.size(); i++) {
+			text += "<html>" + list.get(i) + "<br/>";
+		}
+		attendantGUI.update(text);
+			
+	
 		
 		
 	}
@@ -153,6 +175,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 			receiptPrinterGold.addInk(quantity);
 			
 		} 
+		
+		list.add("Ink has been added to the printer.");
 			
 	}
 	
@@ -351,6 +375,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		}
 		paperAddedMessage = true;
 		
+		changesOccurred = true;
+		
 	}
 
 	/*
@@ -417,6 +443,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 		}
 		inkAddedMessage = true;
+		
+		changesOccurred = true;
 	}
 	
 	/*
@@ -462,6 +490,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	public void banknotesLoaded(BanknoteStorageUnit unit) {
 		banknotesLoadedMessage = true;
 		
+		changesOccurred = true;
+		
 	}
 	
 	/*
@@ -478,6 +508,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	public void banknotesUnloaded(BanknoteStorageUnit unit) {
 		banknotesUnloadedMessage = true;
 		
+		changesOccurred = true;
+		
 	}
 	
 	/*
@@ -485,7 +517,6 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 */
 	public boolean getBanknotesUnloadedMessage() {
 		return banknotesUnloadedMessage;
-		
 	
 	}
 	
@@ -541,6 +572,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	public void coinsLoaded(CoinStorageUnit unit) {
 		coinsLoadedMessage = true;
 		
+		changesOccurred = true;
+		
 	}
 	
 	/*
@@ -556,6 +589,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 */
 	public void coinsUnloaded(CoinStorageUnit unit) {
 		coinsUnloadedMessage = true;
+		
+		changesOccurred = true;
 		
 	}
 	
