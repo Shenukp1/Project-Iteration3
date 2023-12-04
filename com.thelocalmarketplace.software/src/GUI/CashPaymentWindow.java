@@ -347,11 +347,7 @@ public class CashPaymentWindow {
 	
 	private void refreshLabel(SelfCheckoutLogic logic) {
 		
-		remainingTotalLabel = new JLabel("Remaining: $" + logic.session.getCartTotal());
-		remainingTotalLabel.setFont(remainingTotalLabel.getFont().deriveFont(30f));
-		remainingTotalLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		remainingTotalLabel.setVerticalAlignment(SwingConstants.CENTER);
-		remainingTotalLabel.setText(remainingTotal.toString());
+		remainingTotalLabel.setText("Remaining: $" + logic.session.getCartTotal().toString());
 		mainLabel.setText(changeDue.toString());
 		cancelButton.setVisible(false);
 		
