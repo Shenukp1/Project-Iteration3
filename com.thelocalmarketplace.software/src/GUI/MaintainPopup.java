@@ -1,7 +1,10 @@
 package GUI;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import attendant.Maintain;
+import control.SelfCheckoutLogic;
+
 
 /**
  * @author kian / givenn19
@@ -10,15 +13,17 @@ import attendant.Maintain;
  */
 public class MaintainPopup {
     
-    // frame should say "maintenance required: refill [i]" i=ink,paper,banknotes,coins.
-
+	
+    // frame should say "Maintenance required at customer station." followed by a maintainance message.
+	
     public static void showMaintenancePopup(Maintain maintenanceRequired) {
+    	
     	String maintainMessage = maintenanceRequired.getMessage(); // TODO update from Maintain class
     	
         String message = "Maintenance required at customer station." + ".\n"
                 + maintainMessage;
 
-        // Show a pop-up dialog with an OK button
+        // Show a pop-up dialog with an OK button (default frame used?)
         JOptionPane.showMessageDialog(null, message, "Maintenance Alert", JOptionPane.INFORMATION_MESSAGE);
     }
 }
