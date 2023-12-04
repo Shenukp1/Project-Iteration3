@@ -174,14 +174,15 @@ mainLeft.add(personalBags);
         mainLeft.add(empty2);
         JLabel empty6 = new JLabel("");
         mainLeft.add(empty6);
-        JLabel empty3 = new JLabel("");
-        mainLeft.add(empty3);
       
         
         //LOGIC: added Cart Total
         JLabel total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
         total.setFont(button2.getFont().deriveFont(25f));
         mainLeft.add(total);
+        topPanel.add(mainLeft);
+        JLabel empty3 = new JLabel("");
+        mainLeft.add(empty3);
         
         
         JButton button3 = new JButton("Pay");
@@ -191,7 +192,6 @@ mainLeft.add(personalBags);
         	new BagsPanel(logicGold, true);
         });
         mainLeft.add(button3);        
-        topPanel.add(mainLeft);
         mainRight = new JPanel();
         mainRight.setLayout(new GridBagLayout());
 
