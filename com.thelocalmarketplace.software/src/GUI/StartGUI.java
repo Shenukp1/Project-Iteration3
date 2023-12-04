@@ -141,8 +141,7 @@ public class StartGUI {
 		beanBarcodeItem= new BarcodedItem (beanBarcode, beansMass);
 		beanBarcodedProduct=new BarcodedProduct(beanBarcode, "beans", 5,bigIBeanMass.intValue());
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);
-		
-		
+		ProductDatabases.INVENTORY.put(beanBarcodedProduct, 1);
 	}
 	
 	
