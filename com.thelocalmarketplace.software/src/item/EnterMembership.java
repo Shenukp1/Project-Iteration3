@@ -68,7 +68,6 @@ public class EnterMembership implements CardReaderListener, BarcodeScannerListen
 		}
 		this.membershipNumber = cardNumber;
 		session.membership = cardNumber;
-			//System.err.println("membership card read successfully");
 			
 	}
 
@@ -84,7 +83,6 @@ public class EnterMembership implements CardReaderListener, BarcodeScannerListen
 		}
 		this.membershipNumber = barcode.toString();										// Set the barcode as membershipNumber
 		session.membership = membershipNumber;
-			//System.err.println("membership card read successfully");
 	}
 	
 	
