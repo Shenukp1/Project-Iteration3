@@ -73,7 +73,8 @@ public class EnterMembershipWindow {
 		okayButton = new JButton("Done");
 		okayButton.addActionListener(e -> {
 			
-			// Pass the membership number to another function
+			// Pass the membership number to current session
+			logic.session.membership = membershipNum;
 			
 			mainPanel.setVisible(false);
 			MainPanel mainWindow = new MainPanel(logic, "Membership number verification not implemented yet");

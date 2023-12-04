@@ -72,6 +72,7 @@ public class StartGUI {
 	static public BigInteger excessiveMass= new BigInteger("5000000000000");
 	static public ReusableBag[] initBagList;
 
+
 	/*wallet to add banknotes to a slot. may not be needed because of Dollars And Currency Utility
 	 *  
 	 */
@@ -88,6 +89,8 @@ public class StartGUI {
 		
 		bronze.resetConfigurationToDefaults();
 		bronze.configureScaleSensitivity(0.0001);
+		bronze.configureBanknoteDenominations(DollarsAndCurrency.bankNoteDenominations);
+		bronze.configureCoinDenominations(DollarsAndCurrency.coinDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		SelfCheckoutStationBronze bronze = new SelfCheckoutStationBronze();
@@ -96,6 +99,8 @@ public class StartGUI {
 		
 		//silver
 		silver.resetConfigurationToDefaults();
+		silver.configureBanknoteDenominations(DollarsAndCurrency.bankNoteDenominations);
+		silver.configureCoinDenominations(DollarsAndCurrency.coinDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		SelfCheckoutStationSilver silver = new SelfCheckoutStationSilver();
@@ -104,6 +109,8 @@ public class StartGUI {
 		
 		//gold
 		gold.resetConfigurationToDefaults();
+		gold.configureBanknoteDenominations(DollarsAndCurrency.bankNoteDenominations);
+		gold.configureCoinDenominations(DollarsAndCurrency.coinDenominations);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		SelfCheckoutStationGold gold = new SelfCheckoutStationGold();
@@ -141,8 +148,7 @@ public class StartGUI {
 		beanBarcodeItem= new BarcodedItem (beanBarcode, beansMass);
 		beanBarcodedProduct=new BarcodedProduct(beanBarcode, "beans", 5,bigIBeanMass.intValue());
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(beanBarcode, beanBarcodedProduct);
-		
-		
+		ProductDatabases.INVENTORY.put(beanBarcodedProduct, 1);
 	}
 	
 	
