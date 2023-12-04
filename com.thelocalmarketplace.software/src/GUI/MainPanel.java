@@ -119,13 +119,16 @@ public class MainPanel extends JFrame {
         
         
         
-        JButton button1 = new JButton("Add Bags");
-        button1.setFont(button1.getFont().deriveFont(19f));
-        button1.addActionListener(e -> {
+        JButton personalBags = new JButton("Add Personal Bags");
+        personalBags.setFont(personalBags.getFont().deriveFont(19f));
+        personalBags.addActionListener(e -> {
         	mainPanel.setVisible(false);
         	BagsPanel bagsPanel = new BagsPanel(logicGold, false);
         	//LOGIC: Add Bags
-        });mainLeft.add(button1);
+        });JButton addStoreBags = new JButton("Add Bags");
+addStoreBags.setFont(addStoreBags.getFont().deriveFont(19f));
+mainLeft.add(addStoreBags);
+mainLeft.add(personalBags);
         
         
         JButton button2 = new JButton("Enter Membership");
@@ -206,7 +209,7 @@ public class MainPanel extends JFrame {
         gbcRightPanelBot.weightx = 1;
         gbcRightPanelBot.fill = GridBagConstraints.BOTH;
 
-        JLabel itemsLabel = new JLabel("Items Scanned:");
+        JLabel itemsLabel = new JLabel("     Items Scanned:");
         itemsLabel.setFont(itemsLabel.getFont().deriveFont(20f));
         
         listModel = new DefaultListModel<>();
@@ -235,7 +238,7 @@ public class MainPanel extends JFrame {
         
         JLabel test = new JLabel("Console: " + message);
         test.setForeground(Color.RED);
-        test.setFont(button1.getFont().deriveFont(17f));
+        test.setFont(personalBags.getFont().deriveFont(17f));
         test.setHorizontalAlignment(JLabel.CENTER);
         test.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         bottomPanel = new JPanel();
