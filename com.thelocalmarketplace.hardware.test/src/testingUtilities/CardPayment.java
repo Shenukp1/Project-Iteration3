@@ -25,6 +25,6 @@ public interface CardPayment {
 	 */
 	
 	Card otherCreditCard = new Card("credit", "555", "Donkey Kong", "312", "911", tapEnabled, hasChip);
-	Card otherDebitCard = new Card("credit", "555", "Donkey Kong", "312", "911", tapEnabled, hasChip);
+	Card otherDebitCard = new Card("debit", "555", "Donkey Kong", "312", "911", tapEnabled, hasChip);
 	
 }
