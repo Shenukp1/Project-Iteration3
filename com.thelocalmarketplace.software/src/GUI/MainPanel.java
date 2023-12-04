@@ -10,23 +10,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.math.BigInteger;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -118,7 +101,11 @@ public class MainPanel extends JFrame {
         JButton button0 = new JButton("Call Attendant");
         button0.setFont(button0.getFont().deriveFont(19f));
         button0.addActionListener(e -> {
-        	//LOGIC: Call Attendant
+            mainPanel.setVisible(false);
+            MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold);
+        	JDialog helpNotification = new JDialog(attendantScreen.mainFrame, "Attendant Help Requested");
+            JLabel dialogText = new JLabel("Station 3 requires help");
+            helpNotification.add(dialogText);
         });mainLeft.add(button0);
         
         
@@ -157,6 +144,10 @@ public class MainPanel extends JFrame {
         	mainPanel.setVisible(false);
         	plu plu = new plu(logicGold);
         	//LOGIC: Call Attendant
+            MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold);
+            JDialog helpNotification = new JDialog(attendantScreen.mainFrame, "Attendant Help Requested");
+            JLabel dialogText = new JLabel("Station 3 requires help");
+            helpNotification.add(dialogText);
         });
         mainLeft.add(buttonPLU);
         
