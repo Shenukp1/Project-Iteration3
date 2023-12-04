@@ -168,10 +168,8 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	public void testFixGoldLowInk() {
 		try {
 			logicGold.maintain.setInitial(104858,200);// what the station starts with
-			System.out.print(logicGold.maintain.getInkAdded());
 			logicGold.maintain.print('c');//this simulate that low ink has been reached 
 			logicGold.maintain.maintainAddInk(10);//now i should be able to add ink
-			System.out.print(logicGold.maintain.getInkAdded());
 
 	
 			assertFalse(logicGold.maintain.getLowInkMessage());// getLowInkMessage should flip lowInkMeesage from true to False
@@ -196,8 +194,8 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 			//how the station is setup
 			//setup in this test was done in a way that their was 1 ink in the system. setup by
 			logicGold.maintain.setInitial(1,200);
+			logicGold.maintain.maintainAddInk(0);
 			
-			logicGold.maintain.maintainAddPaper(200);
 			logicGold.maintain.print('c');// using 1 ink. meaning their will be 0 ink left. aka, empty.
 		
 			assertTrue(logicGold.maintain.getOutOfInkMessage()); //getOutOfInkMessage() will return true because the notifyInkEmpty
@@ -219,7 +217,12 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
     @Test(expected = OverloadedDevice.class)
 	public void testInkSpillageGold() throws OverloadedDevice {
 		logicGold.maintain.setInitial(1,200);
-		logicGold.maintain.maintainAddInk(logicGold.maintain.getMaxInkValue()+1);//making it 1 more than the max should cause overloaded device
+		logicGold.maintain.maintenanceStart();
+		logicGold.maintain.maintainAddInk(logicGold.maintain.getMaxInkValue());//making it 1 more than the max should cause overloaded device
+		System.out.println("MAX: "+logicGold.maintain.getInkAdded());
+		logicGold.maintain.maintenanceStart();
+		
+		logicGold.maintain.maintainAddInk(1);//making it 1 more than the max should cause overloaded device
 
 		
 		
@@ -236,7 +239,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
     @Test
 	public void testAddedInkGold() {
 		try {
-		
+			logicGold.maintain.setInitial(1,200);
 			logicGold.maintain.maintainAddInk(2);//putting it to 2 means that we called the notified inkAdded
 			//Checking if the false value of getInkAddedMessage() change to true 
 			assertTrue(logicGold.maintain.getInkAddedMessage()); //getInkAddedMessage() will return true because the notifyInkAdded
@@ -257,23 +260,13 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 */
     @Test(expected = InvalidArgumentSimulationException.class)
     public void testRemoveInkGold() throws OverloadedDevice, InvalidArgumentSimulationException{
-	
-			logicGold.maintain.maintainAddInk(10);// added 10 ink
+			logicGold.maintain.setInitial(-11,200);
 
-			logicGold.maintain.maintainAddInk(-1);// removing 1 ink (-1)
-
+			
 		
 	}
     
-	
-	/*
-	 * Cant add Ink when printer is enabled or shouldnt?
-	 */
- 
-		
-	/*
-	 * Opening and closing hardware? - how?
-	 */
+
 	
 //======================SILVER STATION TEST============================
 	
