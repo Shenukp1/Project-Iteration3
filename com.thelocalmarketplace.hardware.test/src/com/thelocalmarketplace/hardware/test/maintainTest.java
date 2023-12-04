@@ -62,6 +62,7 @@ import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 
 import attendant.Maintain;
+import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 import control.SelfCheckoutLogic;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
@@ -128,8 +129,11 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		gold = new SelfCheckoutStationGold();
 		gold.plugIn(PowerGrid.instance());
 		gold.turnOn();
+		
+		
+		//IDEA 2: to simulate disable
 		logicGold = new SelfCheckoutLogic(gold);
-		logicGold.session.enable();
+		
 
 		
 
@@ -141,22 +145,37 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	
 	
 	/*
-	 * Ink is Low in Gold Station
+	 * Ink is Low in Gold Station and trigger maintenance 
+	 * 
 	 * 
 	 */
 	@Test
-	public void testGoldLowInk() {
+	public void testGoldLowInkMaintain() throws OverloadedDevice {
+		logicGold.maintain.setInitial(104858,200);// what the station starts with
+		logicGold.maintain.print('c');// printing 1 char, removes 1 ink
+		//now it should be in the state of lowInk. thus, maintenance should trigger. should be true
+		System.out.println(logicGold.maintain.getMaintenance());
+		assertTrue(logicGold.maintain.getMaintenance());
+		
+
+	}
+	
+	/*
+	 * Fix Ink is Low in Gold Station 
+	 * 
+	 */
+	@Test
+	public void testFixGoldLowInk() {
 		try {
-			//System.out.println(logicGold.maintain.getLowInkMessage()+"BEFORE"); - comments can be used to see true and false switch(NOT APART OF TEST)
+			logicGold.maintain.setInitial(104858,200);// what the station starts with
+			System.out.print(logicGold.maintain.getInkAdded());
+			logicGold.maintain.print('c');//this simulate that low ink has been reached 
+			logicGold.maintain.maintainAddInk(10);//now i should be able to add ink
+			System.out.print(logicGold.maintain.getInkAdded());
+
+	
+			assertFalse(logicGold.maintain.getLowInkMessage());// getLowInkMessage should flip lowInkMeesage from true to False
 			
-			logicGold.maintain.maintainAddInk(104858);//having 104858 and blow gives you a low
-			logicGold.maintain.maintainAddPaper(200);//this is to add a paper to write something on
-			logicGold.maintain.print('c');// we write one thing. meaning that, we used 1 ink
-			
-			//System.out.println(logicGold.maintain.getInkAdded());
-			//System.out.println(logicGold.maintain.getLowInkMessage()+"AFTER");
-			
-			assertTrue(logicGold.maintain.getLowInkMessage());// getLowInkMessage should be true because notifyInkLow changes it from false to true
 
 		} catch (OverloadedDevice e) {
 			// TODO Auto-generated catch block
@@ -165,24 +184,8 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 
 	}
 	
-	/*
-	 * Ink is NOT Low in Gold Station
-	 */
-	@Test
-	public void testGoldNotLowInk() {
-		try {
-			logicGold.maintain.maintainAddInk(104859);//Having anything 104859 and above is not low Ink
-			logicGold.maintain.maintainAddPaper(200);
-			logicGold.maintain.print('c');
-			
-			assertFalse(logicGold.maintain.getLowInkMessage());
+	
 
-		} catch (OverloadedDevice e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 	
 	
 
@@ -192,10 +195,9 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	@Test
 	public void testEmptyInkGold() {
 		try {
-		
-			logicGold.maintain.maintainAddInk(1);//putting it to 1 means that using 1 ink will cause it to be empty
+			logicGold.maintain.setInitial(1,200);// what the station starts with. which is 0 ink and 200 papers
 			logicGold.maintain.maintainAddPaper(200);
-			logicGold.maintain.print('c');// using 1 ink
+			logicGold.maintain.print('c');// using 1 ink. meaning their will be 0 ink left. aka, empty.
 		
 			assertTrue(logicGold.maintain.getOutOfInkMessage()); //getOutOfInkMessage() will return true because the notifyInkEmpty
 
@@ -229,7 +231,20 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 * Asserting true if notifyAdd is called
 	 * 
 	 */
-	
+    @Test
+	public void testAddedInkGold() {
+		try {
+		
+			logicGold.maintain.maintainAddInk(2);//putting it to 2 means that we called the notified inkAdded
+			//Checking if the false value of getInkAddedMessage() change to true 
+			assertTrue(logicGold.maintain.getInkAddedMessage()); //getInkAddedMessage() will return true because the notifyInkAdded
+
+		} catch (OverloadedDevice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/*
 	 * Attendent removes to much Ink? - change detected
@@ -238,11 +253,21 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 * Or assume gold printer is similar to that of bronze based on doc and then just call the gold ink remaining 
 	 * 
 	 */
+    @Test(expected = InvalidArgumentSimulationException.class)
+    public void testRemoveInkGold() throws OverloadedDevice, InvalidArgumentSimulationException{
+	
+			logicGold.maintain.maintainAddInk(10);// added 10 ink
+
+			logicGold.maintain.maintainAddInk(-1);// removing 1 ink (-1)
+
+		
+	}
+    
 	
 	/*
 	 * Cant add Ink when printer is enabled or shouldnt?
 	 */
-	
+ 
 		
 	/*
 	 * Opening and closing hardware? - how?
@@ -250,96 +275,12 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	
 //======================SILVER STATION TEST============================
 	
-	/*
-	 * Ink is Low in Silver Station
-	 */
-	@Test
-	public void testSilverLowInk() {
-		try {
-			
-			
-			
-			logicSilver.maintain.maintainAddInk(104858);
-			logicSilver.maintain.maintainAddPaper(200);
-			logicSilver.maintain.print('c');
-			
-		
-			assertTrue(logicSilver.maintain.getLowInkMessage());	
 
-		} catch (OverloadedDevice e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-	/*
-	 * Ink is NOT Low in Silver Station
-	 */
-	@Test
-	public void testSilverNotLowInk() {
-		try {
-			
-			logicSilver.maintain.maintainAddInk(104859);//Having anything 104859 and above is not low Ink
-			logicSilver.maintain.maintainAddPaper(200);
-			logicSilver.maintain.print('c');
-			
-			assertFalse(logicSilver.maintain.getLowInkMessage());
-
-		} catch (OverloadedDevice e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 	
 //======================BRONZE STATION TEST============================
 
 	
-	
-	/*
-	 * Ink is Low in Bronze Station
-	 */
-	@Test
-	public void testBronzeLowInk() {
-		try {
-			
-			
-			logicBronze.maintain.maintainAddInk(104858);
-			logicBronze.maintain.maintainAddPaper(200);
-			logicBronze.maintain.print('c');
-			
-		
-			assertTrue(logicBronze.maintain.getLowInkMessage());	
 
-		} catch (OverloadedDevice e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-	
-	/*
-	 * Ink is NOT Low in Bronze Station
-	 */
-	@Test
-	public void testBronzeNotLowInk() {
-		try {
-	
-			logicBronze.maintain.maintainAddInk(104859);//Having anything 104859 and above is not low Ink
-			logicBronze.maintain.maintainAddPaper(200);
-			logicBronze.maintain.print('c');
-			
-			assertFalse(logicBronze.maintain.getLowInkMessage());
-
-		} catch (OverloadedDevice e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
 	
 	
 }

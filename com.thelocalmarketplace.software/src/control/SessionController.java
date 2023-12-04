@@ -89,6 +89,7 @@ public class SessionController {
 	public void disable(){
 		SessionDisabled = true;
 	}
+	
 	public void enable(){
 		SessionDisabled = false;
 	}

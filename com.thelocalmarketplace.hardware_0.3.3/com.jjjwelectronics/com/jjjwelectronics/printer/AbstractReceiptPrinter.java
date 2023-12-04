@@ -210,7 +210,6 @@ abstract class AbstractReceiptPrinter extends AbstractDevice<ReceiptPrinterListe
 	}
 
 	protected void notifyLowInk() {
-		System.out.println("hello");
 		for(ReceiptPrinterListener l : listeners())
 			l.thePrinterHasLowInk();
 	}

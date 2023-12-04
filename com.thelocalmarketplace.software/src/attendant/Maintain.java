@@ -1,5 +1,14 @@
 package attendant;
 
+//GENERAL IDEA FOR MAINTAIN IMPLEMENTATION
+//	1.1 A system for detecting low or empty levels of materials(Ink,paper,coin,banknotes)
+//	1.2 open hardware and close hardware
+//	1.3 A procedure for adding the required materials without causing (spillage,jams, or damage)
+//	1.4 The system detects the changes after  
+//	1.5 GUI
+
+
+
 import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
@@ -22,7 +31,10 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.PowerGrid;
 
-public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver  {
+public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver, IDeviceListener{
+	
+	
+	
 	
 	private IReceiptPrinter printer;
 	
@@ -35,6 +47,9 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
 
+	
+	
+	
 	private Boolean lowInkMessage = false;
 	private Boolean outOfInkMessage= false;
 	private Boolean inkAddedMessage = false;
@@ -52,22 +67,38 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 	int coinLevel;
 
-	private int PrinterInkAddCount;// keep track of the printer added 
-	private int PrinterInkAddCountGold;
+	private int PrinterInkAddCountGold;//Keeps track of the ink in printer
 
 	private int maxInk;//Has the max Ink allowed in printer
-
 	
 	
 
+
+	private boolean isMaintenance;// field to allow maintenance to happen. no maintenance happens at the start,thus, false
+
+	private AbstractSelfCheckoutStation station;
 	
+	
+	
+
+	/**
+	 * Allows the station to have maintenance 
+	 * @param station that is able to have maintenance 
+	 */
 	public Maintain(AbstractSelfCheckoutStation station)  {
-		//shenuk - changed these from .printer,.banknotestorage,.coinStorage to getter b/c of new hardware
-		printer = station.getPrinter();
+		
+		this.station = station;
+		
+		this.isMaintenance = false;
+		
+		printer = this.station.getPrinter();
 		printer.register(this);
 		
-		station.getBanknoteStorage().attach(this);
-		station.getCoinStorage().attach(this);
+		banknoteStorage = station.getBanknoteStorage();
+		banknoteStorage.attach(this);
+		
+		coinStorage = station.getCoinStorage();
+		coinStorage.attach(this);
 		
 		receiptPrinterGold = new ReceiptPrinterGold();
 		receiptPrinterGold.register(this);
@@ -75,35 +106,81 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		PowerGrid.instance().forcePowerRestore();
 		receiptPrinterGold.plugIn(PowerGrid.instance());
 		receiptPrinterGold.turnOn();
-		//receiptPrinterGold.register(this);
 		
 		
 	}
 	
 	
 	
+	/*
+	 * Start maintenance and disables the station
+	 */
+	public void maintenanceStart() {
+		disabledM();
+	}
 	
-	// Attendant adds ink
+	/*
+	 * Ends maintenance and enables the station
+	 */
+	public void maintenanceFinished() {
+		enabledM();
+	}
+	
+	public void detectChange() {
+		
+	}
+	
+
+	
+	
+	/**
+	 * If maintenance is happening. we can add ink. If not, then we cannot. 
+	 * station must be disabled 
+	 * @param quantity - the quantity of ink that is being added
+	 * @throws OverloadedDevice - when to much ink is added
+	 */
 	public void maintainAddInk(int quantity) throws OverloadedDevice {
-		
-		printer.addInk(quantity); // AbstractReceiptPrinter. Announces "inkAdded" event. Requires power.
-		//PROBLEM: gold,silver,bronze CheckoutStations all use the BronzeReceiptPrinter
-		//SOLUTION(possibly): to keep track of bronzePrinter ink count we will have an instance of the goldPrinter
-		//	Why: because in the documentation, gold and bronze are the same. thus, we can use the gold to get Ink values to check and possibly other things
-		//Honeslty this might not be useful for this usecase other than to check
-		receiptPrinterGold.addInk(quantity);
+		if (isMaintenance == true) {
+			
+			printer.addInk(quantity); // AbstractReceiptPrinter. Announces "inkAdded" event. Requires power.
+			//PROBLEM: gold,silver,bronze CheckoutStations all use the BronzeReceiptPrinter
+			//SOLUTION(possibly): to keep track of bronzePrinter ink count we will have an instance of the goldPrinter
+			//	Why: because in the documentation, gold and bronze are the same. thus, we can use the gold to get Ink values to check and possibly other things
+			//Honeslty this might not be useful for this usecase other than to check
+			receiptPrinterGold.addInk(quantity);
+			
+		} 
+			
 	}
+	
+	/*
+	 * Prepare station before customer is able to use it
+	 */
+	public void setInitial(int ink, int paper) throws OverloadedDevice {
+		printer.addInk(ink);
+		receiptPrinterGold.addInk(ink);
+		printer.addPaper(paper);
+		receiptPrinterGold.addPaper(paper);
+	}
+	
+	/**
+	 * allows to print if maintenance is not happening 
+	 * @param c - 1 char that is printed on to the paper using 1 ink
+	 */
 	
 	public void print(char c) {
-		try {
-			printer.print(c);
-			receiptPrinterGold.print(c);
-		} catch (EmptyDevice e) {
-			e.printStackTrace();
-		} catch (OverloadedDevice e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(isMaintenance == false) {
+			try {
+				printer.print(c);
+				receiptPrinterGold.print(c);
+			} catch (EmptyDevice e) {
+				e.printStackTrace();
+			} catch (OverloadedDevice e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 	}
 	
 	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
@@ -112,29 +189,50 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		return PrinterInkAddCountGold;
 	}
 	
-	
-	// Attendant adds paper 
-	public void maintainAddPaper(int quantity) throws OverloadedDevice {
-		printer.addPaper(quantity); // AbstractReceiptPrinter. Announces "paperAdded" event. Requires power.
-		receiptPrinterGold.addPaper(quantity);
-	}
-	
-	// Attendant adds bank notes
-	public void maintainAddBanknotes(Banknote... banknotes) throws SimulationException, CashOverloadException {
-		banknoteStorage.load(banknotes);// BanknoteStorageUnit. Announces "banknotesLoaded" event. Disabling has no effect. Requires power.
-
-	}
-	
-	// Attendant adds coins
-	public void maintainAddCoins(Coin... coins) throws SimulationException, CashOverloadException {
-		coinStorage.load(coins);// CoinStorageUnit. Announces "coinsLoaded" event. Disabling has no effect. Requires power.
-	}
-
 	//Gets the max ink value allowed to be added
 	public int getMaxInkValue() {
 		maxInk = receiptPrinterGold.MAXIMUM_INK;
 		return maxInk;
 	}
+		
+	
+	
+	
+	
+	
+	// Attendant adds paper 
+	public void maintainAddPaper(int quantity) throws OverloadedDevice {
+		if (isMaintenance == true) {
+			printer.addPaper(quantity); // AbstractReceiptPrinter. Announces "paperAdded" event. Requires power.
+			receiptPrinterGold.addPaper(quantity);
+		}
+		
+		
+	}
+	
+	// Attendant adds bank notes
+	public void maintainAddBanknotes(Banknote... banknotes) throws SimulationException, CashOverloadException {
+		if (isMaintenance == true) {
+			banknoteStorage.load(banknotes);// BanknoteStorageUnit. Announces "banknotesLoaded" event. Disabling has no effect. Requires power.
+
+		}
+		
+
+	}
+	
+	// Attendant adds coins
+	public void maintainAddCoins(Coin... coins) throws SimulationException, CashOverloadException {
+		if (isMaintenance == true) {
+			coinStorage.load(coins);// CoinStorageUnit. Announces "coinsLoaded" event. Disabling has no effect. Requires power.
+
+				}
+	}
+
+	
+	
+	
+	
+	
 	
 	
 	
@@ -146,14 +244,13 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 	@Override
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
-		// TODO Auto-generated method stub
 		
+		this.isMaintenance = false;
 	}
 
 	@Override
 	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		this.isMaintenance = true;		
 	}
 
 	@Override
@@ -168,6 +265,34 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		
 	}
 
+	
+//===============Detecting Changes==============
+	
+	
+	
+	
+	public void enabledM() {
+		this.isMaintenance = false;
+	}
+
+	
+	public void disabledM() {
+		this.isMaintenance = true;
+	}
+	/*
+	 * check if maintenance is happening
+	 */
+	public boolean getMaintenance() {
+		return this.isMaintenance;
+	}
+
+	
+	
+
+
+	//==================Paper=======================
+	
+	
 	@Override
 	/*
 	 * Method Used to announce that the printer is out of paper
@@ -183,41 +308,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		return outOfPaperMessage;
 		
 	}
-		
-
-	@Override
-    /*
-     * Method Used to announce that the printer is out of ink
-     * outOfInkMessage is originally false but when this method is called, the listener 
-     * is notified, then the outOfInkMessage turns true
-     */
-    public void thePrinterIsOutOfInk() {
-        outOfInkMessage = true;
-        
-    }
-    
-    /*
-     * Gets the outOfInkMessage value
-     */
-    public boolean getOutOfInkMessage() {
-        return outOfInkMessage;
-    }
-
-    @Override
-    /*
-     * Method Used to announce that the printer is low on ink
-     */
-    public void thePrinterHasLowInk() {
-        lowInkMessage = true;
-    }
-    
-    /*
-     * Gets the lowInkMessage Value
-     */
-    public boolean getLowInkMessage() {
-        return lowInkMessage;
-    }
-
+	
 	@Override
 	/*
 	 * Method Used to announce that the printer is low on paper
@@ -232,7 +323,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	public boolean getLowPaperMessage() {
 		return lowPaperMessage;
 	}
-
+	
 	@Override
 	/*
 	 * Method Used to announce that paper has been added to the printer
@@ -249,11 +340,62 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		return paperAddedMessage;
 	}
 	
+	
+	
+	//==================Ink=======================
+
+	
+		
+
+	@Override
+    /*
+     * Method Used to announce that the printer is out of ink
+     * outOfInkMessage is originally false but when this method is called, the listener 
+     * is notified, then the outOfInkMessage turns true
+     */
+    public void thePrinterIsOutOfInk() {
+        outOfInkMessage = true;
+        disabledM();
+		printer.disable();
+
+        
+    }
+    
+    /*
+     * Gets the outOfInkMessage value
+     */
+    public boolean getOutOfInkMessage() {
+        return outOfInkMessage;
+    }
+
+    @Override
+    /*
+     * Method Used to announce that the printer is low on ink
+     */
+    public void thePrinterHasLowInk() {
+        lowInkMessage = true;
+		printer.disable();
+
+    }
+    
+    /*
+     * Gets the lowInkMessage Value
+     */
+    public boolean getLowInkMessage() {
+        return lowInkMessage;
+    }
+
+	
 	@Override
 	/*
 	 * Method Used to announce that ink has been added to the printer
 	 */
 	public void inkHasBeenAddedToThePrinter() {
+		if (receiptPrinterGold.inkRemaining() >= 104858) {
+			lowInkMessage = false;
+			printer.enable();
+
+		}
 		inkAddedMessage = true;
 	}
 	
@@ -264,31 +406,12 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		return inkAddedMessage;
 	}
 	
-	//=== paper ink ends here==
+	
+	
 
-	@Override
-	public void enabled(IComponent<? extends IComponentObserver> component) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	//==================Banknotes=======================
 
-	@Override
-	public void disabled(IComponent<? extends IComponentObserver> component) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void turnedOn(IComponent<? extends IComponentObserver> component) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void turnedOff(IComponent<? extends IComponentObserver> component) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	/*
@@ -342,9 +465,15 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 */
 	public boolean getBanknotesUnloadedMessage() {
 		return banknotesUnloadedMessage;
+		
+	
 	}
 	
-	//===Banknotes stuff ends here===
+	
+	
+	
+	
+	//==================Coin=======================
 	
 	
 
@@ -415,6 +544,36 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 */
 	public boolean getCoinsUnloadedMessage() {
 		return coinsUnloadedMessage;
+	}
+
+
+
+	@Override
+	public void enabled(IComponent<? extends IComponentObserver> component) {
+		
+	}
+
+
+
+	@Override
+	public void disabled(IComponent<? extends IComponentObserver> component) {
+		
+	}
+
+
+
+	@Override
+	public void turnedOn(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void turnedOff(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
