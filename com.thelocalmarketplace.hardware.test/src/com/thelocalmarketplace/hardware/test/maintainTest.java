@@ -218,6 +218,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 */
     @Test(expected = OverloadedDevice.class)
 	public void testInkSpillageGold() throws OverloadedDevice {
+		logicGold.maintain.setInitial(1,200);
 		logicGold.maintain.maintainAddInk(logicGold.maintain.getMaxInkValue()+1);//making it 1 more than the max should cause overloaded device
 
 		
