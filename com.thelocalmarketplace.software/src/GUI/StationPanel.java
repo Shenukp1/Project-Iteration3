@@ -1,188 +1,104 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import com.jjjwelectronics.Mass;
-import com.thelocalmarketplace.hardware.BarcodedProduct;
-import com.thelocalmarketplace.hardware.PLUCodedProduct;
-import com.thelocalmarketplace.hardware.Product;
-
+import javax.swing.*;
 import control.SelfCheckoutLogic;
-import control.WeightController;
-import item.AddOwnBags;
+import attendant.EnableDisable;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class sessionBlocked {
-	
-	JFrame blockedFrame;
-    JPanel blockedPanel;
-    JButton addItemButton;
-    JButton removeItemButton;
-    JButton doNotBagButton;
-    JButton attendantOverrideButton;
-    SelfCheckoutLogic logicGold;
-    JFrame initial;
+public class StationPanel extends JPanel {
+    private JFrame mainFrame;
+    private JPanel stationPanel;
+    private SelfCheckoutLogic logic;
+    private JTextField addItemTextField;
+    private JButton enableStationButton;
+    private JButton disableStationButton;
+    private JButton backButton;
     
-    public sessionBlocked(SelfCheckoutLogic logicGold)  {
-    	this.logicGold = logicGold;
-
-        initial = logicGold.station.getScreen().getFrame();
-
-        blockedPanel = new JPanel();
-        blockedPanel.setLayout(new GridLayout(10
-        		, 1));
-
-        addWidgets();
-        
-        
-        initial.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-        
-        
-        
-        initial.add(blockedPanel, BorderLayout.CENTER);
-        
-        initial.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initial.setTitle("Session Blocked");
-
-        
-        initial.setPreferredSize(new Dimension(800, 600));
-        initial.pack();
-        initial.setVisible(true);
-        blockedPanel.setVisible(true);
-    }
+    private EnableDisable enableDisable; // Instance of EnableDisable
 
 
-    private void addWidgets() {
-        JLabel headline = new JLabel("      Session Blocked");
+    public StationPanel(SelfCheckoutLogic logic) {
+        this.logic = logic;
+        mainFrame = logic.station.getScreen().getFrame();
+        stationPanel = new JPanel(new GridLayout(4, 1));
 
-        addItemButton = new JButton("Add an item");
-        removeItemButton = new JButton("Remove an item");
-        doNotBagButton = new JButton("Do not bag item");
-        attendantOverrideButton = new JButton("Attendant Override");
-	    
-        headline.setLayout(null);
+        JPanel addItemsPanel = new JPanel(new GridBagLayout());
+        stationPanel.add(addItemsPanel);
+                                GridBagConstraints gbcAddItemsPanel = new GridBagConstraints();
+                                gbcAddItemsPanel.anchor = GridBagConstraints.NORTH;
+                                gbcAddItemsPanel.insets = new Insets(0, 0, 5, 0);
+                                gbcAddItemsPanel.gridx = 0;
+                                gbcAddItemsPanel.gridy = 0;
+                                gbcAddItemsPanel.gridwidth = 7;
+                                gbcAddItemsPanel.fill = GridBagConstraints.HORIZONTAL;
+                                
+                                
+                                        addItemTextField = new JTextField();
+                                        addItemTextField.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                String userInput = addItemTextField.getText();
 
-        addItemButton.setLayout(null);
-        
-        removeItemButton.setLayout(null);
-        
-        doNotBagButton.setLayout(null);
-        
-        attendantOverrideButton.setLayout(null);
+                                                //LOGIC: Textual search
+                                                
+                                                addItemTextField.setText("");
+                                            }
+                                        });
+                                        
+        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
+                                        gbcAddItemsPanel.gridy = 1;
+                                        addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
 
-        
-        //need to added button functionalities of the button still
-        doNotBagButton.addActionListener(e -> {
-	//need to add logic still
-
-        	logicGold.session.setBagWeight(0);
-        });
-	    
-//        	theMassOnTheScaleNoLongerExceedsItsLimit(logicGold.station.baggingArea);
-        addItemButton.addActionListener(e -> {
-        	
-        	Product product = logicGold.session.Cart.get(logicGold.session.Cart.size()-1);
-        	double temp = logicGold.session.getCartWeight();
-       
-        		if (product instanceof BarcodedProduct) {
-                    double desc = ((BarcodedProduct) product).getExpectedWeight();
-                    temp = temp - desc;
-                    logicGold.session.setCartWeight(temp);
-                } 
-                if (product instanceof PLUCodedProduct) {
-                	double desc = ((BarcodedProduct) product).getExpectedWeight();
-                	temp = temp - desc;
-                	logicGold.session.setCartWeight(temp);
+                                        
+        // Initialize EnableDisable with the station and a password
+        enableDisable = new EnableDisable("1234", logic.station);
+                                        
+        enableStationButton = new JButton("Enable Station");
+        enableStationButton.setBackground(new Color(255, 128, 128));
+        enableStationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        enableStationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	boolean enabled = enableDisable.enableStation("1234");
+                if (enabled) {
+                    JOptionPane.showMessageDialog(mainFrame, "Station Enabled Successfully");
+                } else {
+                    //JOptionPane.showMessageDialog(mainFrame, "Failed to Enable Station");
                 }
-                
-                //JFrame mainFrame = logicGold.station.getScreen().getFrame();
-        	
-
-                
-                SwingUtilities.invokeLater(() -> {
-                    blockedPanel.setVisible(false);
-                    MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
-                    
-                });
-        	
-        //need to add logic still
-        	  
-//            startPanel.setVisible(false);
-//            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
-//            JLabel weight = new JLabel("Total weight: " + logicGold.session.getBagWeight());
-//            JLabel wanted_weight = new JLabel(logicGold.session.getCartWeight());
-//            weight += logicGold.session.setBagWeight();
-
-            //!!!
-            //change the expected weight to not include the item
-            //logicGold.changeWeight
-            
-            //mainFrame.setVisible(true);
+            }
         });
+        stationPanel.add(enableStationButton);
 
-        removeItemButton.addActionListener(e -> {
-	//need to add logic still
+        disableStationButton = new JButton("Disable Station");
+        disableStationButton.setForeground(new Color(0, 0, 0));
+        disableStationButton.setBackground(new Color(181, 255, 181));
+        disableStationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        disableStationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	boolean disabled = enableDisable.disableStation("1234");
+                if (disabled) {
+                    JOptionPane.showMessageDialog(mainFrame, "Station Disabled Successfully");
+                } else {
+                    //JOptionPane.showMessageDialog(mainFrame, "Failed to Disable Station");
+                }
+            }
         });
+        stationPanel.add(disableStationButton);
 
-        attendantOverrideButton.addActionListener(e -> {
-        	logicGold.weightController.theMassOnTheScaleHasChanged(logicGold.station.getScanningArea(), new Mass(logicGold.session.getCartWeight()));
-        	//Override expected weight
-        	 SwingUtilities.invokeLater(() -> {
-                 blockedPanel.setVisible(false);
-                 MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
-                 
-             });
+        backButton = new JButton("<< Back");
+        backButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stationPanel.setVisible(false);
+                MainAttendantScreen sPanel = new MainAttendantScreen(logic);
+            }
         });
-        
+        stationPanel.add(backButton);
 
-        blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-        headline.setFont(headline.getFont().deriveFont(19f));
-        blockedPanel.add(headline);
-        blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-        addItemButton.setFont(addItemButton.getFont().deriveFont(19f));
-        blockedPanel.add(addItemButton);
-        blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-        removeItemButton.setFont(removeItemButton.getFont().deriveFont(19f));
-        blockedPanel.add(removeItemButton);
-        blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-        doNotBagButton.setFont(doNotBagButton.getFont().deriveFont(19f));
-        blockedPanel.add(doNotBagButton);
-        blockedPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-        attendantOverrideButton.setFont(attendantOverrideButton.getFont().deriveFont(19f));
-        blockedPanel.add(attendantOverrideButton);
-
-
-        
+        mainFrame.getContentPane().add(stationPanel);
     }
-    
 }
-
-
