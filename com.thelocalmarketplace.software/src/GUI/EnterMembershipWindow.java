@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.BorderLayout;
@@ -53,7 +76,7 @@ public class EnterMembershipWindow {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3,1));
 		
-		promptLabel = new JLabel("Enter a valid membership number here:");
+		promptLabel = new JLabel("Enter your membership ID");
 		promptLabel.setFont(promptLabel.getFont().deriveFont(35f));
 		promptLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		promptLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,6 +94,7 @@ public class EnterMembershipWindow {
 		
 		
 		okayButton = new JButton("Done");
+		okayButton.setBackground(new Color(189, 255, 189));
 		okayButton.addActionListener(e -> {
 			
 			// Pass the membership number to current session
@@ -82,6 +106,7 @@ public class EnterMembershipWindow {
 		});
 		
 		backspaceButton = new JButton("Quit");
+		backspaceButton.setBackground(new Color(255, 128, 128));
 		backspaceButton.addActionListener(e -> {
 			
 			if (membershipNum.length() == 0) {

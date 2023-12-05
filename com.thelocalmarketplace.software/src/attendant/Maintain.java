@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package attendant;
 
 import java.math.BigDecimal;
@@ -110,6 +133,8 @@ public class Maintain implements ReceiptPrinterListener,
 	private boolean coinLow;
 
 	private boolean coinUnloadedMessage;
+
+	private boolean bankNotesLow;
 	
 	
 	
@@ -127,26 +152,17 @@ public class Maintain implements ReceiptPrinterListener,
 		printer = this.station.getPrinter();
 		printer.register(this);
 		
-		//banknoteStorage = station.getBanknoteStorage();
-		//banknoteStorage.attach(this);
 		
-		//coinStorage = station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);;
-		//coinStorage.attach(this);
 		cDispenser = this.station.getCoinDispensers();
-		System.out.print("coin denoms: " + station.getCoinDenominations());
 		
-		//
+		//Might need to fix for all denoms
 		dollarDispenser = cDispenser.get(new BigDecimal("1"));
 		dollarDispenser.attach(this);
 		
 		
-//		nDispenser = this.station.getBanknoteDispensers();
-//		System.out.println("banknote denoms: " + station.getBanknoteDenominations());
-//		noteDispenser = nDispenser.get(BigDecimal.ONE);
-//		noteDispenser.attach(this);
+		//Might need to fix for all denoms
 		BigDecimal denoms = this.station.getBanknoteDenominations()[0];
         noteDispenser = this.station.getBanknoteDispensers().get(denoms);
-        System.out.println("banknote denoms: " + station.getBanknoteDenominations());
         noteDispenser.attach(this);
 		
 		
@@ -289,10 +305,8 @@ public class Maintain implements ReceiptPrinterListener,
 		list.add("A coin has been unloaded to the customer station.");
 	}
 	
-	public void setBanknotes(Banknote... banknotes) throws CashOverloadException {
-		noteDispenser.load(banknotes);
-		
-	}
+	
+	
 	
 	
 	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
@@ -333,7 +347,23 @@ public class Maintain implements ReceiptPrinterListener,
 		
 		
 	}
+	
+	
+	
 
+	/*
+	 * Setting Initial value for station
+	 */
+	public void setBanknotes(Banknote... banknotes) throws CashOverloadException {
+		Banknote[] banknote = new Banknote[1000]; // Array to hold 800 banknotes
+
+	    // Fill the array with the 'five' banknote 800 times
+	    for (int i = 0; i < 800; i++) {
+	        banknote[i] = banknotes;
+	    }
+		noteDispenser.load(banknotes);
+		
+	}
 	
 	
 	
@@ -590,8 +620,26 @@ public class Maintain implements ReceiptPrinterListener,
 
 	@Override
 	public void banknotesLoaded(IBanknoteDispenser dispenser, Banknote... banknotes) {
-		// TODO Auto-generated method stub
+		coinAddedMessage = true;
+		System.out.println("BANK dispenser size: " + dispenser.size());
+		System.out.println("BANK capacity: " + dispenser.getCapacity());
+		int high = (dispenser.getCapacity()/2)+300;
+		int low = (dispenser.getCapacity()/2)-300;
+		System.out.println("high number: " + high);
+		System.out.println("low number: " + low);
 		
+		if(dispenser.size() >= high) {
+			bankNotesLow = false;
+			dollarDispenser.disable();
+			disabledM();
+			
+		} else if(dispenser.size() <= low){
+			bankNotesLow = true;
+			dollarDispenser.disable();
+			disabledM();
+		} else {
+			enabledM();
+		}		
 	}
 
 
@@ -647,12 +695,17 @@ public class Maintain implements ReceiptPrinterListener,
 
 
 	@Override
+	
 	public void coinsLoaded(ICoinDispenser dispenser, Coin... coins) {
+		
 		coinAddedMessage = true;
+		
 		System.out.println("dispenser size: " + dispenser.size());
 		System.out.println("capacity: " + dispenser.getCapacity());
+		
 		int high = (dispenser.getCapacity()/2)+3;
 		int low = (dispenser.getCapacity()/2)-3;
+		
 		System.out.println("high number: " + high);
 		System.out.println("low number: " + low);
 		
@@ -676,10 +729,13 @@ public class Maintain implements ReceiptPrinterListener,
 	@Override
 	public void coinsUnloaded(ICoinDispenser dispenser, Coin... coins) {
 		coinUnloadedMessage = true;
+		
 		System.out.println("dispenser size: " + dispenser.size());
 		System.out.println("capacity: " + dispenser.getCapacity());
+		
 		int high = (dispenser.getCapacity()/2)+3;
 		int low = (dispenser.getCapacity()/2)-3;
+		
 		System.out.println("high number: " + high);
 		System.out.println("low number: " + low);
 		

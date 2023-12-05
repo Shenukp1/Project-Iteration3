@@ -1,6 +1,35 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import javax.swing.*;
+
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+
 import control.SelfCheckoutLogic;
 import attendant.EnableDisable;
 import java.awt.*;
@@ -40,14 +69,20 @@ public class StationPanel extends JPanel {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
                                                 String userInput = addItemTextField.getText();
-
-                                                //LOGIC: Textual search
-                                                
+                                                BarcodedProduct product = logic.addItemController.textSearch(userInput, null);
+                                                if (product != null) {
+                                                	Mass itemMass = new Mass(product.getExpectedWeight());
+                                                	BarcodedItem item = new BarcodedItem(product.getBarcode(), itemMass); 
+                                                	logic.station.getBaggingArea().addAnItem(item);
+                                                	JOptionPane.showMessageDialog(mainFrame, "Success: Product "+product.getDescription()+" added to cart");
+                                                } else {
+                                                	JOptionPane.showMessageDialog(mainFrame, "Error: Product not found");
+                                                }
                                                 addItemTextField.setText("");
                                             }
                                         });
                                         
-//        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
+        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
                                         gbcAddItemsPanel.gridy = 1;
                                         addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
 
@@ -102,5 +137,3 @@ public class StationPanel extends JPanel {
         mainFrame.getContentPane().add(stationPanel);
     }
 }
-  
-

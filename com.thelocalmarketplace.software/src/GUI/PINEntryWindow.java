@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.BorderLayout;
@@ -8,6 +31,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
@@ -16,6 +40,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -24,7 +49,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.jjjwelectronics.card.BlockedCardException;
+import com.jjjwelectronics.card.Card;
+import com.jjjwelectronics.card.Card.CardData;
+import com.jjjwelectronics.card.InvalidPINException;
+
+import ca.ucalgary.seng300.simulation.SimulationException;
 import control.SelfCheckoutLogic;
+import payment.PaymentCardController;
 
 public class PINEntryWindow extends JFrame {
 	JFrame mainFrame;
@@ -34,6 +66,8 @@ public class PINEntryWindow extends JFrame {
 	JLabel promptLabel;
 	JLabel PINLabel;
 	
+	Card paymentCard;
+	PaymentCardController cardController;
 	String PIN = "";
 	
 	JButton zerobutton = new JButton("0");
@@ -50,7 +84,11 @@ public class PINEntryWindow extends JFrame {
 	JButton confirmButton;
 	JButton backButton;
 	
-	public PINEntryWindow(SelfCheckoutLogic logic) {
+	public PINEntryWindow(SelfCheckoutLogic logic, Card paymentCard, PaymentCardController cardController) {
+		this.cardController = cardController;
+		this.paymentCard = paymentCard;
+		
+
 		mainFrame = logic.station.getScreen().getFrame();
 		
 		mainPanel = new JPanel();
@@ -60,6 +98,7 @@ public class PINEntryWindow extends JFrame {
 		keyboardPanel.setLayout(new GridLayout(3,4));
 		
 		confirmButton = new JButton("Confirm");
+		confirmButton.setBackground(new Color(128, 255, 128));
 		backButton = new JButton("<-");
 		
 		promptLabel = new JLabel("Enter PIN:");
@@ -86,7 +125,27 @@ public class PINEntryWindow extends JFrame {
 		confirmButton.addActionListener(e -> {
 			
 			// Pass the value of the PIN to the appropriate function
-			
+			if (PIN.length() == 3) {
+				try {
+					CardData cardData = logic.station.getCardReader().insert(paymentCard, PIN);
+					//cardController.theDataFromACardHasBeenRead(cardData);
+					logic.station.getCardReader().remove();
+					mainPanel.setVisible(false);
+					new SessionEndedWindowCardPayment(logic, cardController.getTotal());
+				} catch (IOException error){
+					// Something that either restarts this scren or says to reinput pin
+					new PINEntryWindow(logic, paymentCard, cardController);
+				}
+				catch( InvalidPINException e1) {
+					logic.station.getCardReader().remove();
+					PINLabel.setText("----");
+					PIN="";
+
+
+				}
+			}else {
+				// Soemthing to say not enough pin numbers.
+			}
 		});
 		
 		backButton.addActionListener(e -> {

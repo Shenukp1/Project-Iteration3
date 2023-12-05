@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.Color;
@@ -18,6 +41,10 @@ import javax.swing.Timer;
 
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Numeral;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
@@ -34,11 +61,8 @@ public class plu  {
 	
 	String pluNum = "";
 	PriceLookUpCode getter;
-	BigDecimal tempMass=new BigDecimal("3000");
-	//int tempMassInt = 3000; 
-	Mass temp = new Mass (tempMass);
 	AddItemPLU addItemPlu;
-	int pluNumLength = 4; // Feel free to change this if it's wrong!!!
+	int pluNumLength = 4; 
 	
 	JButton okayButton;
 	JButton backspaceButton;
@@ -49,6 +73,7 @@ public class plu  {
 	JLabel test;
 	Timer timer;
 	SelfCheckoutLogic logic;
+	BarcodedProduct product1;
 
 public plu(SelfCheckoutLogic logic) {
 	this.logic = logic;
@@ -98,7 +123,19 @@ public plu(SelfCheckoutLogic logic) {
 				getter = new PriceLookUpCode (pluNum);
 				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
 				if (product != null) {
-					AddItemPLU.AddItemFromPLU(logic.session,getter, tempMass);
+					
+					Numeral[] PLUNumeral = new Numeral[getter.toString().length()];
+			    	for (int i = 0; i < getter.toString().length(); i++) {
+			            char numeralChar = getter.toString().charAt(i);
+			            int numeralIndex = Character.getNumericValue(numeralChar) - 1;
+			            PLUNumeral[i] = Numeral.values()[numeralIndex];
+			        }
+			      
+			        product1 = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(new Barcode(PLUNumeral));
+			        
+			        BigDecimal expectedWeight = new BigDecimal(product1.getExpectedWeight());
+			        
+					AddItemPLU.AddItemFromPLU(logic.session,getter, expectedWeight.multiply(new BigDecimal("1")));
 					message = "Item found! Please place item in bagging area within 10 seconds";
 					test.setText("Console: " + message);  // Update text
 					test.repaint();
@@ -122,14 +159,6 @@ public plu(SelfCheckoutLogic logic) {
     	}
 		
 		
-		
-		
-		//logic to add item to station instance. string may need to be converted to plu
-		
-		// Pass the PLU number to another function
-		
-		//mainPanel.setVisible(false);
-		//MainPanel mainWindow = new MainPanel(logic, "item added");
 		
 	});
 	
@@ -224,14 +253,12 @@ public plu(SelfCheckoutLogic logic) {
     JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
     addedItemButton.addActionListener(e -> {
     	timer.stop();
-    	logic.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(tempMass)));
     	
-    	//if (item != null) {
-    		//logicGold.station.getBaggingArea().addAnItem(item);
-    		//mainPanel.setVisible(false);
-        	//MainPanel newPanel = new MainPanel(logic, "Added Item to Bagging Area");
-    		
-    	//}
+    	logic.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, new Mass(product1.getExpectedWeight()*product1.getPrice())));
+    	
+    	mainPanel.setVisible(false);
+    	new MainPanel(logic, "Item Added");
+    	
     	
     });
     testPanel.add(addedItemButton);

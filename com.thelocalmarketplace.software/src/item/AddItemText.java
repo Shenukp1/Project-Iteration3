@@ -1,7 +1,31 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package item;
 
 import java.math.BigDecimal;
 
+import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.Product;
@@ -25,30 +49,30 @@ public class AddItemText {
 	 * 						item in bagging area.
 	 * @return success/failure message
 	 */
-	public static String AddItemFromText(SessionController session, String textToSearch, BigDecimal productWeight) {
-		Product product = null;
+	public static BarcodedProduct AddItemFromText(SessionController session, String textToSearch, BigDecimal productWeight) {
+		BarcodedProduct product = null;
 		for (BarcodedProduct bp : ProductDatabases.BARCODED_PRODUCT_DATABASE.values()) {
 			if (bp.getDescription().contains(textToSearch)) {
 				product = bp;
 			}
 		}
 		// If product wasn't found in barcoded product database
-		if (product == null) {
+		/*if (product == null) {
 			for (PLUCodedProduct pp : ProductDatabases.PLU_PRODUCT_DATABASE.values()) {
 				if (pp.getDescription().contains(textToSearch)) {
 					product = pp;
 				}
 			}
-		}
+		}*/
 		
 		// Product doesn't exist in the database
 		if (product == null) {
-			return "Error: Product not found";
+			return null;
 		}
 		
 		// Product is out of stock
 		if (ProductDatabases.INVENTORY.get(product) <= 0){
-			return "Error: Product not available";
+			return null;
 		}
 		
 		BigDecimal CartTotal = session.getCartTotal();								// Retrieve cart total before adding item
@@ -61,12 +85,12 @@ public class AddItemText {
 		}
 		
 		if (!product.isPerUnit()) {
-			ItemWeight = ItemPrice.multiply(productWeight).doubleValue();			// Get expected weight of item
+//			ItemWeight = ItemPrice.multiply(productWeight).doubleValue();			// Get expected weight of item
 		}
 		
 		session.setCartWeight(initialWeight + ItemWeight);							// Update cart weight
 		session.setCartTotal(CartTotal.add(ItemPrice));								// Update cart price
 		session.Cart.add(product);
-		return "Success: Product added to cart";
+		return product;
 	}
 }

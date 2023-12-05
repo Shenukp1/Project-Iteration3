@@ -1,0 +1,202 @@
+4a44519 was darpalp, 16 minutes ago, message: console msg update
+68c1d31 was darpalp, 17 minutes ago, message: button logic
+c91b510 was darpalp, 32 minutes ago, message: additem from session blocked
+fe852d6 was Kian, 4 hours ago, message: git stuff
+9b8cec6 was darpalp, 5 hours ago, message: override button functinoality
+0ebf284 was darpalp, 5 hours ago, message: Update StationPanel.java
+0f7d3e0 was darpalp, 5 hours ago, message: added override buttons
+60fdb73 was Cakeqb5, 5 hours ago, message: structure diagram v 3
+06a759a was Cakeqb5, 6 hours ago, message: Merge branch 'master' into sessionBlockedLogic
+ce6d770 was Cakeqb5, 7 hours ago, message: Merge branch 'master' of https://github.com/Shenukp1/SENG300-Project-Iteration3
+9fed828 was Cakeqb5, 7 hours ago, message: hacked together a simple reciept, barely works
+38deefa was Raja Muhammed Omar, 7 hours ago, message: Update README.md
+55a82ac was Cakeqb5, 7 hours ago, message: html list for print reciept, not great but okay maybe
+77458e2 was Cakeqb5, 8 hours ago, message: attempt at making reciepts
+60d1c5c was Cakeqb5, 8 hours ago, message: simple way of showing payment and change owed
+a129bc5 was Cakeqb5, 8 hours ago, message: I think i've got the mass sorted for vCatalogue
+c374ce1 was Cakeqb5, 9 hours ago, message: micro fix so that only one item is added from vCatalogue
+c8f552c was michellele, 10 hours ago, message: MainPanel removeButton for barcodedProduct implemented.
+bb40d20 was Cakeqb5, 10 hours ago, message: Merge branch 'PaymentCardIntegration'
+4cef5f3 was Cakeqb5, 10 hours ago, message: Merge branch 'PaymentCardIntegration' of https://github.com/Shenukp1/SENG300-Project-Iteration3 into PaymentCardIntegration
+abf8745 was SimratV0, 10 hours ago, message: Merge pull request #15 from Shenukp1/PaymentCardIntegration
+7b4f345 was michellele, 10 hours ago, message: testing commit again
+3c1e0c8 was darpalp, 10 hours ago, message: fixed text field
+288b51e was Cakeqb5, 10 hours ago, message: Merge branch 'master' into PaymentCardIntegration
+91029a9 was darpalp, 10 hours ago, message: fix console message
+cfc22bb was YiPing Zhang, 10 hours ago, message: Merge pull request #19 from Shenukp1/EnterMembershipTest_Update
+af95e36 was YiPing Zhang, 10 hours ago, message: Update EnterMembership test for different Stations and clean some codes
+8ad8263 was darpalp, 10 hours ago, message: change PLU to barcode nums
+b9eb678 was darpalp, 10 hours ago, message: Weight discrep for PLU works
+dd2262c was KhadeejaAbbas, 10 hours ago, message: Merge branch 'master' of https://github.com/Shenukp1/SENG300-Project-Iteration3
+1154940 was KhadeejaAbbas, 10 hours ago, message: Edited Visual Catalogue and PLU
+84f7402 was darpalp, 11 hours ago, message: Delete com.thelocalmarketplace.hardware_0.3 directory
+19c69c5 was SimratV0, 11 hours ago, message: added pay with debit tests
+82ffd9c was Cakeqb5, 12 hours ago, message: cashPayment shows cost, updates cost, and stops customer action of inserting money after payment is achieved
+37ea2ee was Cakeqb5, 13 hours ago, message: closer to being done cash payment
+406dbe5 was Cakeqb5, 13 hours ago, message: progress imp. cashpayment
+e998cb8 was Cakeqb5, 14 hours ago, message: Merge branch 'master' into addingCashPaymentIntegration
+c061aa7 was darpalp, 20 hours ago, message: weight discrep added
+ca33177 was darpalp, 22 hours ago, message: products were too heavy
+8b05d5d was darpalp, 22 hours ago, message: added timer weight discrepancy functionality
+0f7fcd4 was Dylan Rylee A. Dizon, 23 hours ago, message: Merge branch 'master' of https://github.com/Shenukp1/SENG300-Project-Iteration3
+5182315 was Dylan Rylee A. Dizon, 23 hours ago, message: merging PredictIssueNew into master
+c85c72e was SinSalahshour, 23 hours ago, message: Merge pull request #17 from Shenukp1/EnableDisableGUI-Integration
+62d53ed was sinasalahshour, 23 hours ago, message: Connected Enable Disable logic to GUI it now show a pop-up message upon enabling and disabling
+2531bb0 was Muffletruffle, 24 hours ago, message: Pay with cash window design
+bd6fd1d was Cakeqb5, 24 hours ago, message: small change, forgot that mainPanel needs to be declared at end of plu
+7392fae was Cakeqb5, 24 hours ago, message: plu should be done now
+6d94889 was SimratV0, 25 hours ago, message: Update CardPayment.java
+c39a78d was SimratV0, 25 hours ago, message: some exception handling
+ffe1392 was Cakeqb5, 25 hours ago, message: fixed mistake of adding attendant help for plu code. Maybe they meant for text
+d291924 was Cakeqb5, 25 hours ago, message: Merge branch 'master' into addingCashPaymentIntegration
+7f656ac was Cakeqb5, 25 hours ago, message: simple implementation of cash payment not complete
+de661b3 was JesseL, 26 hours ago, message: Added bag product to LoadProductDatabases
+1bad037 was SimratV0, 26 hours ago, message: minor bug fix
+ec6368d was Thisisme-Andrew, 27 hours ago, message: attendnatn help added
+f98ab5b was YiPing Zhang, 27 hours ago, message: Merge pull request #14 from Shenukp1/EnterMembership-Intergrated_with_GUI
+e071e7e was YiPing Zhang, 27 hours ago, message: Logic integration with GUI
+594c932 was YiPing Zhang, 27 hours ago, message: EnterMembershipTest updated
+f12cf9a was SimratV0, 28 hours ago, message: adding insert/tap/swipe GUI
+031c3e6 was Cakeqb5, 28 hours ago, message: Merge branch 'master' of https://github.com/Shenukp1/SENG300-Project-Iteration3
+b6a4d91 was Cakeqb5, 28 hours ago, message: made static product database to load into mainPanel, when it constructs
+39ec8cb was YiPing Zhang, 28 hours ago, message: integrating the logic for EnterMembershipNumber with the GUI
+a3fac1c was usharabkhan, 28 hours ago, message: Merge branch 'master' of github.com:Shenukp1/SENG300-Project-Iteration3
+2824f80 was usharabkhan, 28 hours ago, message: Fixed issue where barcode scan wasn't updating total
+ec37230 was Thisisme-Andrew, 29 hours ago, message: initial commit
+6af5e44 was YiPing Zhang, 30 hours ago, message: Merge EnterMembership to main branch
+4a7acf7 was Cakeqb5, 30 hours ago, message: Merge branch 'master' of https://github.com/Shenukp1/SENG300-Project-Iteration3
+2fa4025 was Cakeqb5, 31 hours ago, message: partial imp. of barcode scan. not quite done
+9f7d4ef was SimratV0, 31 hours ago, message: testing for all station types
+9146c63 was SimratV0, 31 hours ago, message: Update README.md
+de80a9f was Cakeqb5, 32 hours ago, message: revised tests to compile
+e7c6dd3 was Cakeqb5, 32 hours ago, message: visual catalogue, seems implemented now
+6f15a59 was Cakeqb5, 32 hours ago, message: Merge branch 'master' into testAdditem
+009de52 was Cakeqb5, 32 hours ago, message: minor changes, could be ignored
+739b290 was usharabkhan, 32 hours ago, message: Minor bug fix
+dcad4d3 was Cakeqb5, 32 hours ago, message: imp. vCatalogue
+4e4bb81 was Cakeqb5, 33 hours ago, message: listener to mainscanner
+43d579a was Cakeqb5, 33 hours ago, message: temp integration of plu code. problem with getting mass though
+83c2f53 was KhadeejaAbbas, 34 hours ago, message: cleaned up
+4f49111 was KhadeejaAbbas, 34 hours ago, message: made the visual catalogue and search catalogue button into one
+2b7df03 was Cakeqb5, 34 hours ago, message: Merge branch 'StationGUI'
+05bed5c was KhadeejaAbbas, 34 hours ago, message: added the PLU screen and made the home button for the visual catalogue work
+31f8282 was Cakeqb5, 34 hours ago, message: revising getters and class names for tests to compile
+1ae3c0b was KhadeejaAbbas, 34 hours ago, message: Merge branch 'StationGUI' of https://github.com/Shenukp1/SENG300-Project-Iteration3 into StationGUI
+30637ed was KhadeejaAbbas, 34 hours ago, message: Fixed the image error and added visual catalogue button
+0c491f0 was Cakeqb5, 35 hours ago, message: minor push
+89b4e99 was Cakeqb5, 35 hours ago, message: Merge branch 'master' into testAdditem
+0d6a6a4 was Ayman M, 35 hours ago, message: Merge branches 'StationGUI' and 'StationGUI' of https://github.com/Shenukp1/SENG300-Project-Iteration3 into StationGUI
+8178be3 was KhadeejaAbbas, 35 hours ago, message: logic but it don't work
+c425047 was Ayman M, 35 hours ago, message: redesigned station panel - changes colors, size, font, layout
+e2dc395 was Ayman M, 35 hours ago, message: redesigned StartScreen - color and font size change
+f858967 was Ayman M, 2 days ago, message: getting the GUI Test ready
+c0d519b was Ayman M, 2 days ago, message: Merge branch 'StationGUI' of https://github.com/Shenukp1/SENG300-Project-Iteration3 into StationGUI
+df3241b was Ayman M, 2 days ago, message: changes not GUI not running
+9c5cdd6 was Ayman M, 2 days ago, message: updates and changes to main panel
+b1a9354 was Ayman M, 2 days ago, message: updates and changes to main panel
+a813890 was Ayman M, 2 days ago, message: modifing design
+52e1c43 was darpalp, 2 days ago, message: Update button
+41784d6 was darpalp, 2 days ago, message: add buttons to main
+8c2bfa1 was KhadeejaAbbas, 2 days ago, message: visual catalogue, some testing, and fixed a tiny error in sessionBlocked
+ea35fe7 was Thisisme-Andrew, 2 days ago, message: PaymentCardController merge
+57eb361 was Thisisme-Andrew, 2 days ago, message: class file addtion
+957f27c was SimratV0, 2 days ago, message: Updated tests for easy integration
+dffc37c was Muffletruffle, 2 days ago, message: Testing for visual catalogue, hijacking enter membership
+7dfbe88 was KhadeejaAbbas, 2 days ago, message: Merge branch 'StationGUI' of https://github.com/Shenukp1/SENG300-Project-Iteration3 into StationGUI
+74b42c3 was KhadeejaAbbas, 2 days ago, message: visual catalogue not working on mac code
+23b196b was Cakeqb5, 2 days ago, message: example
+ae4aec3 was Cakeqb5, 2 days ago, message: some added card stubs, maybe useful for demo
+b4553d4 was Cakeqb5, 2 days ago, message: small change to credit test in suite
+472c95e was Cakeqb5, 2 days ago, message: Merge branch 'master' into testAdditem
+45d9ea5 was Cakeqb5, 2 days ago, message: minor edits to debit test
+e95ea03 was Cakeqb5, 2 days ago, message: fixed credit test
+4d32d27 was SimratV0, 2 days ago, message: fixed getters, testing done
+32cfd7b was SimratV0, 2 days ago, message: finished testing
+b3b1d56 was SimratV0, 2 days ago, message: Update PaymentCardControllerTest.java
+99fd202 was Muffletruffle, 2 days ago, message: Adding bags at startup + removing joptionpanes from purchasebags
+e8ddf73 was Muffletruffle, 2 days ago, message: Made StartGUI, a new starting file for the GUI
+b5e6289 was Muffletruffle, 2 days ago, message: Merge branch 'master' into StationGUI
+1402548 was Muffletruffle, 2 days ago, message: Merge pull request #10 from Shenukp1/PurchaseBagsFeature
+3ada0f3 was Muffletruffle, 2 days ago, message: MembershipWindow only accepts numbers
+6d5f763 was Cakeqb5, 2 days ago, message: Merge branch 'master' into testAdditem
+6f41531 was SimratV0, 3 days ago, message: Update PaymentCardController.java
+295ecb9 was SimratV0, 3 days ago, message: changed to getters
+c6743de was Kear Sang, 3 days ago, message: Added silver testing methods.
+90a7f9d was Muffletruffle, 3 days ago, message: Merge branch 'StationGUI' of https://github.com/Shenukp1/SENG300-Project-Iteration3 into StationGUI
+5e7c9ce was Muffletruffle, 3 days ago, message: Add GUI window for membership number
+9a65ddc was Ayman M, 3 days ago, message: setting up the project
+543e0fd was Ayman M, 3 days ago, message: Update README.md
+8b581a6 was Ayman M, 3 days ago, message: Update README.md
+c2e6001 was Muffletruffle, 3 days ago, message: Merge branch 'master' into StationGUI
+a9b3318 was Cakeqb5, 3 days ago, message: editing other tests and adding to add item tests
+79e4427 was Cakeqb5, 3 days ago, message: little tests for plu, checking inventory
+68d653e was darpalp, 3 days ago, message: Atendant Screen
+ae6fc12 was Cakeqb5, 3 days ago, message: some comments on the load product database
+af68882 was Cakeqb5, 3 days ago, message: some more to add item tests
+1d05df5 was JesseL, 3 days ago, message: Added runtime exception to PurchaseBags and test suite
+dfcdb0d was Cakeqb5, 3 days ago, message: trying to get tests with PLU working
+adfdfc0 was JesseL, 3 days ago, message: Merge remote-tracking branch 'origin/master' into PurchaseBagsFeature
+3ae0e0e was Muffletruffle, 4 days ago, message: Add back buttons to  purchase bags and payment type screens
+1dad137 was Muffletruffle, 4 days ago, message: Remove Hardware 0.3
+c9e2248 was Muffletruffle, 4 days ago, message: Removing testing code for session end window
+ee83295 was Muffletruffle, 4 days ago, message: Session end window (+ another getter fix)
+ebd504b was Muffletruffle, 4 days ago, message: Replaced stuff to get the screen's JFrame with getters
+2176716 was Muffletruffle, 4 days ago, message: Merge main branch into GUI branch
+c42469b was Cakeqb5, 4 days ago, message: trying to implement item/product/plu generator, feels close
+c7baaa0 was Kear Sang, 4 days ago, message: Added purchaseBagsTest. Needs checking.
+be791fc was Cakeqb5, 4 days ago, message: minor edit
+371bff0 was Cakeqb5, 4 days ago, message: edited some tests to be polymorphic and include getters
+232cf00 was Muffletruffle, 4 days ago, message: Card payment window draft
+74e7469 was Muffletruffle, 4 days ago, message: Adding some payment windows + functionality
+6987055 was Jesse, 4 days ago, message: Merge pull request #8 from Shenukp1/PurchaseBagsFeature
+bedb49f was JesseL, 4 days ago, message: Updated PurchaseBags for different hardware/gui integration
+af69286 was darpalp, 4 days ago, message: added "Add Bags" and Barcode testing
+23c12b5 was SimratV0, 5 days ago, message: some tests for insert,swipe,tap
+322fc70 was Cakeqb5, 5 days ago, message: added gets to one other class i forgot
+26af113 was Cakeqb5, 5 days ago, message: changed some fields for getters
+8d55b03 was Cakeqb5, 5 days ago, message: Merge branch 'master' into testAdditem
+22fe0f7 was Cakeqb5, 5 days ago, message: updated class paths
+f35a5bc was KhadeejaAbbas, 5 days ago, message: Created GUI for session blocked
+8a45a4d was SinSalahshour, 5 days ago, message: Merge pull request #7 from Shenukp1/EnableDisableHardwarefix
+0e06c17 was sinasalahshour, 5 days ago, message: fixed EnableDisable. now it works with the new version of hardware
+c5608a4 was JesseL, 5 days ago, message: Updated PurchaseBags with getters for protected hardware
+068a5c5 was JesseL, 5 days ago, message: Updated PurchaseBags getters for protected hardware
+6023f9c was JesseL, 5 days ago, message: Added: hardware integration, use of AddItem class.
+336dee1 was Cakeqb5, 5 days ago, message: new hardware and classpaths changed
+e826162 was JesseL, 5 days ago, message: Merge remote-tracking branch 'origin/AddItem'
+bff4590 was Cakeqb5, 5 days ago, message: edits to add item test
+7d52cc2 was Jesse, 5 days ago, message: Merge pull request #5 from Shenukp1/AddItem
+fcd4f6e was usharabkhan, 6 days ago, message: First implementation of add item use cases
+ee4f5b7 was Kian, 6 days ago, message: Merge pull request #4 from Shenukp1/kian-maintain
+e94e3fb was givenn19, 6 days ago, message: Maintain class it.1 complete
+5d0ad68 was SinSalahshour, 6 days ago, message: Merge pull request #3 from Shenukp1/EnableDisable
+8190d0e was sinasalahshour, 6 days ago, message: Created the logic for enabling and disabling components by attendant.
+5797675 was sinasalahshour, 6 days ago, message: Created initial draft of EnableDisable with password protection
+2315821 was sinasalahshour, 6 days ago, message: Created EnableDisable class
+62c8162 was darpalp, 6 days ago, message: Mainframe fucntionaility
+f94d818 was Your Name, 6 days ago, message: removed unused imports
+22182f8 was darpalp, 7 days ago, message: main frame setup
+4325695 was darpalp, 7 days ago, message: start -> main panel functionality
+df7dad9 was darpalp, 7 days ago, message: start -> main works
+a0f01f8 was Cakeqb5, 7 days ago, message: minor edits to optimizing tests
+1f7eec7 was darpalp, 7 days ago, message: adjust gui
+13c4bda was Cakeqb5, 7 days ago, message: optimizing test file, using polymorphism and junit features to 3x tests for each station type
+07307e4 was darpalp, 7 days ago, message: testing start gui (not properly set up)
+3c5df6d was Kian, 7 days ago, message: Merge pull request #2 from Shenukp1/kian-maintain
+8215730 was givenn19, 7 days ago, message: Created attendant package and maintain class.
+e638a76 was Cakeqb5, 7 days ago, message: 2nd draft of software diagram with gui
+f9ea191 was JesseL, 8 days ago, message: changed buyBags() in PurchaseBags to static method
+63cb560 was JesseL, 8 days ago, message: Created gui mockups to implement notify attendant
+19eea5c was JesseL, 8 days ago, message: Merge branch 'master' of https://github.com/Shenukp1/SENG300-Project-Iteration3.git
+f2e20ec was Cakeqb5, 8 days ago, message: 1st draft of software structure diagram
+41b230e was Your Name, 9 days ago, message: CardReaderListener additional functions implemented, CardController renamed to PaymentCardController (to differentiate from membership card
+3838861 was JesseL, 9 days ago, message: Initial implementation of PurchaseBags class.
+d5c9cb2 was JesseL, 9 days ago, message: Initial implementation of PurchaseBags class.
+db07af3 was JesseL, 9 days ago, message: Test push PurchaseBags class to wip branch
+b79ad11 was Your Name, 9 days ago, message: test
+e78b4ae was Cakeqb5, 10 days ago, message: seemed to brought tests back to where they were mostly, have a look
+93211bf was Cakeqb5, 10 days ago, message: changed package name so classes could compile
+6ae8800 was Cakeqb5, 10 days ago, message: added junit 4 to software class path. It's in hardware too so I assume it needs to be in software
+d0d8c73 was Cakeqb5, 10 days ago, message: added Junit 4 library class path that was missing to test. Might need to add a couple fields here and there to methods/initialization to get tests up
+5def1e9 was Shenukp1, 10 days ago, message: Create README.md
+4729dfa was Shenukp1, 10 days ago, message: git ignore was add?

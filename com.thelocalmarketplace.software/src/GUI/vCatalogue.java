@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.BorderLayout;
@@ -12,6 +35,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.awt.Image;
 
 import javax.imageio.ImageIO;
@@ -30,16 +54,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import org.junit.Assert;
 
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.*;
-import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 import control.SelfCheckoutLogic;
 import control.WeightController;
 import item.AddItemCatalogue;
+import item.AddItemPLU;
 import item.AddOwnBags;
 import java.awt.Graphics;
 import java.util.logging.Level;
@@ -74,20 +102,37 @@ public class vCatalogue extends JPanel {
     JButton cookieButton = new JButton("");
     JButton eggButton = new JButton("");
     JButton homeButton = new JButton("Home");
-    
+	BigDecimal tempMass=new BigDecimal("3000");
+
     LoadProductDatabases productDatabase;
     SelfCheckoutLogic logicGold;
     JFrame initial;
     MainPanel mainPanel;
+	Timer timer;
+	String code;
+	PriceLookUpCode getter;
+	String message;
+	JLabel test;
+	BarcodedProduct barcodedProduct;
+	Barcode barcode;
+	Product productTemp;
+	Item item; //to call the mass of the item...
 
-    
+   
     public vCatalogue(SelfCheckoutLogic logicGold)  {
+    	timer = new Timer(10000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleTimeout();
+            }
+    	  });
+
     	this.logicGold = logicGold;
 
         initial = logicGold.station.getScreen().getFrame();
 
         vcPanel = new JPanel();
-        vcPanel.setLayout(new GridLayout(5, 1));
+        vcPanel.setLayout(new GridLayout(4, 2));
 
         
         image();
@@ -111,14 +156,31 @@ public class vCatalogue extends JPanel {
     		bananaButton.setIcon(new ImageIcon(banana));
 			validate();
     		bananaButton.addActionListener(e -> {
-//				Add logic here so it happens when the button is pressed
-//				here is my attempt below:
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.bananas.barcodedProduct,
+    			if (!timer.isRunning()) {
+    				//vcPanel.setVisible(false);
+    				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.bananas.barcodedProduct,
 						LoadProductDatabases.bananas.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Banana Added");
+    			//(ProductDatabases.INVENTORY.get
+    			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
+    				code = "4111";
+    				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.bananas.item;
+    				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+					message = "Item found! Please place item in bagging area within 10 seconds";
+					test.setText("Console: " + message);  // Update text
+					test.repaint();
+
+					timer.restart();
+	           	 	timer.start();
+    			}
+				//mainPanel = new MainPanel(logicGold, message);
+
+
               //  mainPanel.listModel.addElement(createItemPanel("Banana - $ " + bananas.barcodedProduct.getPrice()));
-    	        });	        
+    	        });
+    		
     		vcPanel.add(bananaButton);
 			
     		
@@ -127,11 +189,29 @@ public class vCatalogue extends JPanel {
     		Image cookies = new ImageIcon(this.getClass().getResource("/cookiesCho.jpeg")).getImage();
     		cookieButton.setIcon(new ImageIcon(cookies));
     		cookieButton.addActionListener(e -> {
+    			if (!timer.isRunning()) {
+    				//vcPanel.setVisible(false);
+    				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.cookie.barcodedProduct, LoadProductDatabases.cookie.bigDecimalMass);
+
+    			//(ProductDatabases.INVENTORY.get
+    			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
+    				code = "5155";
+    				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.cookie.item;
+    				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				productTemp = product;
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+					message = "Item found! Please place item in bagging area within 10 seconds";
+					test.setText("Console: " + message);  // Update text
+					test.repaint();
+
+					timer.restart();
+	           	 	timer.start();
+    			}
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.cookie.barcodedProduct, LoadProductDatabases.cookie.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Cookies Added");
+//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.cookie.barcodedProduct, LoadProductDatabases.cookie.bigDecimalMass);
+//    			mainPanel = new MainPanel(logicGold, "Cookies Added");
              //   mainPanel.listModel.addElement(createItemPanel("Banana - $ " + cookie.barcodedProduct.getPrice()));
     	        });	        
 	        vcPanel.add(cookieButton);
@@ -143,11 +223,30 @@ public class vCatalogue extends JPanel {
     		Image milk = new ImageIcon(this.getClass().getResource("/chocmilk.png")).getImage();
     		milkButton.setIcon(new ImageIcon(milk));
     		milkButton.addActionListener(e -> {
+    			if (!timer.isRunning()) {
+    				//vcPanel.setVisible(false);
+    				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.milkc.barcodedProduct, LoadProductDatabases.milkc.bigDecimalMass);
+
+    			//(ProductDatabases.INVENTORY.get
+    			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
+    				code = "1234";
+    				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.milkc.item;
+    				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				productTemp = product;
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+					message = "Item found! Please place item in bagging area within 10 seconds";
+					test.setText("Console: " + message);  // Update text
+					test.repaint();
+
+					timer.restart();
+	           	 	timer.start();
+    			}
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.milkc.barcodedProduct, LoadProductDatabases.milkc.bigDecimalMass);
-   			mainPanel = new MainPanel(logicGold, "Milk Added");
+//	            vcPanel.setVisible(false);
+//				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.milkc.barcodedProduct, LoadProductDatabases.milkc.bigDecimalMass);
+//   			mainPanel = new MainPanel(logicGold, "Milk Added");
              //   mainPanel.listModel.addElement(createItemPanel("Banana - $ " + milkc.barcodedProduct.getPrice()));
     	        });	        
 	        vcPanel.add(milkButton);
@@ -159,18 +258,55 @@ public class vCatalogue extends JPanel {
     		Image eggs = new ImageIcon(this.getClass().getResource("/eggs.jpeg")).getImage();
     		eggButton.setIcon(new ImageIcon(eggs));
     		eggButton.addActionListener(e -> {
+    			if (!timer.isRunning()) {
+    				//vcPanel.setVisible(false);
+    				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.egg.barcodedProduct, LoadProductDatabases.egg.bigDecimalMass);
+
+    			//(ProductDatabases.INVENTORY.get
+    			//		BarcodedProduct p : ProductDatabases.BARCODED_PRODUCT_DATABASE.value
+    				code = "4444";
+    				getter = new PriceLookUpCode (code);
+    				item = LoadProductDatabases.egg.item;
+    				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(getter);
+    				productTemp = product;
+				//	AddItemPLU.AddItemFromPLU(logicGold.session,getter, tempMass);
+					message = "Item found! Please place item in bagging area within 10 seconds";
+					test.setText("Console: " + message);  // Update text
+					test.repaint();
+
+					timer.restart();
+	           	 	timer.start();
+    			}
 //				Add logic here so it happens when the button is pressed
 //				here is my attempt below:
-	            vcPanel.setVisible(false);
-				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.egg.barcodedProduct, LoadProductDatabases.egg.bigDecimalMass);
-    			mainPanel = new MainPanel(logicGold, "Eggs Added");
+////	            vcPanel.setVisible(false);
+////				AddItemCatalogue.AddItemFromCatalogue(logicGold.session, LoadProductDatabases.egg.barcodedProduct, LoadProductDatabases.egg.bigDecimalMass);
+//    			mainPanel = new MainPanel(logicGold, "Eggs Added");
           //      mainPanel.listModel.addElement(createItemPanel("Banana - $ " + egg.barcodedProduct.getPrice()));
     	        });	        
 	        vcPanel.add(eggButton);
 			validate();
 			
-			
-			
+	        vcPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+			message = "Choose Item";
+			test = new JLabel("Console: " + message);
+			test.setFont(test.getFont().deriveFont(18f));
+		    test.setForeground(Color.RED);
+	        vcPanel.add(test);
+
+		
+	        JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
+	        addedItemButton.addActionListener(e -> {
+	        	
+	        	timer.stop();
+	        	logicGold.station.getBaggingArea().addAnItem(new PLUCodedItem(getter, item.getMass()));
+	        	vcPanel.setVisible(false);
+    			mainPanel = new MainPanel(logicGold, "Item Added");
+	        
+	        });
+	        vcPanel.add(addedItemButton);
+	        
 			homeButton.addActionListener(e -> {
 				vcPanel.setVisible(false);
 				
@@ -185,4 +321,15 @@ public class vCatalogue extends JPanel {
 			System.out.println("ERROR");
 		}
     }
+
+private void handleTimeout() {
+	timer.stop();	
+	System.err.println("Timeout: Item not added");
+	vcPanel.setVisible(false);
+	sessionBlocked sessBlocked = new sessionBlocked(logicGold);
+	
+}
+
+
+
 }
