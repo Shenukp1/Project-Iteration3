@@ -1,42 +1,7 @@
 package com.thelocalmarketplace.hardware.test;
-//LEGEND
-// 1.Question marks mean I am not a 100% sure if this is testable or should be
-// 2. "- I" means it must be tested
-//WHAT I NEED TO DO
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-// 1. Maintain Ink Test
-// 	1.1 Ink is low - I
-// 	1.2 Ink is empty - I
-//	1.3 Detect adding Ink - same as 1.5?
-//	1.4 Excess Ink caused spillage? -I
-// 	1.5 Attendent adds Ink? - similar to detecting change?
-//	1.6 Open hardware? 
-//	1.7 Closes hardware?
-//	1.8 disabled before adding to printer - I
-//
-
-
-// 2. Maintain Paper Test
-//	2.1 Paper is low
-//	2.2 Paper is empty
-//	2.3 Paper Detect any change
-//	2.4 Paper caused Jam or other damages?
-
-// 3. Maintain Coin Test
-//	3.1 Coin level is low
-//	3.2 Coin Level is High
-//	3.3 Paper Detect any change
-//	3.4 Paper caused Jam or other damages?
-
-// 4. Maintain Banknote Test
-
-// 5. Attendent doing things - not to sure 
-
-
-
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -95,7 +60,6 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
 	
 	
 	AttendantStation attendentStation;
-	//private Maintain maintainOne;
 	private AbstractSelfCheckoutStation station;
 	
 	
@@ -134,8 +98,6 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
 		gold = new SelfCheckoutStationGold();
 		gold.plugIn(PowerGrid.instance());
 		gold.turnOn();
-		
-		//gold.configureCoinDispenserCapacity(5);
 		
 		
 		//IDEA 2: to simulate disable
