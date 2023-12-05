@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.BorderLayout;
@@ -8,6 +31,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -30,20 +54,45 @@ public class SessionEndedWindow {
 	JPanel mainPanel;
 	JLabel sessionEndedText;
 	
-	public SessionEndedWindow(SelfCheckoutLogic logic) {
+	public SessionEndedWindow(SelfCheckoutLogic logic, BigDecimal recieptTotal, BigDecimal changeOwed) {
 		mainFrame = logic.station.getScreen().getFrame();
 		
+
+//		JFrame frame = new JFrame("Your Frame Title");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(400, 300);
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,1));
-		
-		sessionEndedText = new JLabel("Thank you for shopping at SENG300!");
-		sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(35f));
-		sessionEndedText.setVerticalAlignment(SwingConstants.CENTER);
-		sessionEndedText.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		mainPanel.add(sessionEndedText);
-		
-		mainFrame.getContentPane().add(mainPanel);
-	}
+        mainPanel = new JPanel(new GridBagLayout());
+
+        sessionEndedText = new JLabel("Thank you for shopping at SENG300!");
+        sessionEndedText.setFont(sessionEndedText.getFont().deriveFont(20f));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 0.6; 
+        gbc.anchor = GridBagConstraints.PAGE_START;
+       
+        
+        //JLabel TotalPaid = new JLabel("You paid: $"+ recieptTotal + "  your change is: $ " + Math.abs(changeOwed.doubleValue()));
+        JLabel TotalPaid = new JLabel("<html>The total cost: $"+ recieptTotal.toString() +"<br/>"+logic.printController.print()+ 
+        		" your change is: $" + Math.abs(changeOwed.doubleValue())+" <html>");
+       
+        TotalPaid.setFont(TotalPaid.getFont().deriveFont(35f));
+
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
+        gbc.weighty = 0.5;
+        gbc2.anchor = GridBagConstraints.CENTER;
+        
+        
+
+
+        mainPanel.add(sessionEndedText, gbc);
+        mainPanel.add(TotalPaid, gbc2);
+
+        mainFrame.getContentPane().add(mainPanel);
+
 	
-}
+}}

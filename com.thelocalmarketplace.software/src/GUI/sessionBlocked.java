@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.BorderLayout;
@@ -23,6 +46,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.jjjwelectronics.Mass;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.Product;
 
 import control.SelfCheckoutLogic;
 import control.WeightController;
@@ -45,79 +74,96 @@ public class sessionBlocked {
         initial = logicGold.station.getScreen().getFrame();
 
         blockedPanel = new JPanel();
-        blockedPanel.setLayout(new GridLayout(10
-        		, 1));
+        blockedPanel.setLayout(new GridLayout(10, 1));
 
-        addWidgets();
-        
-        
-        initial.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-        
-        
-        
-        initial.add(blockedPanel, BorderLayout.CENTER);
-        
         initial.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initial.setTitle("Session Blocked");
-
         
-        initial.setPreferredSize(new Dimension(800, 600));
-        initial.pack();
-        initial.setVisible(true);
-        blockedPanel.setVisible(true);
-    }
-
-
-    private void addWidgets() {
-        JLabel headline = new JLabel("      Session Blocked");
+        
+        
+        
+        JLabel headline = new JLabel("                                                       Session Blocked!");
 
         addItemButton = new JButton("Add an item");
         removeItemButton = new JButton("Remove an item");
         doNotBagButton = new JButton("Do not bag item");
         attendantOverrideButton = new JButton("Attendant Override");
 	    
-        headline.setLayout(null);
-
-        addItemButton.setLayout(null);
         
-        removeItemButton.setLayout(null);
-        
-        doNotBagButton.setLayout(null);
-        
-        attendantOverrideButton.setLayout(null);
-
-        
-        //need to added button functionalities of the button still
         doNotBagButton.addActionListener(e -> {
-	//need to add logic still
+        	
+        	if (logicGold.session.Cart.size() > 0) {
+            	Product product = logicGold.session.Cart.get(logicGold.session.Cart.size()-1);
+            	double temp = logicGold.session.getCartWeight();
+           
+            		if (product instanceof BarcodedProduct) {
+                        double desc = ((BarcodedProduct) product).getExpectedWeight();
+                        logicGold.session.setBulkyWeight(desc);
+                    } 
+                    if (product instanceof PLUCodedProduct) {
+                    	double desc = ((BarcodedProduct) product).getExpectedWeight();
+                    	logicGold.session.setBulkyWeight(desc);
+                    }
+                    
+                    
+                    blockedPanel.setVisible(false);
+                    MainPanel newPanel = new MainPanel(logicGold, "Do not bag item!");
+                        
 
-        	logicGold.session.setBagWeight(0);
+            	}
         });
 	    
-//        	theMassOnTheScaleNoLongerExceedsItsLimit(logicGold.station.baggingArea);
         addItemButton.addActionListener(e -> {
-        //need to add logic still
+        	
+        	if (logicGold.session.Cart.size() > 0) {
+        	Product product = logicGold.session.Cart.get(logicGold.session.Cart.size()-1);
+        	double temp = logicGold.session.getCartWeight();
+       
+        		if (product instanceof BarcodedProduct) {
+                    double desc = ((BarcodedProduct) product).getExpectedWeight();
+                    temp = temp - desc;
+                    logicGold.session.setCartWeight(temp);
+                } 
+                if (product instanceof PLUCodedProduct) {
+                	double desc = ((BarcodedProduct) product).getExpectedWeight();
+                	temp = temp - desc;
+                	logicGold.session.setCartWeight(temp);
+                }
+                
+                SwingUtilities.invokeLater(() -> {
+                    blockedPanel.setVisible(false);
+                    MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
+                    
+                });
+        	}
 
-//            startPanel.setVisible(false);
-//            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
-//            JLabel weight = new JLabel("Total weight: " + logicGold.session.getBagWeight());
-//            JLabel wanted_weight = new JLabel(logicGold.session.getCartWeight());
-//            weight += logicGold.session.setBagWeight();
-
-            //!!!
-            //change the expected weight to not include the item
-            //logicGold.changeWeight
-            
-            //mainFrame.setVisible(true);
         });
 
         removeItemButton.addActionListener(e -> {
-	//need to add logic still
         });
 
         attendantOverrideButton.addActionListener(e -> {
-	//need to add logic still
+        	if (logicGold.session.Cart.size() > 0) {
+            	Product product = logicGold.session.Cart.get(logicGold.session.Cart.size()-1);
+            	double temp = logicGold.session.getCartWeight();
+           
+            		if (product instanceof BarcodedProduct) {
+                        double desc = ((BarcodedProduct) product).getExpectedWeight();
+                        temp = temp - desc;
+                        logicGold.session.setCartWeight(temp);
+                    } 
+                    if (product instanceof PLUCodedProduct) {
+                    	double desc = ((BarcodedProduct) product).getExpectedWeight();
+                    	temp = temp - desc;
+                    	logicGold.session.setCartWeight(temp);
+                    }
+                    
+                    SwingUtilities.invokeLater(() -> {
+                        blockedPanel.setVisible(false);
+                        MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
+                        
+                    });
+            	}
+
         });
         
 
@@ -141,10 +187,29 @@ public class sessionBlocked {
 
         attendantOverrideButton.setFont(attendantOverrideButton.getFont().deriveFont(19f));
         blockedPanel.add(attendantOverrideButton);
-
+        
+        
+        
+        
+         
+        
+        
+        
+        //initial.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         
+        
+        initial.add(blockedPanel, BorderLayout.CENTER);
+        
+        
+        initial.setTitle("Session Blocked");
+
+        
+        initial.setPreferredSize(new Dimension(800, 600));
+
     }
+
     
 }
+
 

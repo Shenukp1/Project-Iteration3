@@ -1,3 +1,26 @@
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 package GUI;
 
 import java.awt.BorderLayout;
@@ -27,6 +50,7 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import control.SelfCheckoutLogic;
 import item.AddItemBarcode;
 import item.AddItemController;
+import item.RemoveItemController;
 
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
@@ -41,6 +65,7 @@ import control.SelfCheckoutLogic;
 public class MainPanel extends JFrame {
     SelfCheckoutLogic logicGold;
     AddItemController addItemController;
+    RemoveItemController removeItemController;
     JFrame mainFrame;
     JPanel topPanel;
     JPanel bottomPanel;
@@ -52,18 +77,20 @@ public class MainPanel extends JFrame {
     JPanel containerPanel;
     Timer timer;
     JLabel test;
+    JLabel total;
     DefaultListModel<JPanel> listModel;
 	static public LoadProductDatabases productDatabases = new LoadProductDatabases();
 	private BarcodedItem item;
 
     public MainPanel(SelfCheckoutLogic logicGold, String message) {
 //<<<<<<< HEAD
-    	
-    	this.message = message;			//Console message to be printed 
+
+    	this.message = message;			//Console message to be printed
         this.logicGold = logicGold;
+        removeItemController = new RemoveItemController(logicGold.session, logicGold.station);
         mainFrame = logicGold.station.getScreen().getFrame();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         // Color Palette
         Color primaryColor = new Color(63, 81, 181);   // Dark Blue
         Color secondaryColor = new Color(76, 175, 80); // Green
@@ -76,24 +103,24 @@ public class MainPanel extends JFrame {
         Font buttonFont = baseFont.deriveFont(18f);
         Font totalFont = baseFont.deriveFont(24f);
         Font consoleFont = baseFont.deriveFont(16f);
-        
+
         //mainPanel =  topPanel + bottomPanel
 //=======
 //>>>>>>> 52e1c435949a5b527f28ad8c9bb48623c7f1af56
-        
+
         timer = new Timer(10000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleTimeout();
             }
 
-			
+
         });
-        
-        
+
+
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        
+
         topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(1, 2));
         		//mainLeft
@@ -110,10 +137,10 @@ public class MainPanel extends JFrame {
         mainLeft.add(stationLabelPanel);
         JLabel empty = new JLabel("");
         mainLeft.add(empty);
-        
-       
-        
-        
+
+
+
+
         JButton button0 = new JButton("Call Attendant");
         button0.setFont(button0.getFont().deriveFont(19f));
         button0.addActionListener(e -> {
@@ -129,10 +156,10 @@ public class MainPanel extends JFrame {
     			test.repaint();
         	}
         });mainLeft.add(button0);
-        
-        
-        
-        
+
+
+
+
         JButton button1 = new JButton("Add Bags");
         button1.setFont(button1.getFont().deriveFont(19f));
         button1.addActionListener(e -> {
@@ -145,10 +172,10 @@ public class MainPanel extends JFrame {
         		test.setText("Console: Must Add Item to Proceed!" );
     			test.repaint();
         	}
-        	
+
         });mainLeft.add(button1);
-        
-        
+
+
         JButton button2 = new JButton("Enter Membership");
         button2.setFont(button2.getFont().deriveFont(19f));
         button2.addActionListener(e -> {
@@ -162,8 +189,8 @@ public class MainPanel extends JFrame {
     			test.repaint();
         	}
         });mainLeft.add(button2);
-        
-        
+
+
         JButton buttonV = new JButton("Visual Catalogue");
         buttonV.setFont(buttonV.getFont().deriveFont(19f));
         buttonV.addActionListener(e -> {
@@ -176,10 +203,10 @@ public class MainPanel extends JFrame {
         		test.setText("Console: Must Add Item to Proceed!" );
     			test.repaint();
         	}
-        	
+
         });mainLeft.add(buttonV);
-        
-        
+
+
         JButton buttonPLU = new JButton("Enter PLU");
         buttonPLU.setFont(buttonPLU.getFont().deriveFont(19f));
         buttonPLU.addActionListener(e -> {
@@ -191,11 +218,11 @@ public class MainPanel extends JFrame {
         		test.setText("Console: Must Add Item to Proceed!" );
     			test.repaint();
         	}
-        
+
         });
         mainLeft.add(buttonPLU);
-        
-        
+
+
         JLabel empty4 = new JLabel("");
         mainLeft.add(empty4);
         JLabel empty1 = new JLabel("");
@@ -204,16 +231,17 @@ public class MainPanel extends JFrame {
         mainLeft.add(empty2);
         JLabel empty6 = new JLabel("");
         mainLeft.add(empty6);
-        JLabel empty3 = new JLabel("");
-        mainLeft.add(empty3);
-      
-        
+
+
         //LOGIC: added Cart Total
-        JLabel total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
+        total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
         total.setFont(button2.getFont().deriveFont(25f));
         mainLeft.add(total);
-        
-        
+        topPanel.add(mainLeft);
+        JLabel empty3 = new JLabel("");
+        mainLeft.add(empty3);
+
+
         JButton button3 = new JButton("Pay");
         button3.setFont(button3.getFont().deriveFont(19f));
         button3.addActionListener(e -> {
@@ -231,15 +259,14 @@ public class MainPanel extends JFrame {
         	else {
         		test.setText("Console: Must Add Item to Proceed to Pay!" );
     			test.repaint();
-        		
+
 
         	}
-        	
-        	
-        	
+
+
+
         });
-        mainLeft.add(button3);        
-        topPanel.add(mainLeft);
+        mainLeft.add(button3);
         mainRight = new JPanel();
         mainRight.setLayout(new GridBagLayout());
 
@@ -257,35 +284,35 @@ public class MainPanel extends JFrame {
         gbcRightPanelBot.weightx = 1;
         gbcRightPanelBot.fill = GridBagConstraints.BOTH;
 
-        JLabel itemsLabel = new JLabel("Items Scanned:");
+        JLabel itemsLabel = new JLabel("     Items Scanned:");
         itemsLabel.setFont(itemsLabel.getFont().deriveFont(20f));
-        
+
         listModel = new DefaultListModel<>();
-        
+
         containerPanel = new JPanel();
         containerPanel.setLayout(new GridLayout(20, 0));
 
-       
+
         //System.out.println(logicGold.session.getCartWeight());
         updateListModel();
 
-        
+
         JScrollPane scrollPane = new JScrollPane(containerPanel);
         mainRight.add(itemsLabel, gbcRightPanelTop);
         itemsLabel.setHorizontalAlignment(JLabel.LEFT);
         mainRight.add(scrollPane, gbcRightPanelBot);
         topPanel.add(mainRight);
-        
-        
-        
+
+
+
         GridBagConstraints gbcTopPanel = new GridBagConstraints();
         gbcTopPanel.gridx = 0;
         gbcTopPanel.gridy = 0;
         gbcTopPanel.weighty = 0.8;
         gbcTopPanel.fill = GridBagConstraints.BOTH;
         mainPanel.add(topPanel, gbcTopPanel);
-        
-        
+
+
         test = new JLabel("Console: " + message);
         test.setForeground(Color.RED);
         test.setFont(button1.getFont().deriveFont(17f));
@@ -295,7 +322,7 @@ public class MainPanel extends JFrame {
         bottomPanel.setLayout(new GridLayout(1, 1));
         bottomPanel.add(test);
         bottomPanel.add(test);
-      
+
         GridBagConstraints gbcBottomPanel = new GridBagConstraints();
         gbcBottomPanel.gridx = 0;
         gbcBottomPanel.gridy = 1;
@@ -303,21 +330,21 @@ public class MainPanel extends JFrame {
         gbcBottomPanel.weightx = 1;
         gbcBottomPanel.fill = GridBagConstraints.BOTH;
         mainPanel.add(bottomPanel, gbcBottomPanel);
-        
-        
+
+
         JPanel testPanel = new JPanel();
         testPanel.setBackground(Color.LIGHT_GRAY);
 
         testPanel.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.GRAY));
 
         JLabel barcodeLabel = new JLabel("Barcode Testing");
-        
+
         barcodeLabel.setForeground(Color.BLACK);
-        barcodeLabel.setFont(new Font(barcodeLabel.getFont().getName(), Font.BOLD, 16)); 
+        barcodeLabel.setFont(new Font(barcodeLabel.getFont().getName(), Font.BOLD, 16));
         testPanel.add(barcodeLabel);
-        
-        
-       
+
+
+
         /*
          * this text field is for barcode input
          */
@@ -326,41 +353,43 @@ public class MainPanel extends JFrame {
         barcodeInput.addActionListener(e -> {
         	if (!timer.isRunning()) {
 	            String enteredCode = barcodeInput.getText();
-	            
+
 	            try {
 	                Numeral[] barcodeNumeral = new Numeral[enteredCode.length()];
-	
+
 	                for (int i = 0; i < enteredCode.length(); i++) {
 	                    char numeralChar = enteredCode.charAt(i);
 	                    int numeralIndex = Character.getNumericValue(numeralChar) - 1;
 	                    barcodeNumeral[i] = Numeral.values()[numeralIndex];
 	                }
-	              
+
 	                Barcode enteredBarcode = new Barcode(barcodeNumeral);
 	                BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(enteredBarcode);
 	                if (product != null) {
 	                	item = new BarcodedItem(enteredBarcode,new Mass(product.getExpectedWeight()));
 	                	logicGold.station.getHandheldScanner().scan(item);
 	                	 SwingUtilities.invokeLater(() -> {
-	                         total.setText("Total: $" + logicGold.session.getCartTotal());                 
+	                         total.setText("Total: $" + logicGold.session.getCartTotal());
 	                         topPanel.revalidate();
 	                         topPanel.repaint();
 	                     });
-	                	 
+
 
 	                	 updateListModel();
+				 test.setText("Console: Please place item in bagging area within 10 seconds" );
+	         		 test.repaint();
 	                	 timer.restart();
 	                	 timer.start();
-	                    
-	                	 
+
+
 	               }
 	                else {
 	                	System.err.println("Invalid Barcode");
 	                }
-	                
-	             
-	                
-	                
+
+
+
+
 	            } catch (Exception ex) {
 	                System.err.println("Invalid input");
 	            } finally {
@@ -371,18 +400,18 @@ public class MainPanel extends JFrame {
         		test.setText("Console: Must Add Item to Continue Scanning!" );
     			test.repaint();
         	}
-        	
+
         });
 
         testPanel.add(barcodeInput);
-        
+
         JPanel testPanel2 = new JPanel();
         JButton switchToAttendantButton = new JButton("Switch to Attendant Screen");
         switchToAttendantButton.addActionListener(e -> {
         	 mainPanel.setVisible(false);
-             MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold); 
+             MainAttendantScreen attendantScreen = new MainAttendantScreen(logicGold);
         });testPanel2.add(switchToAttendantButton);
-         
+
         JButton addedItemButton = new JButton("Click to Place Item on Bagging Area");
         addedItemButton.addActionListener(e -> {
         	 //LOGIC: item added
@@ -391,9 +420,9 @@ public class MainPanel extends JFrame {
         		logicGold.station.getBaggingArea().addAnItem(item);
         		mainPanel.setVisible(false);
             	MainPanel newPanel = new MainPanel(logicGold, "Added Item to Bagging Area");
-        		
+
         	}
-        	
+
         });testPanel2.add(addedItemButton);
 
         testPanel.add(testPanel2);
@@ -405,15 +434,15 @@ public class MainPanel extends JFrame {
         gbcTestPanel.fill = GridBagConstraints.BOTH;
 
         mainPanel.add(testPanel, gbcTestPanel);
-        
-        
-       
-        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);     
-        
+
+
+
+        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+
     }
-    
+
     //Function to create the individual items " Name - $Price - Remove Button "
-    private JPanel createItemPanel(String itemName) {
+    private JPanel createItemPanel(String itemName, Product product) {
     	JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel itemLabel = new JLabel(itemName);
@@ -422,9 +451,16 @@ public class MainPanel extends JFrame {
         JButton removeButton = new JButton("X");
         removeButton.setForeground(Color.RED);
         removeButton.addActionListener(e -> {
+        	timer.stop();
             containerPanel.remove(itemPanel);
+            removeItemController.removeItem(product);
             containerPanel.revalidate();
             containerPanel.repaint();
+            test.setText("Console: Item removed!" );
+			test.repaint();
+			total.setText("Total: $" + logicGold.session.getCartTotal());                 
+            topPanel.revalidate();
+            topPanel.repaint();
         });
 
         itemPanel.add(itemLabel);
@@ -432,19 +468,19 @@ public class MainPanel extends JFrame {
 
         return itemPanel;
     }
-    
+
     private void updateListModel() {
         listModel.clear();
 
         for (Product product : logicGold.session.Cart) {
             if (product instanceof BarcodedProduct) {
                 String desc = ((BarcodedProduct) product).getDescription();
-                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
-            } 
+                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice(), product));
+            }
             if (product instanceof PLUCodedProduct) {
                 String desc = ((PLUCodedProduct) product).getDescription();
-                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice()));
-            } 
+                listModel.addElement(createItemPanel(desc + "- $ " + product.getPrice(), product));
+            }
         }
         containerPanel.removeAll();
         for (int i = 0; i < listModel.getSize(); i++) {
@@ -454,14 +490,15 @@ public class MainPanel extends JFrame {
         mainPanel.revalidate();
         mainPanel.repaint();
     }
-    
+
     private void handleTimeout() {
-    	timer.stop();	
+    	timer.stop();
     	System.err.println("Timeout: Item not added");
     	mainPanel.setVisible(false);
     	sessionBlocked sessBlocked = new sessionBlocked(logicGold);
-		
+
 	}
-    
-     
+
+    // testing commit again
+
 }

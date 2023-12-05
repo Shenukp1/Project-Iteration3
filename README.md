@@ -21,7 +21,7 @@ The third and final iteration is the most complex yet.  Your team is now big and
 - [Tristan Van Decker: 30160634](https://github.com/Muffletruffle)
 - [Usharab Khan: ](https://github.com/usharabkhan)
 - [Simrat Virk: 30000516](https://github.com/SimratV0)
-- [: ](https://github.com/)
+- [Raja Muhammed Omar: 30159575](https://github.com/raja-omar)
 - [: ](https://github.com/)
 
 ## Revision History
