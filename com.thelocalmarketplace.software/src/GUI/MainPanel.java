@@ -292,7 +292,7 @@ public class MainPanel extends JFrame {
 
         test = new JLabel("Console: " + message);
         test.setForeground(Color.RED);
-        test.setFont(personalBags.getFont().deriveFont(17f));
+        test.setFont(button1.getFont().deriveFont(17f));
         test.setHorizontalAlignment(JLabel.CENTER);
         test.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         bottomPanel = new JPanel();
