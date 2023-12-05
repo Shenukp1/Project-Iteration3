@@ -87,6 +87,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private boolean isMaintenance;// field to allow maintenance to happen. no maintenance happens at the start,thus, false
 
 	private AbstractSelfCheckoutStation station;
+
+	private int PrinterPaperAddedGold;
 	
 	
 	
@@ -141,6 +143,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 * Start maintenance and disables the station
 	 */
 	public void maintenanceStart() {
+		printer.disable();
 		disabledM();
 	}
 	
@@ -148,6 +151,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	 * Ends maintenance and enables the station
 	 */
 	public void maintenanceFinished() {
+		printer.enable();
 		enabledM();
 	}
 	
@@ -155,7 +159,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		
 	}
 	
-
+	
 	
 	
 	/**
@@ -189,6 +193,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	public void setInitial(int ink, int paper) throws OverloadedDevice,InvalidArgumentSimulationException {
 		printer.addInk(ink);
 		receiptPrinterGold.addInk(ink);
+		
 		printer.addPaper(paper);
 		receiptPrinterGold.addPaper(paper);
 		
@@ -220,16 +225,21 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		return PrinterInkAddCountGold;
 	}
 	
+	
 	//Gets the max ink value allowed to be added
 	public int getMaxInkValue() {
-		System.out.println("YO"+receiptPrinterGold.MAXIMUM_INK);
 		maxInk = receiptPrinterGold.MAXIMUM_INK;
 		return maxInk;
 	}
 	
+	public int getPaperAdded() {
+		PrinterPaperAddedGold = receiptPrinterGold.paperRemaining();
+		return PrinterPaperAddedGold;
+	}
+	
+	//Gets the Max amount of paper allowed in printer
 	public int getMaxPaperValue() {
-		System.out.println("YO"+receiptPrinterGold.MAXIMUM_PAPER);
-		maxInk = receiptPrinterGold.MAXIMUM_PAPER;
+		maxPaper = receiptPrinterGold.MAXIMUM_PAPER;
 		return maxPaper;
 	}
 	
@@ -240,6 +250,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	// Attendant adds paper 
 	public void maintainAddPaper(int quantity) throws OverloadedDevice {
 		if (isMaintenance == true) {
+			
 			printer.addPaper(quantity); // AbstractReceiptPrinter. Announces "paperAdded" event. Requires power.
 			receiptPrinterGold.addPaper(quantity);
 		}

@@ -277,14 +277,80 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	 */
 	@Test
 	public void testGoldLowPaperMaintain() throws OverloadedDevice {
-		logicGold.maintain.setInitial(104860,103);// what the station starts with. 1024 is consider low paper
-		logicGold.maintain.print('c');// printing 1 char, removes 1 ink
-		//now it should be in the state of lowInk. thus, maintenance should trigger. should be true
+		logicGold.maintain.setInitial(104860,103);// what the station starts with. 102> is consider low paper
+		logicGold.maintain.print('\n');// using 1 paper. meaning their will be 102 paper left. aka, low on paper
+		//now it should be in the state of LowPaper. thus, maintenance should trigger. should be true
 		System.out.println(logicGold.maintain.getMaintenance());
 		assertTrue(logicGold.maintain.getMaintenance());
 		
 
 	}
+	//Get Low Paper Message is true
+	
+	
+	
+	
+	/*
+	 * Fix Paper is Low in Gold Station 
+	 * 
+	 * 
+	 */
+	@Test
+	public void testFixGoldLowPaperMaintain() throws OverloadedDevice {
+		logicGold.maintain.setInitial(104860,103);// what the station starts with. 102> is consider low paper
+
+		logicGold.maintain.print('\n');// using 1 paper. meaning their will be 102 paper left. aka, low on paper
+
+		//now it should be in the state of lowInk. thus, maintenance should trigger. should be true
+		//then allow us to add paper. fixing the issue
+		logicGold.maintain.maintainAddPaper(10);
+		System.out.println("PaperB: "+ logicGold.maintain.getPaperAdded());
+
+		//assert false because getLowPaperMessage should be false since there is no low paper
+		assertFalse(logicGold.maintain.getLowPaperMessage());
+		
+
+	}
+	
+	/*
+	 * Paper is empty in Gold station
+	 */
+	@Test
+	public void testEmptyPaperGold() {
+		try {
+			//how the station is setup
+			//setup in this test was done in a way that their was 1 ink in the system. setup by
+			logicGold.maintain.setInitial(100000,1);
+			System.out.println("Paper: "+ logicGold.maintain.getPaperAdded());
+
+			logicGold.maintain.print('\n');// using 1 paper. meaning their will be 0 paper left. aka, empty.
+			System.out.println("Paper: "+ logicGold.maintain.getPaperAdded());
+
+			assertTrue(logicGold.maintain.getOutOfPaperMessage()); //getOutOfInkMessage() will return true because the notifyInkEmpty
+
+		} catch (OverloadedDevice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/*
+	 * Paper Jam caused by to much paper added in Gold Station
+	 */
+	@Test(expected = OverloadedDevice.class)
+	public void testPaperJamGold() throws InvalidArgumentSimulationException, OverloadedDevice {
+		
+		logicGold.maintain.setInitial(104860,2);//2 papers are inside
+		logicGold.maintain.print('\n');// prints paper, updating the system. putting it maintaince mode since it has only 1 paper
+		
+		
+		
+		logicGold.maintain.maintainAddPaper(logicGold.maintain.getMaxPaperValue());//adding max amount of paper = 1+max = overload
+
+
+	}
+	
 	
 	
     //===========================Coin=================================
