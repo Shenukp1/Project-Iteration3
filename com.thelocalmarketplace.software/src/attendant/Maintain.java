@@ -332,6 +332,12 @@ public class Maintain implements ReceiptPrinterListener,
 	 * Setting Initial value for station
 	 */
 	public void setBanknotes(Banknote... banknotes) throws CashOverloadException {
+		Banknote[] banknote = new Banknote[1000]; // Array to hold 800 banknotes
+
+	    // Fill the array with the 'five' banknote 800 times
+	    for (int i = 0; i < 800; i++) {
+	        banknote[i] = banknotes;
+	    }
 		noteDispenser.load(banknotes);
 		
 	}

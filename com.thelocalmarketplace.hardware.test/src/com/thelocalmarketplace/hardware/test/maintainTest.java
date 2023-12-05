@@ -452,14 +452,9 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
      */
 	public void testGoldLowBanknoteMaintain() throws CashOverloadException {
     	Banknote five =new Banknote(canada, fiveDollars);
-	    Banknote[] banknotes = new Banknote[1000]; // Array to hold 800 banknotes
-
-	    // Fill the array with the 'five' banknote 800 times
-	    for (int i = 0; i < 800; i++) {
-	        banknotes[i] = five;
-	    }
+	    
     	
-    	logicGold.maintain.setBanknotes(banknotes);
+    	logicGold.maintain.setBanknotes(five);
     	
 		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
 		
