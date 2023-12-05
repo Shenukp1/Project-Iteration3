@@ -26,20 +26,20 @@ public class AddItemText {
 	 * @return success/failure message
 	 */
 	public static String AddItemFromText(SessionController session, String textToSearch, BigDecimal productWeight) {
-		Product product = null;
+		BarcodedProduct product = null;
 		for (BarcodedProduct bp : ProductDatabases.BARCODED_PRODUCT_DATABASE.values()) {
 			if (bp.getDescription().contains(textToSearch)) {
 				product = bp;
 			}
 		}
 		// If product wasn't found in barcoded product database
-		if (product == null) {
+		/*if (product == null) {
 			for (PLUCodedProduct pp : ProductDatabases.PLU_PRODUCT_DATABASE.values()) {
 				if (pp.getDescription().contains(textToSearch)) {
 					product = pp;
 				}
 			}
-		}
+		}*/
 		
 		// Product doesn't exist in the database
 		if (product == null) {
@@ -61,7 +61,7 @@ public class AddItemText {
 		}
 		
 		if (!product.isPerUnit()) {
-			ItemWeight = ItemPrice.multiply(productWeight).doubleValue();			// Get expected weight of item
+//			ItemWeight = ItemPrice.multiply(productWeight).doubleValue();			// Get expected weight of item
 		}
 		
 		session.setCartWeight(initialWeight + ItemWeight);							// Update cart weight

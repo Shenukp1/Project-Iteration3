@@ -40,7 +40,8 @@ public class StationPanel extends JPanel {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
                                                 String userInput = addItemTextField.getText();
-
+                                                String message = logic.addItemController.textSearch(userInput, null);
+                                                JOptionPane.showMessageDialog(mainFrame, message);
                                                 //LOGIC: Textual search
                                                 
                                                 addItemTextField.setText("");

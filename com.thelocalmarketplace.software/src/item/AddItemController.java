@@ -69,9 +69,10 @@ public class AddItemController implements BarcodeScannerListener{
 	 * GUI will call this method when customer wants to item by a text search.
 	 * @param textToSearch the text we want to search for
 	 */
-	public void textSearch(String textToSearch, BigDecimal productWeight) {
+	public String textSearch(String textToSearch, BigDecimal productWeight) {
 		// This message (potentially) will be displayed to the customer on GUI
 		String message = AddItemText.AddItemFromText(session, textToSearch, productWeight);
+		return message;
 	}
 	
 	/**
