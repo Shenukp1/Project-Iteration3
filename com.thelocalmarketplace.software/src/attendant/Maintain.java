@@ -142,10 +142,9 @@ public class Maintain implements ReceiptPrinterListener,
 		
 		nDispenser = this.station.getBanknoteDispensers();
 		System.out.println("banknote denoms: " + station.getBanknoteDenominations());
-		noteDispenser = nDispenser.get(new BigDecimal("5"));
+		noteDispenser = nDispenser.get(BigDecimal.ONE);
 		noteDispenser.attach(this);
 		
-		//==
 		
 		
 		receiptPrinterGold = new ReceiptPrinterGold();
