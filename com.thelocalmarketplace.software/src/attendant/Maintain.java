@@ -156,9 +156,9 @@ public class Maintain implements ReceiptPrinterListener,
 		
 		
 		//Might need to fix for all denoms
-		BigDecimal denoms = this.station.getBanknoteDenominations()[0];
-        //noteDispenser = this.station.getBanknoteDispensers().get(denoms);
-        //noteDispenser.attach(this);
+		BigDecimal coinDenoms = this.station.getCoinDenominations().get(0);
+        dollarDispenser = this.station.getCoinDispensers().get(coinDenoms);
+        dollarDispenser.attach(this);
 		
 		
 		receiptPrinterGold = new ReceiptPrinterGold();
