@@ -23,7 +23,7 @@ Tristan Van Decker 30160634
 Usharab Khan 30157960
 YiPing Zhang 30127823*/
 package testingUtilities;
-import com.thelocalmarketplace.hardware.test.*;
+import com.thelocalmarketplace.software.test.*;
 
 /*
  * An interface to load arbitrary products into for tests and demonstration.
