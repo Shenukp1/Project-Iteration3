@@ -126,7 +126,7 @@ public class SelfCheckoutLogic {
 		//Issues with this logic. Cant seem to use unless every instances works
 			//SOLUTION: wrap every instance of a controller with a try catch OR fix everything
 		
-		maintain = new Maintain(scs);	
+		//maintain = new Maintain(scs);	
 		//barcodeController = new AddItemBarcode(session, scs);
 
 		addItemController = new AddItemController(session, scs);
