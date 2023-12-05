@@ -82,7 +82,7 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
 	
 	private SelfCheckoutLogic logicBronze;
 	private SelfCheckoutLogic logicSilver;
-	private SelfCheckoutLogic logicGold;
+	//private SelfCheckoutLogic logicGold;
 	
 	
 	private ReceiptPrinterGold receiptPrinterGold;
@@ -95,6 +95,7 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
 	
 	
 	AttendantStation attendentStation;
+	//private Maintain maintainOne;
 	private AbstractSelfCheckoutStation station;
 	
 	
@@ -218,7 +219,7 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
 	
 		
 	/*
-	 * Ink Spill occurred 
+	 * Ink Spill occurred Bronze
 	 */
     @Test(expected = OverloadedDevice.class)
 	public void testInkSpillageBronze() throws OverloadedDevice {
@@ -259,7 +260,7 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
 	 * Attendent removes to much Ink? - change detected
 	 * have some field value in maintain that is equal to the ink quantity that is add.
 	 * then remove the feild value by 1 everytime you print 1 char because that is equal to removal of 1 ink
-	 * Or assume Bronze printer is similar to that of bronze based on doc and then just call the Bronze ink remaining 
+	 * Or assume gold printer is similar to that of bronze based on doc and then just call the gold ink remaining 
 	 * 
 	 */
     @Test(expected = InvalidArgumentSimulationException.class)
@@ -377,18 +378,25 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
     @Test
 	public void testBronzeLowCoinMaintain() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
     	
+    	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
+    	//int dispenserCapacity = logicGold.maintain.dollarDispenser.getCapacity();
+    	
     	logicBronze.maintain.setCoins(dollars);
     	logicBronze.maintain.setCoins(dollars);
+    	
+		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
+		
 		System.out.println(logicBronze.maintain.getMaintenance());
 		assertTrue(logicBronze.maintain.getMaintenance());
 		
     	
     }
     
-    // attendant loading in coin to fix low coin count Bronze
+    // attendant loads coin to fix low coin count Bronze
     @Test
 	public void testBronzeFixLowCoin() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
     	
+    	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
     	logicBronze.maintain.setCoins(dollars);
     	logicBronze.maintain.setCoins(dollars);
     	
@@ -414,7 +422,7 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
     }
     
 
-    // attendant unloading coins to fix high coin count Bronze
+    // attendant unloads coins to fix high coin count Bronze
     @Test
    	public void testBronzeFixHighCoin() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException, NoCashAvailableException {
        	
@@ -436,7 +444,7 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
     
 //=========================BANKNOTE TEST=====================================\
     
-  //low banknote count Bronze
+  // low banknote count Bronze
     @Test
 	public void testBronzeLowBanknoteMaintain() throws CashOverloadException {
     	
@@ -452,3 +460,4 @@ public class MaintainBronzeTest implements DollarsAndCurrency, CardPayment{
     }
 	
 }
+
