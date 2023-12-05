@@ -1,4 +1,4 @@
-package com.thelocalmarketplace.hardware.test;
+package com.thelocalmarketplace.software.test;
 
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;

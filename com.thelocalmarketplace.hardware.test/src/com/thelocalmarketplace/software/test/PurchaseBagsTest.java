@@ -1,5 +1,5 @@
 // Kear Sang Heng 30087289
-package com.thelocalmarketplace.hardware.test;
+package com.thelocalmarketplace.software.test;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;

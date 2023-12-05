@@ -1,4 +1,4 @@
-package com.thelocalmarketplace.hardware.test;
+package com.thelocalmarketplace.software.test;
 //LEGEND
 // 1.Question marks mean I am not a 100% sure if this is testable or should be
 // 2. "- I" means it must be tested

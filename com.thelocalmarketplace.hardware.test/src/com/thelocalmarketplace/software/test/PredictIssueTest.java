@@ -1,4 +1,4 @@
-package com.thelocalmarketplace.hardware.test;
+package com.thelocalmarketplace.software.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

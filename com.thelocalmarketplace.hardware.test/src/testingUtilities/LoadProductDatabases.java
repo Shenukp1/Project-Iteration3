@@ -1,6 +1,6 @@
 
 package testingUtilities;
-import com.thelocalmarketplace.hardware.test.*;
+import com.thelocalmarketplace.software.test.*;
 
 /*
  * An interface to load arbitrary products into for tests and demonstration.

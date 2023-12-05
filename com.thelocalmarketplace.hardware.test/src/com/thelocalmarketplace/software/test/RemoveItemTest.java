@@ -1,4 +1,4 @@
-package com.thelocalmarketplace.hardware.test;
+package com.thelocalmarketplace.software.test;
 
 import static org.junit.Assert.*;
 
@@ -23,8 +23,8 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
-import com.thelocalmarketplace.hardware.test.AddItemTests.scaleListener;
-import com.thelocalmarketplace.hardware.test.AddItemTests.scannerListener;
+import com.thelocalmarketplace.software.test.AddItemTests.scaleListener;
+import com.thelocalmarketplace.software.test.AddItemTests.scannerListener;
 
 import powerutility.NoPowerException;
 import powerutility.PowerGrid;

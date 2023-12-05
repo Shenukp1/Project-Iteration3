@@ -1,4 +1,4 @@
-package com.thelocalmarketplace.hardware.test;
+package com.thelocalmarketplace.software.test;
 
 import org.junit.Before;
 import org.junit.Rule; 
