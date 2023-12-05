@@ -54,6 +54,7 @@ public class MainPanel extends JFrame {
     JPanel containerPanel;
     Timer timer;
     JLabel test;
+    JLabel total;
     DefaultListModel<JPanel> listModel;
 	static public LoadProductDatabases productDatabases = new LoadProductDatabases();
 	private BarcodedItem item;
@@ -212,7 +213,7 @@ public class MainPanel extends JFrame {
       
         
         //LOGIC: added Cart Total
-        JLabel total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
+        total = new JLabel("Total: $" + logicGold.session.getCartTotal() );
         total.setFont(button2.getFont().deriveFont(25f));
         mainLeft.add(total);
         
@@ -427,10 +428,16 @@ public class MainPanel extends JFrame {
         JButton removeButton = new JButton("X");
         removeButton.setForeground(Color.RED);
         removeButton.addActionListener(e -> {
+        	timer.stop();
             containerPanel.remove(itemPanel);
             removeItemController.removeItem(product);
             containerPanel.revalidate();
             containerPanel.repaint();
+            test.setText("Console: Item removed!" );
+			test.repaint();
+			total.setText("Total: $" + logicGold.session.getCartTotal());                 
+            topPanel.revalidate();
+            topPanel.repaint();
         });
 
         itemPanel.add(itemLabel);

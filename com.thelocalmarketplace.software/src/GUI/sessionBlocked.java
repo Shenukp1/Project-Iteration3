@@ -75,8 +75,6 @@ public class sessionBlocked {
             		if (product instanceof BarcodedProduct) {
                         double desc = ((BarcodedProduct) product).getExpectedWeight();
                         logicGold.session.setBulkyWeight(desc);
-                        System.out.println(logicGold.session.getCartWeight());
-                        System.out.println(logicGold.session.getBulkyWeight());
                     } 
                     if (product instanceof PLUCodedProduct) {
                     	double desc = ((BarcodedProduct) product).getExpectedWeight();
@@ -121,13 +119,28 @@ public class sessionBlocked {
         });
 
         attendantOverrideButton.addActionListener(e -> {
-        	logicGold.weightController.theMassOnTheScaleHasChanged(logicGold.station.getScanningArea(), new Mass(logicGold.session.getCartWeight()));
-        	//Override expected weight
-        	 SwingUtilities.invokeLater(() -> {
-                 blockedPanel.setVisible(false);
-                 MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed by Attendant!");
-                 
-             });
+        	if (logicGold.session.Cart.size() > 0) {
+            	Product product = logicGold.session.Cart.get(logicGold.session.Cart.size()-1);
+            	double temp = logicGold.session.getCartWeight();
+           
+            		if (product instanceof BarcodedProduct) {
+                        double desc = ((BarcodedProduct) product).getExpectedWeight();
+                        temp = temp - desc;
+                        logicGold.session.setCartWeight(temp);
+                    } 
+                    if (product instanceof PLUCodedProduct) {
+                    	double desc = ((BarcodedProduct) product).getExpectedWeight();
+                    	temp = temp - desc;
+                    	logicGold.session.setCartWeight(temp);
+                    }
+                    
+                    SwingUtilities.invokeLater(() -> {
+                        blockedPanel.setVisible(false);
+                        MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
+                        
+                    });
+            	}
+
         });
         
 
