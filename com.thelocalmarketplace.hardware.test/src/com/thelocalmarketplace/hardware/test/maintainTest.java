@@ -53,6 +53,8 @@ import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.printer.ReceiptPrinterBronze;
 import com.jjjwelectronics.printer.ReceiptPrinterGold;
 import com.jjjwelectronics.printer.ReceiptPrinterSilver;
+import com.tdc.CashOverloadException;
+import com.tdc.DisabledException;
 import com.tdc.banknote.BanknoteStorageUnit;
 import com.tdc.coin.CoinStorageUnit;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
@@ -63,6 +65,7 @@ import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 
 import attendant.Maintain;
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
+import ca.ucalgary.seng300.simulation.SimulationException;
 import control.SelfCheckoutLogic;
 import powerutility.PowerGrid;
 import testingUtilities.CardPayment;
@@ -366,6 +369,34 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 
 	
 
+	//=====================COIN TEST=======================
+	    
+    //high coin count
+    @Test
+	public void testGoldHighCoinMaintain() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
+    	
+    	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
+    	int dispenserCapacity = logicGold.maintain.nickleDispenser.getCapacity();
+    	for (int i = 0; i < dispenserCapacity; i++) {
+    		logicGold.maintain.setCoins(nickle);
+    	}
+    	
+		logicGold.maintain.receiveOneCoin(nickle);;// receiving one coin.
+		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
+		
+		System.out.println(logicGold.maintain.getMaintenance());
+		assertTrue(logicGold.maintain.getMaintenance());
+    	
+    }
+		
+    
+    //low coin count
+    
+    //normal coin count
+    
+    //unloading coins
+    
+    //loading coins
 	
 	
 }

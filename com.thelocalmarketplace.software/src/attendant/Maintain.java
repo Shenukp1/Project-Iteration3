@@ -1,6 +1,8 @@
 package attendant;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Map;
 
 //GENERAL IDEA FOR MAINTAIN IMPLEMENTATION
 //	1.1 A system for detecting low or empty levels of materials(Ink,paper,coin,banknotes)
@@ -21,6 +23,7 @@ import com.jjjwelectronics.printer.ReceiptPrinterGold;
 import com.jjjwelectronics.printer.ReceiptPrinterListener;
 import com.jjjwelectronics.printer.ReceiptPrinterSilver;
 import com.tdc.CashOverloadException;
+import com.tdc.DisabledException;
 import com.tdc.IComponent;
 import com.tdc.IComponentObserver;
 import com.tdc.banknote.Banknote;
@@ -55,7 +58,12 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
-
+	private Map<BigDecimal, ICoinDispenser> dispenser;
+	public ICoinDispenser nickleDispenser;
+	public ICoinDispenser dimeDispenser;
+	public ICoinDispenser quarterDispenser;
+	public ICoinDispenser dollarDispenser;
+	public ICoinDispenser pennyDispenser;
 	
 	
 	
@@ -114,8 +122,33 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		banknoteStorage = station.getBanknoteStorage();
 		banknoteStorage.attach(this);
 		
-		coinStorage = station.getCoinStorage();
-		coinStorage.attach(this);
+		//coinStorage = station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);;
+		//coinStorage.attach(this);
+		
+		//==
+		
+		//AbstractCoinDispenser dispenser = station.getCoinDispensers();
+		dispenser = this.station.getCoinDispensers();
+		
+		
+		nickleDispenser = dispenser.get(new BigDecimal("0.05"));
+		//dimeDispenser = coinDispensersGold.get(new BigDecimal(0.1));
+		//quarterDispenser = coinDispensersGold.get(new BigDecimal(0.25));
+		//dollarDispenser = coinDispensersGold.get(new BigDecimal(1));
+		//pennyDispenser = coinDispensersGold.get(new BigDecimal(0.01));
+		//
+		//coinDispensersBronze = station.getCoinDispensers();
+		// attach
+		/*
+		nickleDispenser.attach(this);
+		dimeDispenser.attach(this);
+		quarterDispenser.attach(this);
+		dollarDispenser.attach(this);
+		pennyDispenser.attach(this);
+		*/
+		nickleDispenser.attach(this);
+		
+		//==
 		
 		receiptPrinterGold = new ReceiptPrinterGold();
 		receiptPrinterGold.register(this);
@@ -222,6 +255,21 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 			}
 		}
 		
+	}
+	
+
+	// setting nickle dispenser for coins for testing
+	public void setCoins(Coin coin) throws OverloadedDevice,SimulationException, CashOverloadException {
+		nickleDispenser.load(coin);
+		
+	}
+	
+	// nickle dispenser receives a coin for testing
+	public void receiveOneCoin(Coin coin) throws DisabledException, CashOverloadException {
+		if(isMaintenance == false) {
+			nickleDispenser.receive(coin);
+			
+		}
 	}
 	
 	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
