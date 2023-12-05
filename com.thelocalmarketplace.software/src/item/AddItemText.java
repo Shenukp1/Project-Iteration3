@@ -2,6 +2,7 @@ package item;
 
 import java.math.BigDecimal;
 
+import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.Product;
@@ -25,7 +26,7 @@ public class AddItemText {
 	 * 						item in bagging area.
 	 * @return success/failure message
 	 */
-	public static String AddItemFromText(SessionController session, String textToSearch, BigDecimal productWeight) {
+	public static BarcodedProduct AddItemFromText(SessionController session, String textToSearch, BigDecimal productWeight) {
 		BarcodedProduct product = null;
 		for (BarcodedProduct bp : ProductDatabases.BARCODED_PRODUCT_DATABASE.values()) {
 			if (bp.getDescription().contains(textToSearch)) {
@@ -43,12 +44,12 @@ public class AddItemText {
 		
 		// Product doesn't exist in the database
 		if (product == null) {
-			return "Error: Product not found";
+			return null;
 		}
 		
 		// Product is out of stock
 		if (ProductDatabases.INVENTORY.get(product) <= 0){
-			return "Error: Product not available";
+			return null;
 		}
 		
 		BigDecimal CartTotal = session.getCartTotal();								// Retrieve cart total before adding item
@@ -67,6 +68,6 @@ public class AddItemText {
 		session.setCartWeight(initialWeight + ItemWeight);							// Update cart weight
 		session.setCartTotal(CartTotal.add(ItemPrice));								// Update cart price
 		session.Cart.add(product);
-		return "Success: Product added to cart";
+		return product;
 	}
 }

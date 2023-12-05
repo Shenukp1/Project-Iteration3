@@ -1,6 +1,12 @@
 package GUI;
 
 import javax.swing.*;
+
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+
 import control.SelfCheckoutLogic;
 import attendant.EnableDisable;
 import java.awt.*;
@@ -40,10 +46,15 @@ public class StationPanel extends JPanel {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
                                                 String userInput = addItemTextField.getText();
-                                                String message = logic.addItemController.textSearch(userInput, null);
-                                                JOptionPane.showMessageDialog(mainFrame, message);
-                                                //LOGIC: Textual search
-                                                
+                                                BarcodedProduct product = logic.addItemController.textSearch(userInput, null);
+                                                if (product != null) {
+                                                	Mass itemMass = new Mass(product.getExpectedWeight());
+                                                	BarcodedItem item = new BarcodedItem(product.getBarcode(), itemMass); 
+                                                	logic.station.getBaggingArea().addAnItem(item);
+                                                	JOptionPane.showMessageDialog(mainFrame, "Success: Product "+product.getDescription()+" added to cart");
+                                                } else {
+                                                	JOptionPane.showMessageDialog(mainFrame, "Error: Product not found");
+                                                }
                                                 addItemTextField.setText("");
                                             }
                                         });

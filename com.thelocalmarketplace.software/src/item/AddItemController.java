@@ -9,6 +9,7 @@ import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodeScannerListener;
 import com.jjjwelectronics.scanner.IBarcodeScanner;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 
@@ -69,9 +70,9 @@ public class AddItemController implements BarcodeScannerListener{
 	 * GUI will call this method when customer wants to item by a text search.
 	 * @param textToSearch the text we want to search for
 	 */
-	public String textSearch(String textToSearch, BigDecimal productWeight) {
+	public BarcodedProduct textSearch(String textToSearch, BigDecimal productWeight) {
 		// This message (potentially) will be displayed to the customer on GUI
-		String message = AddItemText.AddItemFromText(session, textToSearch, productWeight);
+		BarcodedProduct message = AddItemText.AddItemFromText(session, textToSearch, productWeight);
 		return message;
 	}
 	
