@@ -23,6 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.jjjwelectronics.Mass;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.Product;
 
 import control.SelfCheckoutLogic;
 import control.WeightController;
@@ -97,8 +103,33 @@ public class sessionBlocked {
 	    
 //        	theMassOnTheScaleNoLongerExceedsItsLimit(logicGold.station.baggingArea);
         addItemButton.addActionListener(e -> {
-        //need to add logic still
+        	
+        	Product product = logicGold.session.Cart.get(logicGold.session.Cart.size()-1);
+        	double temp = logicGold.session.getCartWeight();
+       
+        		if (product instanceof BarcodedProduct) {
+                    double desc = ((BarcodedProduct) product).getExpectedWeight();
+                    temp = temp - desc;
+                    logicGold.session.setCartWeight(temp);
+                } 
+                if (product instanceof PLUCodedProduct) {
+                	double desc = ((BarcodedProduct) product).getExpectedWeight();
+                	temp = temp - desc;
+                	logicGold.session.setCartWeight(temp);
+                }
+                
+                //JFrame mainFrame = logicGold.station.getScreen().getFrame();
+        	
 
+                
+                SwingUtilities.invokeLater(() -> {
+                    blockedPanel.setVisible(false);
+                    MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
+                    
+                });
+        	
+        //need to add logic still
+        	  
 //            startPanel.setVisible(false);
 //            MainPanel mainPanel= new MainPanel(logicGold, "Session Started!");
 //            JLabel weight = new JLabel("Total weight: " + logicGold.session.getBagWeight());
@@ -117,7 +148,13 @@ public class sessionBlocked {
         });
 
         attendantOverrideButton.addActionListener(e -> {
-	//need to add logic still
+        	logicGold.weightController.theMassOnTheScaleHasChanged(logicGold.station.getScanningArea(), new Mass(logicGold.session.getCartWeight()));
+        	//Override expected weight
+        	 SwingUtilities.invokeLater(() -> {
+                 blockedPanel.setVisible(false);
+                 MainPanel newPanel = new MainPanel(logicGold, "Discrepancy fixed!");
+                 
+             });
         });
         
 
@@ -147,4 +184,5 @@ public class sessionBlocked {
     }
     
 }
+
 
