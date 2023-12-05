@@ -53,7 +53,9 @@ public class SessionEndedWindowCardPayment {
 	        gbc.anchor = GridBagConstraints.PAGE_START;
 	        
 	        
-	        JLabel TotalPaid = new JLabel("You paid: $"+ cartTotal.toString());
+	        JLabel TotalPaid = new JLabel("<html>The total cost: $"+ cartTotal.toString() 
+	        +"<br/>"+logic.printController.print()+ " <html>");
+	       
 	        TotalPaid.setFont(TotalPaid.getFont().deriveFont(35f));
 
 	        GridBagConstraints gbc2 = new GridBagConstraints();
