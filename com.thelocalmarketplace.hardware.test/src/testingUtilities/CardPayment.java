@@ -16,8 +16,8 @@ public interface CardPayment {
 	/*
 	 * card issuer and card might be related, 
 	 */
-	CardIssuer creditcard= new CardIssuer("credit", 500);
-	CardIssuer debitcard= new CardIssuer("debit", 500);
+	CardIssuer creditcard= new CardIssuer("TD", 500);
+	CardIssuer debitcard= new CardIssuer("CIBC", 500);
 	
 	
 	/*
@@ -25,6 +25,6 @@ public interface CardPayment {
 	 */
 	
 	Card otherCreditCard = new Card("credit", "555", "Donkey Kong", "312", "911", tapEnabled, hasChip);
-	Card otherDebitCard = new Card("credit", "555", "Donkey Kong", "312", "911", tapEnabled, hasChip);
+	Card otherDebitCard = new Card("debit", "555", "Donkey Kong", "312", "911", tapEnabled, hasChip);
 	
 }

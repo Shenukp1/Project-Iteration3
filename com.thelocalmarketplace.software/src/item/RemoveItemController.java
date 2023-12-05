@@ -2,6 +2,7 @@ package item;
 
 import java.math.BigDecimal;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import control.SessionController;
 import control.WeightController;
@@ -15,7 +16,7 @@ public class RemoveItemController {
         session = c_session;
     }
 
-    public void removeItem(BarcodedProduct item) {
+    public void removeItem(Product item) {
         // Block further customer actions
         session.disable();
 
@@ -28,7 +29,7 @@ public class RemoveItemController {
         	System.out.println("Please remove the item from the bagging area");
     }
 
-    private int remove(BarcodedProduct item) {
+    private int remove(Product item) {
         // Check if the cart contains the item
         if (session.Cart.contains(item)) {
             // Remove the item from the cart
@@ -36,7 +37,7 @@ public class RemoveItemController {
 
             // Update the total price and weight
             long priceOfItem = item.getPrice();
-            double weightOfItem = item.getExpectedWeight();
+            double weightOfItem = ((BarcodedProduct) item).getExpectedWeight();
 
             // Convert priceOfItem to BigDecimal
             BigDecimal priceOfItemBigDecimal = BigDecimal.valueOf(priceOfItem);

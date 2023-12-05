@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import control.SelfCheckoutLogic;
+import attendant.EnableDisable;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,9 @@ public class StationPanel extends JPanel {
     private JButton enableStationButton;
     private JButton disableStationButton;
     private JButton backButton;
+    
+    private EnableDisable enableDisable; // Instance of EnableDisable
+
 
     public StationPanel(SelfCheckoutLogic logic) {
         this.logic = logic;
@@ -43,17 +47,26 @@ public class StationPanel extends JPanel {
                                             }
                                         });
                                         
-//        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
+        addItemsPanel.add(new JLabel("Add Item:"), gbcAddItemsPanel);
                                         gbcAddItemsPanel.gridy = 1;
                                         addItemsPanel.add(addItemTextField, gbcAddItemsPanel);
 
+                                        
+        // Initialize EnableDisable with the station and a password
+        enableDisable = new EnableDisable("1234", logic.station);
+                                        
         enableStationButton = new JButton("Enable Station");
         enableStationButton.setBackground(new Color(255, 128, 128));
         enableStationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
         enableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // LOGIC: enable station
+            	boolean enabled = enableDisable.enableStation("1234");
+                if (enabled) {
+                    JOptionPane.showMessageDialog(mainFrame, "Station Enabled Successfully");
+                } else {
+                    //JOptionPane.showMessageDialog(mainFrame, "Failed to Enable Station");
+                }
             }
         });
         stationPanel.add(enableStationButton);
@@ -65,7 +78,12 @@ public class StationPanel extends JPanel {
         disableStationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // LOGIC: disable station
+            	boolean disabled = enableDisable.disableStation("1234");
+                if (disabled) {
+                    JOptionPane.showMessageDialog(mainFrame, "Station Disabled Successfully");
+                } else {
+                    //JOptionPane.showMessageDialog(mainFrame, "Failed to Disable Station");
+                }
             }
         });
         stationPanel.add(disableStationButton);
@@ -84,5 +102,3 @@ public class StationPanel extends JPanel {
         mainFrame.getContentPane().add(stationPanel);
     }
 }
-  
-

@@ -23,11 +23,13 @@ public class Products   {
 		public BarcodedProduct bigProduct;
 		public Mass beansMass;
 		public Mass bigItemMass;
+		public Mass membershipCardMass;
 		public Item Beans;
 		public BigInteger bigIBeanMass = new BigInteger("5000000");
 		public BigInteger excessiveMass= new BigInteger("5000000000000");
 		public BarcodedItem bag;
 		public Item bags;
+		public BarcodedItem membershipCard;
 		//big integer is needed to declare item mass. can use string but not integers
 		
 		//this datatype has several constructors but no integers. why!
@@ -47,6 +49,8 @@ public class Products   {
 		beansMass= new Mass(bigIBeanMass);
 		beanBarcode=new Barcode (beansNumeral);
 		beanBarcodeItem= new BarcodedItem (beanBarcode, beansMass);
+		membershipCard = new BarcodedItem(beanBarcode, beansMass);
+		
 		beanBarcodedProduct=new BarcodedProduct(beanBarcode, "beans", 5,bigIBeanMass.intValue());
 		
 		bigItemMass = new Mass(excessiveMass);

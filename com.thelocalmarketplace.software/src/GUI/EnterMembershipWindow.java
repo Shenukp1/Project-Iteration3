@@ -74,7 +74,8 @@ public class EnterMembershipWindow {
 		okayButton.setBackground(new Color(189, 255, 189));
 		okayButton.addActionListener(e -> {
 			
-			// Pass the membership number to another function
+			// Pass the membership number to current session
+			logic.session.membership = membershipNum;
 			
 			mainPanel.setVisible(false);
 			MainPanel mainWindow = new MainPanel(logic, "Membership number verification not implemented yet");

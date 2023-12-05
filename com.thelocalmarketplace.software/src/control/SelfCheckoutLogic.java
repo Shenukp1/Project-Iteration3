@@ -4,10 +4,13 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 
 import payment.CoinController;
-import payment.CardController;
+import payment.PaymentCardController;
 import payment.BanknoteController;
 import item.AddItemBarcode;
+import item.AddItemController;
+import item.EnterMembership;
 import item.PrintController;
+import item.RemoveItemController;
 
 /**
  * This class links all the controllers to an instance of the SelfCheckoutStations.
@@ -27,10 +30,13 @@ public class SelfCheckoutLogic {
 	public BanknoteController banknoteController;
 	
 	// Controller to manage credit card payments
-	public CardController creditController;
+	public PaymentCardController creditController;
 	
-	// Controller to manage handheld barcode scans
-	public AddItemBarcode barcodeController;
+	// Controller to manage add item cases
+	public AddItemController addItemController;
+	
+	// Controller to manage remove item cases
+	public RemoveItemController removeItemController;
 		
 	// Controller to manage session
 	public SessionController session;
@@ -40,9 +46,17 @@ public class SelfCheckoutLogic {
 	
 	// Controller to manage printing
 	public PrintController printController;
+	private int linesUsed = 0;
+	
+	// Controller to manage predicting issues
+	public PredictIssueController predictController;
 	
 	//	Card Issuer
 	public CardIssuer cardIssuer;
+	
+	// Controller for input membership number
+	public EnterMembership	enterMembership;
+	
 	/**
 	 * This method links our software to our hardware (simulation) and initializes 
 	 * all the controllers that we need.
@@ -65,12 +79,16 @@ public class SelfCheckoutLogic {
 		session = new SessionController(this);
 		session.start();
 		
-		barcodeController = new AddItemBarcode(session, scs);
+		addItemController = new AddItemController(session, scs);
+		removeItemController = new RemoveItemController(session, scs);
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
 	//	creditController = new CardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
+		linesUsed += printController.getLinesUsed();
+		predictController = new PredictIssueController(session, scs, linesUsed);
+		enterMembership = new EnterMembership(session,scs);
 		
 		// Disable banknote insertion slot so customer does not insert banknotes
 		// before going to the payment page.

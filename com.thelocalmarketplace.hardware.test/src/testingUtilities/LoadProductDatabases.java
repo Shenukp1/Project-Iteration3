@@ -12,7 +12,7 @@ import com.thelocalmarketplace.hardware.test.*;
  */
 	public interface LoadProductDatabases {
 		
-		public InventoryProductGenerator milk = new InventoryProductGenerator("milk", "1234", 3000000, 4, 100);
+		public  InventoryProductGenerator milk = new InventoryProductGenerator("milk", "1234", 3000000, 4, 100);
 		public  InventoryProductGenerator beans= new InventoryProductGenerator("beans","1221", 4000000, 1, 200);
 		public  InventoryProductGenerator bacon= new InventoryProductGenerator("bacon","1233", 3000000, 7, 70);
 		public  InventoryProductGenerator beer= new InventoryProductGenerator("beer", "1265",3000000, 15, 100);
