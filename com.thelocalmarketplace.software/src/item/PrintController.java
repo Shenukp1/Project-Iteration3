@@ -64,7 +64,6 @@ public class PrintController implements ReceiptPrinterListener{
         		desc = ((BarcodedProduct) item).getDescription();	// Print description if its a barcoded product
         		receiptText.append( desc );
         	}
-        	receiptText.append("\n");								// Print a full stop with new line
         	if (item instanceof PLUCodedProduct) {						
         		desc = ((PLUCodedProduct) item).getDescription();	// Print description if its a barcoded product
         		receiptText.append( desc);

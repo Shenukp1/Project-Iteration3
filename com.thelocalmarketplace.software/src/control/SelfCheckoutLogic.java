@@ -136,7 +136,7 @@ public class SelfCheckoutLogic {
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);
-		creditController = new PaymentCardController(session, scs, cardIssuer);
+//		creditController = new PaymentCardController(session, scs, cardIssuer);
 		printController = new PrintController(session, scs);
 		linesUsed += printController.getLinesUsed();
 		predictController = new PredictIssueController(session, scs, linesUsed);

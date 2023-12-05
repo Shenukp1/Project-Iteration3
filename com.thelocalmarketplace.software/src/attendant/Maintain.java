@@ -354,7 +354,7 @@ public class Maintain implements ReceiptPrinterListener,
 
 	    // Fill the array with the 'five' banknote 800 times
 	    for (int i = 0; i < 800; i++) {
-	        banknote[i] = banknotes;
+//	        banknote[i] = banknotes;
 	    }
 		noteDispenser.load(banknotes);
 		

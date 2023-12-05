@@ -50,6 +50,10 @@ public class PaymentCardController implements CardReaderListener{
 		this.station = sco;
 		this.session = c_session;
 		this.bank = bank;
+		System.out.println("Intializing card controller");
+		if (bank == null) {
+			System.out.println("Bank was null");
+		}
 		sco.getCardReader().register(this);
 		
 	}

@@ -83,8 +83,8 @@ public class sessionBlocked {
         
         JLabel headline = new JLabel("                                                       Session Blocked!");
 
-        addItemButton = new JButton("Add an item");
-        removeItemButton = new JButton("Remove an item");
+        addItemButton = new JButton("Place item on scale");
+        removeItemButton = new JButton("Cancel adding");
         doNotBagButton = new JButton("Do not bag item");
         attendantOverrideButton = new JButton("Attendant Override");
 	    

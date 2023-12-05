@@ -337,7 +337,7 @@ public class MainPanel extends JFrame {
 
         testPanel.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.GRAY));
 
-        JLabel barcodeLabel = new JLabel("Barcode Testing");
+        JLabel barcodeLabel = new JLabel("Barcode Scan");
 
         barcodeLabel.setForeground(Color.BLACK);
         barcodeLabel.setFont(new Font(barcodeLabel.getFont().getName(), Font.BOLD, 16));

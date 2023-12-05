@@ -118,7 +118,7 @@ public class CardPaymentWindow {
 				mainPanel.setVisible(false);
 				try {
 					logic.station.getCardReader().tap(creditCard);
-					cardController.aCardHasBeenTapped();
+//					cardController.aCardHasBeenTapped();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
