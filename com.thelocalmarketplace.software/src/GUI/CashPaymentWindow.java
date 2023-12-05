@@ -351,7 +351,7 @@ public class CashPaymentWindow {
 		
 		remainingTotalLabel.setText("Remaining: $" + logic.session.getCartTotal().toString());
 		mainLabel.setText(changeDue.toString());
-		cancelButton.setVisible(false);
+		//cancelButton.setVisible(false);
 		
 	}
 	private void booleanGuardForPayment(SelfCheckoutLogic logic) {
