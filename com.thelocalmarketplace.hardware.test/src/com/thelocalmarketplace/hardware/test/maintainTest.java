@@ -441,6 +441,21 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
        	
        }
     
-	
+//=========================BANKNOTE TEST=====================================\
+    
+  //low banknote count
+    @Test
+	public void testGoldLowBanknoteMaintain() throws CashOverloadException {
+    	
+    	logicGold.maintain.setBanknotes(ten);
+    	logicGold.maintain.setBanknotes(ten);
+    	
+		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
+		
+		System.out.println(logicGold.maintain.getMaintenance());
+		assertTrue(logicGold.maintain.getMaintenance());
+		
+    	
+    }
 	
 }

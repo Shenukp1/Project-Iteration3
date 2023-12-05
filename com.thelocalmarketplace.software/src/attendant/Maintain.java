@@ -60,8 +60,11 @@ public class Maintain implements ReceiptPrinterListener,
 	
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
-	private Map<BigDecimal, ICoinDispenser> dispenser;
+	private Map<BigDecimal, ICoinDispenser> cDispenser;
 	public ICoinDispenser dollarDispenser;
+	private Map<BigDecimal, IBanknoteDispenser> nDispenser;
+	public IBanknoteDispenser noteDispenser;
+	
 
 	
 	
@@ -129,14 +132,21 @@ public class Maintain implements ReceiptPrinterListener,
 		
 		//coinStorage = station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);;
 		//coinStorage.attach(this);
-		dispenser = this.station.getCoinDispensers();
+		cDispenser = this.station.getCoinDispensers();
 		System.out.print("coin denoms: " + station.getCoinDenominations());
 		
-		
-		dollarDispenser = dispenser.get(new BigDecimal("1"));
+		//
+		dollarDispenser = cDispenser.get(new BigDecimal("1"));
 		dollarDispenser.attach(this);
 		
+		
+		nDispenser = this.station.getBanknoteDispensers();
+		System.out.println("banknote denoms: " + station.getBanknoteDenominations());
+		noteDispenser = nDispenser.get(new BigDecimal("5"));
+		noteDispenser.attach(this);
+		
 		//==
+		
 		
 		receiptPrinterGold = new ReceiptPrinterGold();
 		receiptPrinterGold.register(this);
@@ -276,6 +286,12 @@ public class Maintain implements ReceiptPrinterListener,
 		}
 		list.add("A coin has been unloaded to the customer station.");
 	}
+	
+	public void setBanknotes(Banknote... banknotes) throws CashOverloadException {
+	noteDispenser.load(banknotes);
+		
+	}
+	
 	
 	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
 	public int getInkAdded() {
