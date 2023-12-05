@@ -56,6 +56,7 @@ import com.jjjwelectronics.printer.ReceiptPrinterSilver;
 import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
 import com.tdc.NoCashAvailableException;
+import com.tdc.banknote.Banknote;
 import com.tdc.banknote.BanknoteStorageUnit;
 import com.tdc.coin.CoinStorageUnit;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
@@ -107,6 +108,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		//Bronze Station
 		bronze.resetConfigurationToDefaults();
 		bronze.configureBanknoteDenominations(bankNoteDenominations);
+		bronze.configureCoinDispenserCapacity(10);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		bronze = new SelfCheckoutStationBronze();
@@ -117,6 +119,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		
 		//Silver Station
 		silver.resetConfigurationToDefaults();
+		silver.configureCoinDispenserCapacity(10);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		silver = new SelfCheckoutStationSilver();
@@ -443,12 +446,20 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
     
 //=========================BANKNOTE TEST=====================================\
     
-  //low banknote count
     @Test
+    /*
+     * Maintain happens when banknotes reach a low range
+     */
 	public void testGoldLowBanknoteMaintain() throws CashOverloadException {
+    	Banknote five =new Banknote(canada, fiveDollars);
+	    Banknote[] banknotes = new Banknote[1000]; // Array to hold 800 banknotes
+
+	    // Fill the array with the 'five' banknote 800 times
+	    for (int i = 0; i < 800; i++) {
+	        banknotes[i] = five;
+	    }
     	
-    	logicGold.maintain.setBanknotes(ten);
-    	logicGold.maintain.setBanknotes(ten);
+    	logicGold.maintain.setBanknotes(banknotes);
     	
 		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
 		
