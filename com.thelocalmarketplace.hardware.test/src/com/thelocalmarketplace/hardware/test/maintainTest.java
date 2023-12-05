@@ -376,7 +376,7 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	public void testGoldHighCoinMaintain() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
     	
     	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
-    	int dispenserCapacity = logicGold.maintain.nickleDispenser.getCapacity();
+    	int dispenserCapacity = logicGold.maintain.dollarDispenser.getCapacity();
     	for (int i = 0; i < dispenserCapacity; i++) {
     		logicGold.maintain.setCoins(nickle);
     	}

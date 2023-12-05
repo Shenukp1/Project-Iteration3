@@ -59,11 +59,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private BanknoteStorageUnit banknoteStorage;
 	private CoinStorageUnit coinStorage;
 	private Map<BigDecimal, ICoinDispenser> dispenser;
-	public ICoinDispenser nickleDispenser;
-	public ICoinDispenser dimeDispenser;
-	public ICoinDispenser quarterDispenser;
 	public ICoinDispenser dollarDispenser;
-	public ICoinDispenser pennyDispenser;
+
 	
 	
 	
@@ -124,29 +121,12 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		
 		//coinStorage = station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);;
 		//coinStorage.attach(this);
-		
-		//==
-		
-		//AbstractCoinDispenser dispenser = station.getCoinDispensers();
 		dispenser = this.station.getCoinDispensers();
+		System.out.print("coin denoms: " + station.getCoinDenominations());
 		
 		
-		nickleDispenser = dispenser.get(new BigDecimal("0.05"));
-		//dimeDispenser = coinDispensersGold.get(new BigDecimal(0.1));
-		//quarterDispenser = coinDispensersGold.get(new BigDecimal(0.25));
-		//dollarDispenser = coinDispensersGold.get(new BigDecimal(1));
-		//pennyDispenser = coinDispensersGold.get(new BigDecimal(0.01));
-		//
-		//coinDispensersBronze = station.getCoinDispensers();
-		// attach
-		/*
-		nickleDispenser.attach(this);
-		dimeDispenser.attach(this);
-		quarterDispenser.attach(this);
+		dollarDispenser = dispenser.get(new BigDecimal("1"));
 		dollarDispenser.attach(this);
-		pennyDispenser.attach(this);
-		*/
-		nickleDispenser.attach(this);
 		
 		//==
 		
@@ -260,14 +240,14 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	// setting nickle dispenser for coins for testing
 	public void setCoins(Coin coin) throws OverloadedDevice,SimulationException, CashOverloadException {
-		nickleDispenser.load(coin);
+		dollarDispenser.load(coin);
 		
 	}
 	
 	// nickle dispenser receives a coin for testing
 	public void receiveOneCoin(Coin coin) throws DisabledException, CashOverloadException {
 		if(isMaintenance == false) {
-			nickleDispenser.receive(coin);
+			dollarDispenser.receive(coin);
 			
 		}
 	}
