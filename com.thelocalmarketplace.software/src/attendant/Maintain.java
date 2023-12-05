@@ -24,18 +24,23 @@ import com.tdc.CashOverloadException;
 import com.tdc.IComponent;
 import com.tdc.IComponentObserver;
 import com.tdc.banknote.Banknote;
+import com.tdc.banknote.BanknoteDispenserObserver;
 import com.tdc.banknote.BanknoteStorageUnit;
 import com.tdc.banknote.BanknoteStorageUnitObserver;
+import com.tdc.banknote.IBanknoteDispenser;
 import com.tdc.coin.Coin;
+import com.tdc.coin.CoinDispenserObserver;
 import com.tdc.coin.CoinStorageUnit;
 import com.tdc.coin.CoinStorageUnitObserver;
+import com.tdc.coin.ICoinDispenser;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.PowerGrid;
 
-public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver, IDeviceListener{
+public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver, 
+	CoinDispenserObserver, BanknoteDispenserObserver, IDeviceListener{
 	
 	
 	
@@ -639,6 +644,102 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void turnedOff(IComponent<? extends IComponentObserver> component) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void moneyFull(IBanknoteDispenser dispenser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void banknotesEmpty(IBanknoteDispenser dispenser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void banknoteAdded(IBanknoteDispenser dispenser, Banknote banknote) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void banknoteRemoved(IBanknoteDispenser dispenser, Banknote banknote) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void banknotesLoaded(IBanknoteDispenser dispenser, Banknote... banknotes) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void banknotesUnloaded(IBanknoteDispenser dispenser, Banknote... banknotes) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void coinsFull(ICoinDispenser dispenser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void coinsEmpty(ICoinDispenser dispenser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void coinAdded(ICoinDispenser dispenser, Coin coin) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void coinRemoved(ICoinDispenser dispenser, Coin coin) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void coinsLoaded(ICoinDispenser dispenser, Coin... coins) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void coinsUnloaded(ICoinDispenser dispenser, Coin... coins) {
 		// TODO Auto-generated method stub
 		
 	}
