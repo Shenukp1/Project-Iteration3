@@ -140,11 +140,14 @@ public class Maintain implements ReceiptPrinterListener,
 		dollarDispenser.attach(this);
 		
 		
-		nDispenser = this.station.getBanknoteDispensers();
-		System.out.println("banknote denoms: " + station.getBanknoteDenominations());
-		noteDispenser = nDispenser.get(BigDecimal.ONE);
-		noteDispenser.attach(this);
-		
+//		nDispenser = this.station.getBanknoteDispensers();
+//		System.out.println("banknote denoms: " + station.getBanknoteDenominations());
+//		noteDispenser = nDispenser.get(BigDecimal.ONE);
+//		noteDispenser.attach(this);
+		BigDecimal denoms = this.station.getBanknoteDenominations()[0];
+        noteDispenser = this.station.getBanknoteDispensers().get(denoms);
+        System.out.println("banknote denoms: " + station.getBanknoteDenominations());
+        noteDispenser.attach(this);
 		
 		
 		receiptPrinterGold = new ReceiptPrinterGold();
@@ -287,7 +290,7 @@ public class Maintain implements ReceiptPrinterListener,
 	}
 	
 	public void setBanknotes(Banknote... banknotes) throws CashOverloadException {
-	noteDispenser.load(banknotes);
+		noteDispenser.load(banknotes);
 		
 	}
 	
