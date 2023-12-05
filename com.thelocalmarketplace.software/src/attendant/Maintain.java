@@ -28,12 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//GENERAL IDEA FOR MAINTAIN IMPLEMENTATION
-//	1.1 A system for detecting low or empty levels of materials(Ink,paper,coin,banknotes)
-//	1.2 open hardware and close hardware
-//	1.3 A procedure for adding the required materials without causing (spillage,jams, or damage)
-//	1.4 The system detects the changes after  
-//	1.5 GUI
+
 
 
 

@@ -1,39 +1,31 @@
 package com.thelocalmarketplace.hardware.test;
-//LEGEND
-// 1.Question marks mean I am not a 100% sure if this is testable or should be
-// 2. "- I" means it must be tested
-//WHAT I NEED TO DO
+/*Group P3-6***
+Andy Tang 10139121
+Ayman Inayatali Momin 30192494
+Darpal Patel 30088795
+Dylan Dizon 30173525
+Ellen Bowie 30191922
+Emil Huseynov 30171501
+Ishita Udasi 30170034
+Jason Very 30222040
+Jesse Leinan 00335214
+Joel Parker 30021079
+Kear Sang Heng 30087289
+Khadeeja Abbas 30180776
+Kian Sieppert 30134666
+Michelle Le 30145965
+Raja Muhammed Omar 30159575
+Sean Gilluley 30143052
+Shenuk Perera 30086618
+Simrat Virk 30000516
+Sina Salahshour 30177165
+Tristan Van Decker 30160634
+Usharab Khan 30157960
+YiPing Zhang 30127823*/
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-// 1. Maintain Ink Test
-// 	1.1 Ink is low - I
-// 	1.2 Ink is empty - I
-//	1.3 Detect adding Ink - same as 1.5?
-//	1.4 Excess Ink caused spillage? -I
-// 	1.5 Attendent adds Ink? - similar to detecting change?
-//	1.6 Open hardware? 
-//	1.7 Closes hardware?
-//	1.8 disabled before adding to printer - I
-//
-
-
-// 2. Maintain Paper Test
-//	2.1 Paper is low
-//	2.2 Paper is empty
-//	2.3 Paper Detect any change
-//	2.4 Paper caused Jam or other damages?
-
-// 3. Maintain Coin Test
-//	3.1 Coin level is low
-//	3.2 Coin Level is High
-//	3.3 Paper Detect any change
-//	3.4 Paper caused Jam or other damages?
-
-// 4. Maintain Banknote Test
-
-// 5. Attendent doing things - not to sure 
 
 
 

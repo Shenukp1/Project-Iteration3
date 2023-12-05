@@ -130,11 +130,9 @@ public class SelfCheckoutLogic {
 		//barcodeController = new AddItemBarcode(session, scs);
 
 		addItemController = new AddItemController(session, scs);
-<<<<<<< HEAD
 
-=======
 		removeItemController = new RemoveItemController(session, scs);
->>>>>>> master
+
 		weightController = new WeightController(session, scs);
 		banknoteController = new BanknoteController(session, scs);
 		coinController = new CoinController(session, scs);

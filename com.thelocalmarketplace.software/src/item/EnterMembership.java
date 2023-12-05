@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package item;
 
 import com.jjjwelectronics.IDevice;
@@ -289,4 +289,4 @@ public class EnterMembership implements CardReaderListener, BarcodeScannerListen
 	
 	
 }
->>>>>>> master
+
