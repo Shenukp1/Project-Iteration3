@@ -55,6 +55,7 @@ import com.jjjwelectronics.printer.ReceiptPrinterGold;
 import com.jjjwelectronics.printer.ReceiptPrinterSilver;
 import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
+import com.tdc.NoCashAvailableException;
 import com.tdc.banknote.BanknoteStorageUnit;
 import com.tdc.coin.CoinStorageUnit;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
@@ -127,18 +128,20 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 		
 		//Gold Station
 		gold.resetConfigurationToDefaults();
+		gold.configureCoinDispenserCapacity(10);
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		gold = new SelfCheckoutStationGold();
 		gold.plugIn(PowerGrid.instance());
 		gold.turnOn();
 		
+		//gold.configureCoinDispenserCapacity(5);
 		
 		
 		//IDEA 2: to simulate disable
 		logicGold = new SelfCheckoutLogic(gold);
 		
-
+		
 		
 
 	}
@@ -370,33 +373,74 @@ public class maintainTest implements DollarsAndCurrency, CardPayment{
 	
 
 	//=====================COIN TEST=======================
-	    
+
+    //low coin count
+    @Test
+	public void testGoldLowCoinMaintain() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
+    	
+    	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
+    	//int dispenserCapacity = logicGold.maintain.dollarDispenser.getCapacity();
+    	
+    	logicGold.maintain.setCoins(dollars);
+    	logicGold.maintain.setCoins(dollars);
+    	
+		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
+		
+		System.out.println(logicGold.maintain.getMaintenance());
+		assertTrue(logicGold.maintain.getMaintenance());
+		
+    	
+    }
+    
+    @Test
+	public void testGoldFixLowCoin() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
+    	
+    	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
+    	logicGold.maintain.setCoins(dollars);
+    	logicGold.maintain.setCoins(dollars);
+    	
+    	
+		logicGold.maintain.maintainAddCoin(dollars); // receiving one coin.
+		
+		System.out.println(logicGold.maintain.getMaintenance());
+		assertFalse(logicGold.maintain.getMaintenance());
+		
+    	
+    }
+	
+    
     //high coin count
     @Test
 	public void testGoldHighCoinMaintain() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException {
     	
-    	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
-    	int dispenserCapacity = logicGold.maintain.dollarDispenser.getCapacity();
-    	for (int i = 0; i < dispenserCapacity; i++) {
-    		logicGold.maintain.setCoins(nickle);
-    	}
-    	
-		logicGold.maintain.receiveOneCoin(nickle);;// receiving one coin.
-		//now it should be in the state of high coin count. thus, maintenance should trigger. should be true
+    	logicGold.maintain.setCoins(dollars, dollars, dollars, dollars, dollars, dollars, dollars, dollars);
 		
 		System.out.println(logicGold.maintain.getMaintenance());
 		assertTrue(logicGold.maintain.getMaintenance());
     	
     }
-		
     
-    //low coin count
+
     
-    //normal coin count
+    @Test
+   	public void testGoldFixHighCoin() throws OverloadedDevice, SimulationException, CashOverloadException, DisabledException, NoCashAvailableException {
+       	
+       	// for i in dispenser.getCapacity(), load a coin into dispenser. This will get it to the threshold.
+    	logicGold.maintain.setCoins(dollars, dollars, dollars, dollars, dollars, dollars, dollars, dollars);
+    	
+    	System.out.println("fix: "+ logicGold.maintain.getMaintenance());
+    	logicGold.maintain.maintainEmitCoin(dollars);
+    	// unloaded all coins from station because it was too high, now adding three coins to be within normal range.
+    	logicGold.maintain.maintainAddCoin(dollars);
+    	logicGold.maintain.maintainAddCoin(dollars);
+    	logicGold.maintain.maintainAddCoin(dollars);
+   		
+   		System.out.println(logicGold.maintain.getMaintenance());
+   		assertFalse(logicGold.maintain.getMaintenance());
+   		
+       	
+       }
     
-    //unloading coins
-    
-    //loading coins
 	
 	
 }

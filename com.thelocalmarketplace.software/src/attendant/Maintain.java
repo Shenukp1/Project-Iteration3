@@ -2,6 +2,7 @@ package attendant;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 //GENERAL IDEA FOR MAINTAIN IMPLEMENTATION
@@ -26,6 +27,7 @@ import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
 import com.tdc.IComponent;
 import com.tdc.IComponentObserver;
+import com.tdc.NoCashAvailableException;
 import com.tdc.banknote.Banknote;
 import com.tdc.banknote.BanknoteDispenserObserver;
 import com.tdc.banknote.BanknoteStorageUnit;
@@ -42,7 +44,7 @@ import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.PowerGrid;
 
-public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObserver,CoinStorageUnitObserver, 
+public class Maintain implements ReceiptPrinterListener, 
 	CoinDispenserObserver, BanknoteDispenserObserver, IDeviceListener{
 	
 	
@@ -99,6 +101,12 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	private AbstractSelfCheckoutStation station;
 
 	private int PrinterPaperAddedGold;
+
+	private boolean coinAddedMessage;
+
+	private boolean coinLow;
+
+	private boolean coinUnloadedMessage;
 	
 	
 	
@@ -116,8 +124,8 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		printer = this.station.getPrinter();
 		printer.register(this);
 		
-		banknoteStorage = station.getBanknoteStorage();
-		banknoteStorage.attach(this);
+		//banknoteStorage = station.getBanknoteStorage();
+		//banknoteStorage.attach(this);
 		
 		//coinStorage = station.getCoinStorage().load(dollars, penny, nickle, dime, quarter);;
 		//coinStorage.attach(this);
@@ -239,17 +247,34 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	
 
 	// setting nickle dispenser for coins for testing
-	public void setCoins(Coin coin) throws OverloadedDevice,SimulationException, CashOverloadException {
-		dollarDispenser.load(coin);
+	public void setCoins(Coin... coins) throws OverloadedDevice,SimulationException, CashOverloadException, DisabledException {
+		dollarDispenser.load(coins);
 		
 	}
 	
-	// nickle dispenser receives a coin for testing
-	public void receiveOneCoin(Coin coin) throws DisabledException, CashOverloadException {
-		if(isMaintenance == false) {
-			dollarDispenser.receive(coin);
+	/**
+	 * If maintenance is happening. Attendant can add coin. If not, then we cannot. 
+	 * station must be disabled.
+	 * @param coin
+	 * @throws DisabledException
+	 * @throws CashOverloadException
+	 */
+	public void maintainAddCoin(Coin coin) throws DisabledException, CashOverloadException {
+		if(isMaintenance == true) {
+			dollarDispenser.load(coin);
 			
 		}
+		list.add("A coin has been added to the customer station.");
+	}
+	
+	public void maintainEmitCoin(Coin coins) throws DisabledException, CashOverloadException, NoCashAvailableException {
+		if(isMaintenance == true) {
+			System.out.println("dispenser size before unload: "+ dollarDispenser.size());
+			dollarDispenser.unload();
+			System.out.println("dispenser size after unload: "+ dollarDispenser.size());
+			
+		}
+		list.add("A coin has been unloaded to the customer station.");
 	}
 	
 	//According to the documentation. Gold and bronze keeps track of the same amount of Ink Printed
@@ -290,24 +315,6 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 		
 		
 	}
-	
-	// Attendant adds bank notes
-	public void maintainAddBanknotes(Banknote... banknotes) throws SimulationException, CashOverloadException {
-		if (isMaintenance == true) {
-			banknoteStorage.load(banknotes);// BanknoteStorageUnit. Announces "banknotesLoaded" event. Disabling has no effect. Requires power.
-
-		}
-		
-
-	}
-	
-	// Attendant adds coins
-	public void maintainAddCoins(Coin... coins) throws SimulationException, CashOverloadException {
-		if (isMaintenance == true) {
-			coinStorage.load(coins);// CoinStorageUnit. Announces "coinsLoaded" event. Disabling has no effect. Requires power.
-
-				}
-	}
 
 	
 	
@@ -331,7 +338,7 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
-		this.isMaintenance = true;		
+		this.isMaintenance = true;
 	}
 
 	@Override
@@ -498,153 +505,6 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 	public boolean getInkAddedMessage() {
 		return inkAddedMessage;
 	}
-	
-	
-	
-
-	
-	//==================Banknotes=======================
-
-
-	@Override
-	/*
-	 * Method Used to announce that the banknote storage is full
-	 */
-	public void banknotesFull(BanknoteStorageUnit unit) {
-		banknotesFullMessage = true;
-		
-	}
-	
-	/*
-	 * Gets the banknotesFullMessage Value
-	 */
-	public boolean getBanknotesFullMessage() {
-		return banknotesFullMessage;
-	}
-
-	@Override
-	public void banknoteAdded(BanknoteStorageUnit unit) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	/*
-	 * Method Used to announce that banknotes have been loaded into storage
-	 */
-	public void banknotesLoaded(BanknoteStorageUnit unit) {
-		banknotesLoadedMessage = true;
-		
-		changesOccurred = true;
-		
-	}
-	
-	/*
-	 * Gets the banknotesLoadedMessage Value
-	 */
-	public boolean getBanknotesLoadedMessage() {
-		return banknotesLoadedMessage;
-	}
-
-	@Override
-	/*
-	 * Method Used to announce that banknotes have been unloaded from storage
-	 */
-	public void banknotesUnloaded(BanknoteStorageUnit unit) {
-		banknotesUnloadedMessage = true;
-		
-		changesOccurred = true;
-		
-	}
-	
-	/*
-	 * Gets the banknotesUnloadedMessage Value
-	 */
-	public boolean getBanknotesUnloadedMessage() {
-		return banknotesUnloadedMessage;
-	
-	}
-	
-	
-	
-	
-	
-	//==================Coin=======================
-	
-	
-
-	@Override
-	/*
-	 * Method Used to announce that coin storage is full
-	 */
-	public void coinsFull(CoinStorageUnit unit) {
-		coinsFullMessage = true;
-		
-	}
-	
-	/*
-	 * Gets the coinsFullMessage Value
-	 */
-	public boolean getCoinsFullMessage() {
-		return coinsFullMessage;
-	}
-
-	@Override
-	/*
-	 * After coin added, check if coin level high or low. 
-	 * If high, coinLevel = 1. If low, coinLevel = -1.
-	 */
-	public void coinAdded(CoinStorageUnit unit) {
-		if (unit.getCoinCount() > unit.getCapacity()/2) {
-			coinLevel = 1;
-		} else {
-			coinLevel = -1;
-		}
-	}
-	
-	/*
-	 * Gets the coinLevel value. (if coin level is high after adding coin)
-	 */
-	public int getCoinLevel() {
-		return coinLevel;
-	
-	}
-
-	@Override
-	/*
-	 * Method Used to announce that coins have been loaded into storage
-	 */
-	public void coinsLoaded(CoinStorageUnit unit) {
-		coinsLoadedMessage = true;
-		
-		changesOccurred = true;
-		
-	}
-	
-	/*
-	 * Gets the coinsLoadedMessage Value
-	 */
-	public boolean getCoinsLoadedMessage() {
-		return coinsLoadedMessage;
-	}
-
-	@Override
-	/*
-	 * Method Used to announce that coins have been unloaded from storage
-	 */
-	public void coinsUnloaded(CoinStorageUnit unit) {
-		coinsUnloadedMessage = true;
-		
-		changesOccurred = true;
-		
-	}
-	
-	/*
-	 * Gets the coinsUnloadedMessage Value
-	 */
-	public boolean getCoinsUnloadedMessage() {
-		return coinsUnloadedMessage;
-	}
 
 
 
@@ -744,8 +604,18 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void coinAdded(ICoinDispenser dispenser, Coin coin) {
-		// TODO Auto-generated method stub
 		
+		
+		
+	}
+
+	
+	public boolean getCoinAddedMessage() {
+		return coinAddedMessage;
+	}
+	
+	public boolean getCoinLow() {
+		return coinLow;
 	}
 
 
@@ -760,7 +630,26 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void coinsLoaded(ICoinDispenser dispenser, Coin... coins) {
-		// TODO Auto-generated method stub
+		coinAddedMessage = true;
+		System.out.println("dispenser size: " + dispenser.size());
+		System.out.println("capacity: " + dispenser.getCapacity());
+		int high = (dispenser.getCapacity()/2)+3;
+		int low = (dispenser.getCapacity()/2)-3;
+		System.out.println("high number: " + high);
+		System.out.println("low number: " + low);
+		
+		if(dispenser.size() >= high) {
+			coinLow = false;
+			dollarDispenser.disable();
+			disabledM();
+			
+		} else if(dispenser.size() <= low){
+			coinLow = true;
+			dollarDispenser.disable();
+			disabledM();
+		} else {
+			enabledM();
+		}
 		
 	}
 
@@ -768,7 +657,26 @@ public class Maintain implements ReceiptPrinterListener,BanknoteStorageUnitObser
 
 	@Override
 	public void coinsUnloaded(ICoinDispenser dispenser, Coin... coins) {
-		// TODO Auto-generated method stub
+		coinUnloadedMessage = true;
+		System.out.println("dispenser size: " + dispenser.size());
+		System.out.println("capacity: " + dispenser.getCapacity());
+		int high = (dispenser.getCapacity()/2)+3;
+		int low = (dispenser.getCapacity()/2)-3;
+		System.out.println("high number: " + high);
+		System.out.println("low number: " + low);
+		
+		if(dispenser.size() >= high) {
+			coinLow = false;
+			dollarDispenser.disable();
+			disabledM();
+			
+		} else if(dispenser.size() <= low){
+			coinLow = true;
+			dollarDispenser.disable();
+			disabledM();
+		} else {
+			enabledM();
+		}
 		
 	}
 	
